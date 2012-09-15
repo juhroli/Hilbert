@@ -1,14 +1,11 @@
 #pragma once
 
-#include "Axiom.h"
+#include "AxiomContainer.h"
 
-class HilbertAxioms
+class HilbertAxioms : public AxiomContainer
 {
 public:
 	HilbertAxioms();
-	Axiom * GetAxiom(int index);
-
-private:
-	//vector<Axiom> m_axioms;
-	Axiom * m_axioms[3];
+	~HilbertAxioms();
+	Axiom * GetAxiom(unsigned index);
 };

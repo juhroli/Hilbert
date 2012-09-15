@@ -1,27 +1,19 @@
 #pragma once
 
-#include "CompoundFormula.h"
+#include "ImplicationFormula.h"
 
-class AtomicFormula;
+class TempFormula;
 
-class Axiom : public CompoundFormula
+class Axiom : public ImplicationFormula
 {
 public:
-	Axiom() {}
-	/*Axiom(vector<IFormula*> formulas)
-		: CompoundFormula(formulas)
-	{
-	}*/
-	Axiom(IFormula * formulas[])
-		: CompoundFormula(formulas)
-	{
-	}
+	Axiom();
+	Axiom(IFormula * left, IFormula * right);
+	Axiom(Axiom& axiom);
 	~Axiom();
 
-	bool IsAtomic();
-	bool Eval();
-	string ToString();
-	CompoundFormula * Replace(string x, string t); //Replace the axiom's atomic formula x in every occourance with t
-	CompoundFormula * Replace(string x, AtomicFormula t);
-	CompoundFormula * Replace(AtomicFormula x, AtomicFormula t);
+	IFormula * Clone();
+	
+	Axiom * Replace(char * x, IFormula * t); //Replace the axiom's temp atomic formula x in every occourance with t
+	Axiom * Replace(TempFormula * x, IFormula * t);
 };

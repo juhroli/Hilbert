@@ -5,13 +5,9 @@
 class FalseFormula : public AtomicFormula
 {
 public:
-	FalseFormula()
-		: AtomicFormula(0, "~")
-	{
-	}
-	bool IsAtomic();
+	FalseFormula();
+	FalseFormula(FalseFormula& formula);
+	bool IsTemp();
 	bool Eval();
-	string ToString();
-protected:
-	
+	IFormula * Clone();
 };

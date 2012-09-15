@@ -16,7 +16,7 @@
     <Filter Include="Source Files\Formula">
       <UniqueIdentifier>{56c4559e-f506-416d-8ca9-4d8593103b77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\cmd">
+    <Filter Include="Source Files\Input">
       <UniqueIdentifier>{3a049bec-8307-4040-83aa-3fa6440dcf51}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -45,6 +45,15 @@
     <ClInclude Include="src\Formula\TempFormula.h">
       <Filter>Source Files\Formula</Filter>
     </ClInclude>
+    <ClInclude Include="src\Formula\AxiomContainer.h">
+      <Filter>Source Files\Formula</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\AFormulaTable.h">
+      <Filter>Source Files\Formula</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\InputHandler.h">
+      <Filter>Source Files\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Formula\HilbertAxioms.cpp">
@@ -67,6 +76,15 @@
     </ClCompile>
     <ClCompile Include="src\Formula\TempFormula.cpp">
       <Filter>Source Files\Formula</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\AxiomContainer.cpp">
+      <Filter>Source Files\Formula</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\AFormulaTable.cpp">
+      <Filter>Source Files\Formula</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\InputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

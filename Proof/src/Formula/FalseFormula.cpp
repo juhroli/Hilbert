@@ -1,8 +1,21 @@
 ﻿#include "FalseFormula.h"
 
-bool FalseFormula::IsAtomic()
+FalseFormula::FalseFormula()
+	: AtomicFormula((char*)FALSE, 0)
 {
-	return AtomicFormula::IsAtomic();
+	m_value = false;
+}
+
+FalseFormula::FalseFormula(FalseFormula& formula)
+{
+	m_symbol = (char*)FALSE;
+	m_value = false;
+	m_hash = 0;
+}
+
+bool FalseFormula::IsTemp()
+{
+	return false;
 }
 
 bool FalseFormula::Eval()
@@ -10,7 +23,7 @@ bool FalseFormula::Eval()
 	return false;
 }
 
-string FalseFormula::ToString()
+IFormula * FalseFormula::Clone()
 {
-	return AtomicFormula::ToString();
+	return new FalseFormula(*this);
 }

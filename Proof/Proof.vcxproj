@@ -11,22 +11,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Formula\AFormulaTable.h" />
     <ClInclude Include="src\Formula\AtomicFormula.h" />
     <ClInclude Include="src\Formula\Axiom.h" />
+    <ClInclude Include="src\Formula\AxiomContainer.h" />
     <ClInclude Include="src\Formula\FalseFormula.h" />
     <ClInclude Include="src\Formula\HilbertAxioms.h" />
     <ClInclude Include="src\Formula\IFormula.h" />
     <ClInclude Include="src\Formula\ImplicationFormula.h" />
     <ClInclude Include="src\Formula\TempFormula.h" />
     <ClInclude Include="src\HilbertIncludes.h" />
+    <ClInclude Include="src\Input\InputHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Formula\AFormulaTable.cpp" />
     <ClCompile Include="src\Formula\AtomicFormula.cpp" />
     <ClCompile Include="src\Formula\Axiom.cpp" />
+    <ClCompile Include="src\Formula\AxiomContainer.cpp" />
     <ClCompile Include="src\Formula\FalseFormula.cpp" />
     <ClCompile Include="src\Formula\HilbertAxioms.cpp" />
     <ClCompile Include="src\Formula\ImplicationFormula.cpp" />
     <ClCompile Include="src\Formula\TempFormula.cpp" />
+    <ClCompile Include="src\Input\InputHandler.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

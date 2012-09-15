@@ -1,10 +1,11 @@
 #include "AtomicFormula.h"
-#include <iostream>
 
 AtomicFormula::AtomicFormula()
 	: IFormula()
 {
 	m_symbol = NULL;
+	m_value = false;
+	m_hash = -1;
 }
 
 AtomicFormula::AtomicFormula(char * symbol)
@@ -12,15 +13,34 @@ AtomicFormula::AtomicFormula(char * symbol)
 	, m_symbol(symbol)
 	, m_value(true)
 {
+	m_hash = 0;
+	int len = strlen(symbol);
+
+	for(int i = 0; i < len; i++)
+	{
+		m_hash = 31 * m_hash + symbol[ i ];
+	}
+
+	m_hash = 31 * m_hash;
+}
+
+AtomicFormula::AtomicFormula(char * symbol, unsigned hash)
+	: IFormula()
+	, m_symbol(symbol)
+	, m_hash(hash)
+	, m_value(true)
+{
+}
+
+AtomicFormula::AtomicFormula(AtomicFormula& formula)
+{
+	m_symbol = formula.GetSymbol();
+	m_value = formula.Eval();
 }
 
 AtomicFormula::~AtomicFormula()
 {
-	//if(m_symbol != NULL)
-	//{
-		//delete m_symbol;
-		m_symbol = NULL;
-	//}
+	m_symbol = NULL;
 }
 
 bool AtomicFormula::IsAtomic()
@@ -38,18 +58,27 @@ bool AtomicFormula::Eval()
 	return m_value;
 }
 
-char * AtomicFormula::ToString()
-{
-	return m_symbol;
-}
-
-
 bool AtomicFormula::Equals(IFormula * formula)
 {
 	if(!formula->IsAtomic())
 		return false;
 	
-	return ( std::strcmp(m_symbol, formula->ToString()) == 0 );
+	return m_hash == static_cast<AtomicFormula*>(formula)->GetHash();
+}
+
+string AtomicFormula::ToString()
+{
+	return m_symbol;
+}
+
+IFormula * AtomicFormula::Clone()
+{
+	return new AtomicFormula(*this);
+}
+
+bool AtomicFormula::IsNull()
+{
+	return m_symbol == NULL || m_symbol == "";
 }
 
 void AtomicFormula::SetValue(bool value)
@@ -60,6 +89,16 @@ void AtomicFormula::SetValue(bool value)
 void AtomicFormula::NegValue()
 {
 	m_value = !m_value;
+}
+
+void AtomicFormula::SetHash(unsigned hash)
+{
+	m_hash = hash;
+}
+
+unsigned AtomicFormula::GetHash()
+{
+	return m_hash;
 }
 
 char * AtomicFormula::GetSymbol()

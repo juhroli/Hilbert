@@ -1,7 +1,11 @@
 #pragma once
 #include "../HilbertIncludes.h"
+#include <sstream>
 
-/**
+using std::stringstream;
+using std::string;
+
+/*
 *	Formula interface
 */
 class IFormula
@@ -12,5 +16,7 @@ public:
 	virtual bool IsTemp() { return false; }
 	virtual bool Eval() { return true; }
 	virtual bool Equals(IFormula * formula) { return false; }
-	virtual char * ToString() { return ""; }
+	virtual string ToString() { return ""; }
+	virtual IFormula * Clone() { return NULL; }
+	virtual bool IsNull() { return true; }
 };

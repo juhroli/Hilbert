@@ -1,29 +1,52 @@
 #include <iostream>
-using namespace std;
+
 #include "HilbertIncludes.h"
 #include "Formula/AtomicFormula.h"
+#include "Formula/TempFormula.h"
+#include "Formula/ImplicationFormula.h"
+#include "Formula/Axiom.h"
+#include "Formula/AFormulaTable.h"
+#include "Formula/HilbertAxioms.h"
+#include "Input/InputHandler.h"
 
 #include <string>
-//#include <hash_set>
+
+using namespace InputHandler;
+using namespace AFormulaTable;
+using namespace std;
+
 int main()
 {
-	IFormula * form = new AtomicFormula(1, "F");
-	cout<<form->ToString()<<" "<<form->Eval()<<" "<<form->IsAtomic()<<endl;
-	delete form;
-	IFormula ** tomb;
-	tomb = new IFormula * [3];
-	tomb[0] = new AtomicFormula(1, "F");
-	cout<<tomb[0]->ToString()<<" "<<tomb[0]->Eval()<<" "<<tomb[0]->IsAtomic()<<endl;
-	tomb[1] = new AtomicFormula(2, "G");
-	static_cast<AtomicFormula*>(tomb[1])->NegValue();
-	cout<<tomb[1]->ToString()<<" "<<tomb[1]->Eval()<<" "<<tomb[1]->IsAtomic()<<endl;
-	cout<<FALSE<<IMPLIES<<endl;
-	/*hash_set<IFormula*> formulas;
-	formulas.insert(form);
-	*/
-	delete tomb[0];
-	delete tomb[1];
-	delete[] tomb;
-	system("PAUSE");
+	SetDefaults();
+	HilbertAxioms axioms;
+	cout<<"Hilbert axioms:"<<endl;
+	for(int i = 1; i <= 3; i++)
+	{
+		cout<<axioms.GetAxiom(i)->ToString()<<endl;
+	}
+	string str;
+	while(true)
+	{
+		cout<<"Write an implication formula: "<<endl;
+		cin.clear();
+		str.clear();
+		getline(cin, str);
+		IFormula * form = StringToFormula(str);
+		if(form != NULL)
+		{
+			cout<<form->ToString()<<endl;
+		}
+		else
+		{
+			cout<<"Syntax error."<<endl;
+		}
+
+		if(form != NULL) delete form;
+
+		if(cin.get() == 'e')
+			break;
+	}
+
+	DestroyTable();
 	return 0;
 }
