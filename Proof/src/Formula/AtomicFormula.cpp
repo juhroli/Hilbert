@@ -24,18 +24,11 @@ AtomicFormula::AtomicFormula(char * symbol)
 	m_hash = 31 * m_hash;
 }
 
-AtomicFormula::AtomicFormula(char * symbol, unsigned hash)
-	: IFormula()
-	, m_symbol(symbol)
-	, m_hash(hash)
-	, m_value(true)
-{
-}
-
 AtomicFormula::AtomicFormula(AtomicFormula& formula)
 {
 	m_symbol = formula.GetSymbol();
 	m_value = formula.Eval();
+	m_hash = formula.GetHash();
 }
 
 AtomicFormula::~AtomicFormula()
@@ -89,11 +82,6 @@ void AtomicFormula::SetValue(bool value)
 void AtomicFormula::NegValue()
 {
 	m_value = !m_value;
-}
-
-void AtomicFormula::SetHash(unsigned hash)
-{
-	m_hash = hash;
 }
 
 unsigned AtomicFormula::GetHash()

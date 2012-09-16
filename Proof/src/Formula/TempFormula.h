@@ -7,9 +7,8 @@ class TempFormula : public AtomicFormula
 public:
 	TempFormula();
 	TempFormula(char * symbol);
-	TempFormula(char * symbol, unsigned hash);
 	TempFormula(TempFormula& formula);
-	~TempFormula();
+	~TempFormula() {}
 
 	bool IsTemp();
 	IFormula * Clone();

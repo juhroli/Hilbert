@@ -11,42 +11,69 @@ using namespace AFormulaTable;
 
 namespace InputHandler
 {
-
-	IFormula * StringToFormula(string str)
+	/*
+	*	Checks if there's az implication sign starting from the iterator.
+	*/
+	bool IsImplies(string::iterator& it, string& str)
 	{
-		//By default create an implication formula
-		return StringToFormula(str, F_IMPLICATION);
+		int len = strlen(IMPLIES);
+		for(unsigned i = 0; i < len; i++)
+		{
+			if((it + i) == str.end() || *(it + i) != IMPLIES[i])
+				return false;
+		}
+		return true;
 	}
 
-	IFormula * StringToFormula(string str, FormulaType type)
+	/*
+	*	Checks if the iterator is pointing to an illegal character.
+	*/
+	bool IsIllegal(string::iterator& it, string& str)
+	{
+		if(it != str.end() && *it != FALSE[0] && !IsImplies(it, str) && *it != '_' && *it != ' ' && *it != '(' && *it != ')'
+					&& !(*it >= 0 || *it <= 9) && !(*it >= 'A' || *it <= 'Z')
+					&& !(*it >= 'a' || *it <= 'z') )
+			return true;
+
+		return false;
+	}
+
+	/*
+	*	Converts a string to an implication formula.
+	*/
+	IFormula * StringToFormula(string str)
+	{
+		return StringToFormula(F_IMPLICATION, str);
+	}
+
+	/*
+	*	Converts a string to a formula defined by a FormulaType.
+	*/
+	IFormula * StringToFormula(FormulaType type, string str)
 	{
 		//TODO: review + comments
 		IFormula * ret = NULL;
 
 		switch(type)
 		{
-		case F_ATOMIC:
 		case F_TEMP:
 		case F_FALSE:
+		case F_ATOMIC:
 			{
 			char * cStr = new char[str.length()];
 			str.copy(cStr, str.length());
 
-			ret = AFormulaTable::GetAtomicFormula(cStr);
-			if(ret == NULL)
+			if(type == F_FALSE)
 			{
-				if(type == F_FALSE)
-				{
-					ret = AFormulaTable::AddAtomicFormula(new FalseFormula());
-				}
-				else if(type == F_TEMP)
-				{
-					ret = AFormulaTable::AddAtomicFormula(new TempFormula(cStr));
-				}
-				else
-				{
-					ret = AFormulaTable::AddAtomicFormula(new AtomicFormula(cStr));
-				}
+				ret = AddAtomicFormula(new FalseFormula());
+			}
+			else if(type == F_TEMP)
+			{
+				ret = AddAtomicFormula(new TempFormula(cStr));
+			}
+			else
+			{
+				ret = AddAtomicFormula(new AtomicFormula(cStr));
 			}
 			}
 			break;
@@ -54,146 +81,185 @@ namespace InputHandler
 		case F_AXIOM:
 		case F_IMPLICATION:
 			{
-			if(str.length() < (strlen(IMPLIES) + 2))
-			{
-				break;
-			}
-			string::iterator it = str.begin();
-			stack<IFormula*> formStack;
-			stringstream stream;
-
-			if(type == F_IMPLICATION)
-			{
-				formStack.push(new ImplicationFormula());
-			}
-			else
-			{
-				formStack.push(new Axiom());
-			}
-			
-			while(it != str.end())
-			{
-				if(*it == ' ')
+				//Check if the input string is shorter than the min length.
+				if(str.length() < (strlen(IMPLIES) + 2))
 				{
-					if(it != str.begin() && *(it - 1) != ' ' && *(it - 1) != '(' && *(it - 1) != '>' && *(it - 1) != ')'
-						&& *(it + 1) != ' ' && *(it + 1) != '(' && *(it + 1) != '-' && *(it + 1) != ')')
-						break;
-					it++;
-					continue;
-				}
-				if(*it == '(')
-				{
-					if(type == F_IMPLICATION)
-					{
-						formStack.push(new ImplicationFormula());
-					}
-					else
-					{
-						formStack.push(new Axiom());
-					}
-					it++;
-					continue;
-				}
-				if(*it == '-' && *(it + 1) == '>')
-				{
-					IFormula * top = formStack.top();
-					formStack.pop();
-					if(top->IsNull())
-						break;
-					IFormula * impl = formStack.top();
-					static_cast<ImplicationFormula*>(impl)->SetLeftSub(top);
-					it += 2;
-					continue;
+					break;
 				}
 
-				//In this case we read an atomic formula
-				if(*it != ')')
+				string::iterator it = str.begin();
+				stack<IFormula*> formStack;
+				stringstream stream;
+
+				if(type == F_IMPLICATION)
 				{
-					stream<<*it;
-				}
-
-				if(*it != ')' && ((it + 1) == str.end() || *(it + 1) == ' ' || *(it + 1) == '-' || *(it + 1) == ')'))
-				{
-					stream<<'\0';
-					char * cStr = new char[stream.str().length()];
-					stream.str().copy(cStr, stream.str().length());
-					stream.str(""); //Empty the stream...
-
-					AtomicFormula * atomic = NULL;
-					if(type == F_IMPLICATION)
-					{
-						atomic = GetAtomicFormula(cStr);
-					}
-					else
-					{
-						atomic = GetTempFormula(cStr);
-					}
-
-					if(atomic == NULL)
-					{
-						if(cStr == FALSE)
-						{
-							atomic = new FalseFormula();
-						}
-						else
-						{
-							if(type == F_AXIOM)
-							{
-								atomic = new TempFormula(cStr);
-							}
-							else
-							{
-								atomic = new AtomicFormula(cStr);
-							}
-						}
-
-						AFormulaTable::AddAtomicFormula(atomic);
-
-					}
-
-					formStack.push(atomic);
-					if((it + 1) != str.end()) it++;
+					formStack.push(new ImplicationFormula());
 				}
 				else
 				{
-					if(*it != ')' && (it + 1) != str.end()) it++;
+					formStack.push(new Axiom());
+				}
+			
+				//Iterate through the string.
+				while(it != str.end())
+				{
+					//If it contains illegal characters break.
+					if(IsIllegal(it, str))
+						break;
+
+					//If space is read check for illegal characters before and after it.
+					if(*it == ' ')
+					{
+						if(it != str.begin() && IsIllegal(it - 1, str)
+							&& *(it - 1) != IMPLIES[strlen(IMPLIES) - 1]
+							&& IsIllegal(it + 1, str) && *(it + 1) != IMPLIES[0])
+							break;
+						//Iterate and continue only if the stack is not greater than 1 or
+						//it + 1 isn't pointing to the end.
+						if(!(formStack.size() > 1 && (it + 1) == str.end()))
+						{
+							it++;
+							continue;
+						}
+					}
+
+					//If '(' is read push a new implication formula or axiom into the stack.
+					if(*it == '(')
+					{
+						if(type == F_IMPLICATION)
+						{
+							formStack.push(new ImplicationFormula());
+						}
+						else
+						{
+							formStack.push(new Axiom());
+						}
+						it++;
+						continue;
+					}
+
+					//If IMPLIES is read pop a formula from the stack
+					//and if it's not null then point to the top of the stack
+					//(which should be an implication formula or an axiom)
+					//then set the left sub formula to the first popped.
+					if(IsImplies(it, str))
+					{
+						IFormula * top = formStack.top();
+						formStack.pop();
+						if(top->IsNull())
+							break;
+						IFormula * impl = formStack.top();
+						static_cast<ImplicationFormula*>(impl)->SetLeftSub(top);
+						it += strlen(IMPLIES);
+						continue;
+					}
+
+					//In this case we read an atomic formula's string.
+					if(*it != ' ' && *it != ')')
+					{
+						stream<<*it;
+					}
+
+					//If we read the end of the atomic formula's string,
+					//create the atomic formula or get it from the table
+					//and push it to the stack.
+					if(*it != ' ' && *it != ')'
+						&& ((it + 1) == str.end() || *(it + 1) == ' ' || *(it + 1) == IMPLIES[0] || *(it + 1) == ')'))
+					{
+						stream<<'\0';
+						char * cStr = new char[stream.str().length()];
+						stream.str().copy(cStr, stream.str().length());
+						stream.str(""); //Empty the stream...
+
+						AtomicFormula * atomic = NULL;
+						if(type == F_IMPLICATION)
+						{
+							atomic = GetAtomicFormula(cStr);
+						}
+						else
+						{
+							atomic = GetTempFormula(cStr);
+						}
+
+						if(atomic == NULL)
+						{
+							if(cStr == FALSE)
+							{
+								atomic = new FalseFormula();
+							}
+							else
+							{
+								if(type == F_AXIOM)
+								{
+									atomic = new TempFormula(cStr);
+								}
+								else
+								{
+									atomic = new AtomicFormula(cStr);
+								}
+							}
+
+							AddAtomicFormula(atomic);
+
+						}
+
+						formStack.push(atomic);
+						if((it + 1) != str.end()) it++; //Iterate if the next pointer is not the end.
+					}
+					else
+					{
+						//Iterate if the currect pointer is not ')' and the next is not the end.
+						if(*it != ')' && (it + 1) != str.end()) it++;
+					}
+
+					//If there's no more string for an atomic formula
+					//and it is pointing to the end then
+					//pop the formula from the top of the stack and
+					//put it in the next top formula's right sub.
+					if(stream.str().empty() && (*it == ')' || (it + 1) == str.end()))
+					{
+						IFormula * top = formStack.top();
+						formStack.pop();
+						if(top->IsNull())
+							break;
+						IFormula * impl = formStack.top();
+						if(static_cast<ImplicationFormula*>(impl)->GetLeftSub() == NULL)
+							break;
+						static_cast<ImplicationFormula*>(impl)->SetRightSub(top);
+
+						//Iterate only if the stack's size is 1 or the next it is not the end
+						//or the currect it is a ')'. By this we can avoid to break when there
+						//are still more formulas in the stack.
+						if(formStack.size() == 1 || (it + 1) != str.end() || *it != ')') it++;
+						continue;
+					}
+
+					//if(*it == ')' && *(it - 1) != ' ') it++;
+				
 				}
 
-				if(stream.str().empty() && (*it == ')' || (it + 1) == str.end()))
+				//By failure if the stack has more than 1 formulas clear them then return null.
+				if(formStack.size() > 1)
 				{
-					IFormula * top = formStack.top();
-					formStack.pop();
-					if(top->IsNull())
-						break;
-					IFormula * impl = formStack.top();
-					if(static_cast<ImplicationFormula*>(impl)->GetLeftSub() == NULL)
-						break;
-					static_cast<ImplicationFormula*>(impl)->SetRightSub(top);
-					if(formStack.size() == 1 || (it + 1) != str.end() || *it != ')') it++;
-					continue;
-				}
-				if(*it == ')' && *(it - 1) != ' ') it++;
-				
-			}
-			if(formStack.size() > 1)
-			{
-				while(!formStack.empty())
-					formStack.pop();
-				return NULL;
-			}
-			if(!formStack.empty())
-			{
-				ret = formStack.top()->Clone();
-				formStack.pop();
-				if(ret->IsNull())
-				{
+					while(!formStack.empty())
+						formStack.pop();
 					return NULL;
 				}
-			}
+
+				if(!formStack.empty())
+				{
+					ret = formStack.top()->Clone();
+					formStack.pop();
+					if(ret->IsNull())
+					{
+						return NULL;
+					}
+				}
 
 			}
 			break;
 		}
 		return ret;
 	}
+
 }

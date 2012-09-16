@@ -1,7 +1,7 @@
 ﻿#include "FalseFormula.h"
 
 FalseFormula::FalseFormula()
-	: AtomicFormula((char*)FALSE, 0)
+	: AtomicFormula((char*)FALSE)
 {
 	m_value = false;
 }
@@ -10,7 +10,7 @@ FalseFormula::FalseFormula(FalseFormula& formula)
 {
 	m_symbol = (char*)FALSE;
 	m_value = false;
-	m_hash = 0;
+	m_hash = formula.GetHash();
 }
 
 bool FalseFormula::IsTemp()

@@ -46,6 +46,11 @@ namespace AFormulaTable
 			ret = formula;
 			table[hash] = ret;
 		}
+		else
+		{
+			delete formula;
+		}
+
 		return ret;
 	}
 

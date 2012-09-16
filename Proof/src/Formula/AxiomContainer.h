@@ -9,7 +9,7 @@ class AxiomContainer
 {
 public:
 	AxiomContainer();
-	~AxiomContainer();
+	virtual ~AxiomContainer();
 
 	virtual Axiom * GetAxiom(unsigned index);
 	void AddAxiom(Axiom * axiom);

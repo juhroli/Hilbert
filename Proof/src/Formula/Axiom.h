@@ -10,7 +10,7 @@ public:
 	Axiom();
 	Axiom(IFormula * left, IFormula * right);
 	Axiom(Axiom& axiom);
-	~Axiom();
+	~Axiom() {}
 
 	IFormula * Clone();
 	

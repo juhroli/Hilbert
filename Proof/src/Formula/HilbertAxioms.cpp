@@ -11,16 +11,11 @@ using namespace InputHandler;
 */
 HilbertAxioms::HilbertAxioms()
 {
-	m_axioms.push_back(static_cast<Axiom*>( StringToFormula("(F -> (G -> H)) -> ((F -> G) -> (F -> H))", F_AXIOM) ));
-	m_axioms.push_back(static_cast<Axiom*>( StringToFormula("F -> (G -> F)", F_AXIOM) ));
+	m_axioms.push_back(static_cast<Axiom*>( StringToFormula(F_AXIOM, "(F -> (G -> H)) -> ((F -> G) -> (F -> H))") ));
+	m_axioms.push_back(static_cast<Axiom*>( StringToFormula(F_AXIOM, "F -> (G -> F)") ));
 	stringstream stream;
 	stream<<"((F -> "<<FALSE<<") -> "<<FALSE<<") -> F\0";
-	m_axioms.push_back(static_cast<Axiom*>( StringToFormula(stream.str(), F_AXIOM) ));
-}
-
-HilbertAxioms::~HilbertAxioms()
-{
-	m_axioms.clear();
+	m_axioms.push_back(static_cast<Axiom*>( StringToFormula(F_AXIOM, stream.str()) ));
 }
 
 /*

@@ -11,20 +11,11 @@ TempFormula::TempFormula(char * symbol)
 	m_hash += 1;
 }
 
-TempFormula::TempFormula(char * symbol, unsigned hash)
-	: AtomicFormula(symbol, hash)
-{
-}
-
 TempFormula::TempFormula(TempFormula& formula)
 {
 	m_symbol = formula.GetSymbol();
 	m_value = formula.Eval();
 	m_hash = formula.GetHash();
-}
-
-TempFormula::~TempFormula()
-{
 }
 
 bool TempFormula::IsTemp()

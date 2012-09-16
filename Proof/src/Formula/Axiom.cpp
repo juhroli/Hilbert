@@ -26,10 +26,6 @@ Axiom::Axiom(Axiom& axiom)
 		m_right = m_right->Clone();
 }
 
-Axiom::~Axiom()
-{
-}
-
 IFormula * Axiom::Clone()
 {
 	return new Axiom(*this);
@@ -37,7 +33,7 @@ IFormula * Axiom::Clone()
 
 Axiom * Axiom::Replace(char * x, IFormula * t)
 {
-	IFormula * temp = GetAtomicFormula(x);
+	IFormula * temp = GetTempFormula(x);
 	if(temp->IsTemp())
 	{
 		return this->Replace(static_cast<TempFormula*>(temp), t);

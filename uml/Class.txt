@@ -1,0 +1,107 @@
+@startuml
+interface IFormula {
+	IFormula()
+	virtual bool IsAtomic()
+	virtual bool IsTemp()
+	virtual bool Eval()
+	virtual bool Equals(IFormula * formula)
+	virtual string ToString()
+	virtual IFormula * Clone()
+	virtual bool IsNull()
+}
+
+class AtomicFormula {
+	AtomicFormula()
+	AtomicFormula(char * symbol)
+	AtomicFormula(AtomicFormula& formula)
+	~AtomicFormula()
+	void SetValue(bool value)
+	void NegValue()
+	unsigned GetHash()
+	char * GetSymbol()
+
+	#char * m_symbol
+	#unsigned m_hash
+	#bool m_value
+}
+
+class TempFormula {
+	TempFormula()
+	TempFormula(char * symbol)
+	TempFormula(TempFormula& formula)
+	~TempFormula()
+}
+
+class Axiom {
+	Axiom()
+	~Axiom()
+
+	Axiom * Replace(char * x, IFormula * t)
+	Axiom * Replace(TempFormula * x, IFormula * t)
+}
+
+class FalseFormula{
+	FalseFormula()
+	FalseFormula(FalseFormula& formula)
+	~FalseFormula()
+}
+
+class HilbertAxioms {
+	HilbertAxioms()
+	~HilbertAxioms()
+	Axiom * GetAxiom(unsigned index)
+}
+
+class AxiomContainer {
+	AxiomContainer()
+	~AxiomContainer()
+	Axiom * GetAxiom(unsigned index)
+	void AddAxiom(Axiom * axiom)
+	int GetSize()
+
+	-vector<Axiom*>  m_axioms
+}
+
+class ImplicationFormula {
+	ImplicationFormula()
+	ImplicationFormula(IFormula * left, IFormula * right)
+	ImplicationFormula(ImplicationFormula& formula)
+	~ImplicationFormula()
+	
+	void SetLeftSub(IFormula * formula)
+	void SetRightSub(IFormula * formula)
+	IFormula * GetLeftSub()
+	IFormula * GetRightSub()
+
+	-IFormula * m_left
+	-IFormula * m_right
+}
+
+class AFormulaTable << (N, orchid) >> {
+	AtomicFormula * GetAtomicFormula(char * symbol)
+	AtomicFormula * GetTempFormula(char * symbol)
+	AtomicFormula * GetAtomicFormula(unsigned hash)
+	void AddAtomicFormula(AtomicFormula * formula)
+	void SetDefaults()
+	void DestroyTable()
+	
+	hash_map<char*, AtomicFormula*> table
+}
+
+class InputHandler << (N, orchid) >> {
+	IFormula * StringToFormula(string str)
+	IFormula * StringToFormula(FormulaType type, string str)
+	enum FormulaType
+}
+
+InputHandler *-- IFormula
+AFormulaTable *-- AtomicFormula
+IFormula <|-- AtomicFormula
+AtomicFormula <|-- FalseFormula
+AtomicFormula <|-- TempFormula
+IFormula <|-- ImplicationFormula
+ImplicationFormula <|-- Axiom
+AxiomContainer <|-- HilbertAxioms
+AxiomContainer *-- Axiom
+
+@enduml

@@ -14,6 +14,6 @@ namespace InputHandler
 	};
 
 	IFormula * StringToFormula(string str);
-	IFormula * StringToFormula(string str, FormulaType type);
+	IFormula * StringToFormula(FormulaType type, string str);
 
 }
