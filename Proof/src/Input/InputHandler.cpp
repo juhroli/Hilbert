@@ -118,8 +118,17 @@ namespace InputHandler
 					char * cStr = new char[stream.str().length()];
 					stream.str().copy(cStr, stream.str().length());
 					stream.str(""); //Empty the stream...
-					AtomicFormula * atomic;
-					atomic = AFormulaTable::GetAtomicFormula(cStr);
+
+					AtomicFormula * atomic = NULL;
+					if(type == F_IMPLICATION)
+					{
+						atomic = GetAtomicFormula(cStr);
+					}
+					else
+					{
+						atomic = GetTempFormula(cStr);
+					}
+
 					if(atomic == NULL)
 					{
 						if(cStr == FALSE)

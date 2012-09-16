@@ -11,6 +11,7 @@ using std::hash_map;
 namespace AFormulaTable
 {
 	AtomicFormula * GetAtomicFormula(char * symbol);
+	AtomicFormula * GetTempFormula(char * symbol);
 	AtomicFormula * GetAtomicFormula(unsigned hash);
 	AtomicFormula * AddAtomicFormula(AtomicFormula * formula);
 	void SetDefaults();

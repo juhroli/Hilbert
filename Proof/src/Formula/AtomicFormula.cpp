@@ -14,9 +14,9 @@ AtomicFormula::AtomicFormula(char * symbol)
 	, m_value(true)
 {
 	m_hash = 0;
-	int len = strlen(symbol);
+	unsigned len = strlen(symbol);
 
-	for(int i = 0; i < len; i++)
+	for(unsigned i = 0; i < len; i++)
 	{
 		m_hash = 31 * m_hash + symbol[ i ];
 	}

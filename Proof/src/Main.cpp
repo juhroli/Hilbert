@@ -43,6 +43,7 @@ int main()
 
 		if(form != NULL) delete form;
 
+		cout<<"Type e to exit or press ENTER to continue...";
 		if(cin.get() == 'e')
 			break;
 	}

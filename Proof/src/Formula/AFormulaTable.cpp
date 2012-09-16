@@ -6,19 +6,29 @@ namespace AFormulaTable
 {
 	hash_map<unsigned, AtomicFormula*> table;
 
-	AtomicFormula * GetAtomicFormula(char * symbol)
+	unsigned Hash(char * str)
 	{
-		int hash = 0;
-		int len = strlen(symbol);
+		unsigned hash = 0;
+		unsigned len = strlen(str);
 
-		hash = 31 * hash + 0;
-
-		for(int i = 0; i < len; i++)
+		for(unsigned i = 0; i < len; i++)
 		{
-			hash = 31 * hash + symbol[ i ];
+			hash = 31 * hash + str[ i ];
 		}
 
-		return table[hash];
+		hash = 31 * hash;
+
+		return hash;
+	}
+
+	AtomicFormula * GetAtomicFormula(char * symbol)
+	{
+		return table [Hash(symbol) ];
+	}
+
+	AtomicFormula * GetTempFormula(char * symbol)
+	{
+		return table[ Hash(symbol) + 1 ];
 	}
 
 	AtomicFormula * GetAtomicFormula(unsigned hash)
