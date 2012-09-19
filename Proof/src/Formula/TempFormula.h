@@ -11,5 +11,7 @@ public:
 	~TempFormula() {}
 
 	bool IsTemp();
+	bool Equals(IFormula * formula);
+	string ToString();
 	IFormula * Clone();
 };

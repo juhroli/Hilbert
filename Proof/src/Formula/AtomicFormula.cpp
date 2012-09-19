@@ -1,34 +1,29 @@
 #include "AtomicFormula.h"
+#include <hash_map>
+
+using std::hash;
 
 AtomicFormula::AtomicFormula()
 	: IFormula()
+	, m_symbol(NULL)
+	, m_value(false)
+	, m_id(UINT_MAX)
 {
-	m_symbol = NULL;
-	m_value = false;
-	m_hash = -1;
 }
 
 AtomicFormula::AtomicFormula(char * symbol)
 	: IFormula()
 	, m_symbol(symbol)
 	, m_value(true)
+	, m_id(UINT_MAX)
 {
-	m_hash = 0;
-	unsigned len = strlen(symbol);
-
-	for(unsigned i = 0; i < len; i++)
-	{
-		m_hash = 31 * m_hash + symbol[ i ];
-	}
-
-	m_hash = 31 * m_hash;
 }
 
 AtomicFormula::AtomicFormula(AtomicFormula& formula)
 {
 	m_symbol = formula.GetSymbol();
 	m_value = formula.Eval();
-	m_hash = formula.GetHash();
+	m_id = formula.GetId();
 }
 
 AtomicFormula::~AtomicFormula()
@@ -56,7 +51,7 @@ bool AtomicFormula::Equals(IFormula * formula)
 	if(!formula->IsAtomic())
 		return false;
 	
-	return m_hash == static_cast<AtomicFormula*>(formula)->GetHash();
+	return m_id == static_cast<AtomicFormula*>(formula)->GetId();
 }
 
 string AtomicFormula::ToString()
@@ -84,9 +79,14 @@ void AtomicFormula::NegValue()
 	m_value = !m_value;
 }
 
-unsigned AtomicFormula::GetHash()
+unsigned AtomicFormula::GetId()
 {
-	return m_hash;
+	return m_id;
+}
+
+void AtomicFormula::SetId(unsigned id)
+{
+	m_id = id;
 }
 
 char * AtomicFormula::GetSymbol()

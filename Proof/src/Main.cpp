@@ -24,7 +24,13 @@ int main()
 	{
 		cout<<axioms.GetAxiom(i)->ToString()<<endl;
 	}
+	ImplicationFormula * ax = (axioms.GetAxiom(1)->Replace("F", new AtomicFormula("Z")));
+	cout<<ax->ToString()<<endl;
+	cout<<ax->Replace("G", new AtomicFormula("U"))->ToString()<<endl;
+	delete ax;
+
 	string str;
+	
 	while(true)
 	{
 		cout<<"Write an implication formula: "<<endl;
@@ -47,7 +53,7 @@ int main()
 		if(cin.get() == 'e')
 			break;
 	}
-
 	DestroyTable();
+
 	return 0;
 }

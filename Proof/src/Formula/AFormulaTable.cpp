@@ -2,49 +2,48 @@
 #include "FalseFormula.h"
 #include "TempFormula.h"
 
+using std::hash;
+
 namespace AFormulaTable
 {
-	hash_map<unsigned, AtomicFormula*> table;
-
-	unsigned Hash(char * str)
-	{
-		unsigned hash = 0;
-		unsigned len = strlen(str);
-
-		for(unsigned i = 0; i < len; i++)
-		{
-			hash = 31 * hash + str[ i ];
-		}
-
-		hash = 31 * hash;
-
-		return hash;
-	}
+	static hash_map<unsigned, AtomicFormula*> table;
+	static hash_map<string, unsigned> charTable;
+	static unsigned lastId = 0;
 
 	AtomicFormula * GetAtomicFormula(char * symbol)
 	{
-		return table [Hash(symbol) ];
+		unsigned id = charTable[symbol];
+		if(id == 0)
+			return NULL;
+		return table[ id ];
 	}
 
 	AtomicFormula * GetTempFormula(char * symbol)
 	{
-		return table[ Hash(symbol) + 1 ];
+		stringstream stream;
+		stream<<'_'<<symbol<<'\0';
+		int len = stream.str().length();
+		symbol = new char[len];
+		stream.str().copy(symbol, len);
+
+		return GetAtomicFormula(symbol);
 	}
 
-	AtomicFormula * GetAtomicFormula(unsigned hash)
+	AtomicFormula * GetAtomicFormula(unsigned id)
 	{
-		return table[hash];
+		return table[id];
 	}
 
 	AtomicFormula * AddAtomicFormula(AtomicFormula * formula)
 	{
-		unsigned hash = formula->GetHash();
+		AtomicFormula * ret = GetAtomicFormula(formula->GetSymbol());
 
-		AtomicFormula * ret = GetAtomicFormula(hash);
 		if(ret == NULL)
 		{
+			formula->SetId(++lastId);
 			ret = formula;
-			table[hash] = ret;
+			table[lastId] = ret;
+			charTable[ ret->GetSymbol() ] = lastId;
 		}
 		else
 		{

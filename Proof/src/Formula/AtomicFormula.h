@@ -20,11 +20,12 @@ public:
 
 	void SetValue(bool value);
 	void NegValue(); //Negates current value
-	unsigned GetHash();
+	unsigned GetId();
+	void SetId(unsigned id);
 	char * GetSymbol();
 
 protected:
 	char * m_symbol;
-	unsigned m_hash;
+	unsigned m_id;
 	bool m_value;
 };

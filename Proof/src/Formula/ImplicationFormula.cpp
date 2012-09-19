@@ -1,4 +1,8 @@
 #include "ImplicationFormula.h"
+#include <stack>
+
+using std::stack;
+using namespace AFormulaTable;
 
 ImplicationFormula::ImplicationFormula()
 	: IFormula()
@@ -123,4 +127,32 @@ IFormula * ImplicationFormula::GetLeftSub()
 IFormula * ImplicationFormula::GetRightSub()
 {
 	return m_right;
+}
+
+ImplicationFormula * ImplicationFormula::Replace(char * x, IFormula * t)
+{
+	TempFormula * temp = static_cast<TempFormula*>(GetTempFormula(x));
+
+	if(temp != NULL && temp->IsTemp())
+	{
+		return this->Replace(temp, t);
+	}
+	return NULL;
+}
+
+ImplicationFormula * ImplicationFormula::Replace(TempFormula * x, IFormula * t)
+{
+	ImplicationFormula * ret = static_cast<ImplicationFormula*>(this->Clone());
+
+	if(!ret->GetLeftSub()->IsAtomic())
+		ret->SetLeftSub(static_cast<ImplicationFormula*>(ret->GetLeftSub())->Replace(x, t));
+	else if(ret->GetLeftSub()->Equals(x))
+		ret->SetLeftSub(t);
+
+	if(!ret->GetRightSub()->IsAtomic())
+		ret->SetRightSub(static_cast<ImplicationFormula*>(ret->GetRightSub())->Replace(x, t));
+	else if(ret->GetRightSub()->Equals(x))
+		ret->SetRightSub(t);
+
+	return ret;
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "IFormula.h"
+#include "TempFormula.h"
+#include "AFormulaTable.h"
 
 class ImplicationFormula : public IFormula
 {
@@ -20,6 +22,8 @@ public:
 	void SetRightSub(IFormula * formula);
 	IFormula * GetLeftSub();
 	IFormula * GetRightSub();
+	ImplicationFormula * Replace(char * x, IFormula * t); //Replace the implication formula's temp atomic formula x in every occourance with t
+	ImplicationFormula * Replace(TempFormula * x, IFormula * t);
 
 protected:
 	IFormula * m_left;
