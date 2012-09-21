@@ -59,6 +59,7 @@ bool ImplicationFormula::Eval()
 
 bool ImplicationFormula::Equals(IFormula * formula)
 {
+	//TODO: check for temp formulas
 	if(formula->IsAtomic())
 	{
 		return false;
