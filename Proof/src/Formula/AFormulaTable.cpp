@@ -1,6 +1,5 @@
 #include "AFormulaTable.h"
 #include "FalseFormula.h"
-#include "TempFormula.h"
 
 using std::hash;
 
@@ -18,7 +17,7 @@ namespace AFormulaTable
 		return table[ id ];
 	}
 
-	AtomicFormula * GetTempFormula(char * symbol)
+	TempFormula * GetTempFormula(char * symbol)
 	{
 		stringstream stream;
 		stream<<'_'<<symbol<<'\0';
@@ -26,7 +25,7 @@ namespace AFormulaTable
 		symbol = new char[len];
 		stream.str().copy(symbol, len);
 
-		return GetAtomicFormula(symbol);
+		return static_cast<TempFormula*>(GetAtomicFormula(symbol));
 	}
 
 	AtomicFormula * GetAtomicFormula(unsigned id)
@@ -53,6 +52,26 @@ namespace AFormulaTable
 		return ret;
 	}
 
+	AtomicFormula * AddAtomicFormula(char * symbol)
+	{
+		AtomicFormula * ret = GetAtomicFormula(symbol);
+
+		if(ret == NULL)
+			ret = AddAtomicFormula(new AtomicFormula(symbol));
+
+		return ret;
+	}
+
+	TempFormula * AddTempFormula(char * symbol)
+	{
+		AtomicFormula * ret = GetTempFormula(symbol);
+
+		if(ret == NULL)
+			ret = AddAtomicFormula(new TempFormula(symbol));
+
+		return static_cast<TempFormula*>(ret);
+	}
+
 	void SetDefaults()
 	{
 		//TODO
@@ -68,5 +87,18 @@ namespace AFormulaTable
 	void DestroyTable()
 	{
 		table.clear();
+	}
+
+	string ListAtomicFormulas()
+	{
+		stringstream stream;
+		unsigned i = 1;
+		while(i <= lastId)
+		{
+			stream << table[i]->ToString() << "\t" << table[i]->GetId() << "\t" << (table[i]->IsTemp()?"Temp":"") << "\r\n";
+			i++;
+		}
+		stream<<'\0';
+		return stream.str();
 	}
 }

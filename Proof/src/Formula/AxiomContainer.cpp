@@ -20,6 +20,8 @@ Axiom * AxiomContainer::GetAxiom(unsigned index)
 
 void AxiomContainer::AddAxiom(Axiom * axiom)
 {
+	if(axiom == NULL) return;
+	
 	m_axioms.push_back(axiom);
 }
 

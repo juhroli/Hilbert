@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AtomicFormula.h"
+#include "TempFormula.h"
 #include <hash_map>
 
 using std::hash_map;
@@ -11,9 +12,12 @@ using std::hash_map;
 namespace AFormulaTable
 {
 	AtomicFormula * GetAtomicFormula(char * symbol);
-	AtomicFormula * GetTempFormula(char * symbol);
+	TempFormula * GetTempFormula(char * symbol);
 	AtomicFormula * GetAtomicFormula(unsigned hash);
 	AtomicFormula * AddAtomicFormula(AtomicFormula * formula);
+	AtomicFormula * AddAtomicFormula(char * symbol);
+	TempFormula * AddTempFormula(char * symbol);
 	void SetDefaults();
 	void DestroyTable();
+	string ListAtomicFormulas();
 }

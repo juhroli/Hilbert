@@ -18,12 +18,14 @@ public:
 	string ToString();
 	IFormula * Clone();
 	bool IsNull();
+	IFormula * Replace(IFormula& t, IFormula& x);
+
 	void SetLeftSub(IFormula * formula);
 	void SetRightSub(IFormula * formula);
 	IFormula * GetLeftSub();
 	IFormula * GetRightSub();
-	ImplicationFormula * Replace(char * x, IFormula * t); //Replace the implication formula's temp atomic formula x in every occourance with t
-	ImplicationFormula * Replace(TempFormula * x, IFormula * t);
+	ImplicationFormula * Replace2(char * x, IFormula * t); //Replace the implication formula's temp atomic formula x in every occourance with t
+	ImplicationFormula * Replace2(TempFormula * x, IFormula * t);
 
 protected:
 	IFormula * m_left;

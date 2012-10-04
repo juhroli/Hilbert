@@ -14,4 +14,5 @@ public:
 	bool Equals(IFormula * formula);
 	string ToString();
 	IFormula * Clone();
+	IFormula * Replace(IFormula& t, IFormula& x);
 };

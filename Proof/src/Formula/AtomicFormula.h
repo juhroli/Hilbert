@@ -17,6 +17,7 @@ public:
 	string ToString();
 	IFormula * Clone();
 	bool IsNull();
+	IFormula * Replace(IFormula& t, IFormula& x);
 
 	void SetValue(bool value);
 	void NegValue(); //Negates current value

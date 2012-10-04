@@ -8,11 +8,13 @@
 #include "Formula/AFormulaTable.h"
 #include "Formula/HilbertAxioms.h"
 #include "Input/InputHandler.h"
+#include "Input/FormulaParser.h"
 
 #include <string>
 
 using namespace InputHandler;
 using namespace AFormulaTable;
+using namespace FormulaParser;
 using namespace std;
 
 int main()
@@ -24,44 +26,44 @@ int main()
 	{
 		cout<<axioms.GetAxiom(i)->ToString()<<endl;
 	}
-	ImplicationFormula * ax = (axioms.GetAxiom(1)->Replace("F", new AtomicFormula("Z")));
+	IFormula * ax = (axioms.GetAxiom(1)->Replace(*GetTempFormula("F"), *AddAtomicFormula("Z")));
 	cout<<ax->ToString()<<endl;
-	cout<<ax->Replace("G", new AtomicFormula("U"))->ToString()<<endl;
+	//cout<<ax->Replace2("G", new AtomicFormula("U"))->ToString()<<endl;
 	delete ax;
 
 	//TODO: process these kind of formulas
 
-	IFormula * form = StringToFormula("F->(F->G)->(F->H)");
+	IFormula * form = ParseFormula("F->(F->G)->(F->H)");
 	if(form != NULL)
 	{
 		cout<<form->ToString()<<endl;
 	}
 	delete form;
 
-	form = StringToFormula("F->G->H->G->H");
+	form = ParseFormula("F->G->H->G->H");
 	if(form != NULL)
 	{
 		cout<<form->ToString()<<endl;
 	}
 	delete form;
 
-	form = StringToFormula("(F->G->H)->((F->G)->(F->H))");
+	form = ParseFormula("(F->G->H)->((F->G)->(F->H))");
 	if(form != NULL)
 	{
 		cout<<form->ToString()<<endl;
 	}
 	delete form;
-
 
 	string str;
 	
 	while(true)
 	{
-		cout<<"Write an implication formula: "<<endl;
+		cout<<"List of atomic formulas:"<<endl<<ListAtomicFormulas()<<endl;
+		cout<<"Write a formula: "<<endl;
 		str.clear();
 		cin.clear();
 		getline(cin, str);
-		IFormula * form = StringToFormula(str);
+		IFormula * form = ParseFormula(str);
 		if(form != NULL)
 		{
 			cout<<form->ToString()<<endl;
@@ -71,7 +73,8 @@ int main()
 			cout<<"Syntax error."<<endl;
 		}
 
-		if(form != NULL) delete form;
+		if(form != NULL && !form->IsAtomic()) delete form;
+		
 
 		cout<<"Type e to exit or press ENTER to continue...";
 		if(cin.get() == 'e')

@@ -60,6 +60,9 @@ bool ImplicationFormula::Eval()
 bool ImplicationFormula::Equals(IFormula * formula)
 {
 	//TODO: check for temp formulas
+	if(!formula)
+		return false;
+
 	if(formula->IsAtomic())
 	{
 		return false;
@@ -110,6 +113,13 @@ bool ImplicationFormula::IsNull()
 	return m_left == NULL || m_right == NULL;
 }
 
+IFormula * ImplicationFormula::Replace(IFormula& t, IFormula& x)
+{
+	if(t.IsTemp())
+		return new ImplicationFormula(this->GetLeftSub()->Replace(t, x), this->GetRightSub()->Replace(t, x));
+	return this;
+}
+
 void ImplicationFormula::SetLeftSub(IFormula * formula)
 {
 	m_left = formula;
@@ -130,28 +140,34 @@ IFormula * ImplicationFormula::GetRightSub()
 	return m_right;
 }
 
-ImplicationFormula * ImplicationFormula::Replace(char * x, IFormula * t)
+ImplicationFormula * ImplicationFormula::Replace2(char * x, IFormula * t)
 {
+	if(!t)
+		return NULL;
+
 	TempFormula * temp = static_cast<TempFormula*>(GetTempFormula(x));
 
 	if(temp != NULL && temp->IsTemp())
 	{
-		return this->Replace(temp, t);
+		return this->Replace2(temp, t);
 	}
 	return NULL;
 }
 
-ImplicationFormula * ImplicationFormula::Replace(TempFormula * x, IFormula * t)
+ImplicationFormula * ImplicationFormula::Replace2(TempFormula * x, IFormula * t)
 {
+	if(!x || !t)
+		return NULL;
+
 	ImplicationFormula * ret = static_cast<ImplicationFormula*>(this->Clone());
 
 	if(!ret->GetLeftSub()->IsAtomic())
-		ret->SetLeftSub(static_cast<ImplicationFormula*>(ret->GetLeftSub())->Replace(x, t));
+		ret->SetLeftSub(static_cast<ImplicationFormula*>(ret->GetLeftSub())->Replace2(x, t));
 	else if(ret->GetLeftSub()->Equals(x))
 		ret->SetLeftSub(t);
 
 	if(!ret->GetRightSub()->IsAtomic())
-		ret->SetRightSub(static_cast<ImplicationFormula*>(ret->GetRightSub())->Replace(x, t));
+		ret->SetRightSub(static_cast<ImplicationFormula*>(ret->GetRightSub())->Replace2(x, t));
 	else if(ret->GetRightSub()->Equals(x))
 		ret->SetRightSub(t);
 

@@ -48,7 +48,7 @@ bool AtomicFormula::Eval()
 
 bool AtomicFormula::Equals(IFormula * formula)
 {
-	if(!formula->IsAtomic())
+	if(!formula && !formula->IsAtomic())
 		return false;
 	
 	return m_id == static_cast<AtomicFormula*>(formula)->GetId();
@@ -67,6 +67,11 @@ IFormula * AtomicFormula::Clone()
 bool AtomicFormula::IsNull()
 {
 	return m_symbol == NULL || m_symbol == "";
+}
+
+IFormula * AtomicFormula::Replace(IFormula& t, IFormula& x)
+{
+	return this;
 }
 
 void AtomicFormula::SetValue(bool value)

@@ -32,7 +32,7 @@ bool TempFormula::IsTemp()
 
 bool TempFormula::Equals(IFormula * formula)
 {
-	if(!formula->IsAtomic() && !formula->IsTemp())
+	if(!formula && !formula->IsAtomic() && !formula->IsTemp())
 		return false;
 	
 	return m_id == static_cast<AtomicFormula*>(formula)->GetId();
@@ -47,4 +47,11 @@ string TempFormula::ToString()
 IFormula * TempFormula::Clone()
 {
 	return new TempFormula(*this);
+}
+
+IFormula * TempFormula::Replace(IFormula& t, IFormula& x)
+{
+	if(this->Equals( &t ))
+		return &x;
+	return this;
 }

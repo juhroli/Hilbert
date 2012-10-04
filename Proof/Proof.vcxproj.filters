@@ -54,6 +54,9 @@
     <ClInclude Include="src\Input\InputHandler.h">
       <Filter>Source Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Input\FormulaParser.h">
+      <Filter>Source Files\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Formula\HilbertAxioms.cpp">
@@ -71,9 +74,6 @@
     <ClCompile Include="src\Formula\ImplicationFormula.cpp">
       <Filter>Source Files\Formula</Filter>
     </ClCompile>
-    <ClCompile Include="src\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Formula\TempFormula.cpp">
       <Filter>Source Files\Formula</Filter>
     </ClCompile>
@@ -84,6 +84,9 @@
       <Filter>Source Files\Formula</Filter>
     </ClCompile>
     <ClCompile Include="src\Input\InputHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\FormulaParser.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>

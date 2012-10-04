@@ -31,7 +31,7 @@ namespace InputHandler
 	bool IsIllegal(string::iterator& it, string& str)
 	{
 		if(it != str.end() && *it != FALSE[0] && !IsImplies(it, str) && *it != '_' && *it != '(' && *it != ')'
-					&& !(*it >= 0 || *it <= 9) && !(*it >= 'A' || *it <= 'Z')
+					&& !(*it >= '0' || *it <= '9') && !(*it >= 'A' || *it <= 'Z')
 					&& !(*it >= 'a' || *it <= 'z') )
 			return true;
 
@@ -53,20 +53,7 @@ namespace InputHandler
 	{
 		//TODO: review + comments
 		IFormula * ret = NULL;
-
-		//Erase all spaces from the input
-		string::size_type pos = 0;
-		bool space = true;
-		while(space)
-		{
-			pos = str.find(" ");
-			if(pos != string::npos)
-				str.erase(pos, 1);
-			else
-				space = false;
-		}
-
-
+		
 		switch(type)
 		{
 		case F_FALSE:
@@ -92,6 +79,17 @@ namespace InputHandler
 		case F_AXIOM:
 		case F_IMPLICATION:
 			{
+			//Erase all spaces from the input
+			string::size_type pos = 0;
+			bool space = true;
+			while(space)
+			{
+				pos = str.find(" ");
+				if(pos != string::npos)
+					str.erase(pos, 1);
+				else
+					space = false;
+			}
 				//Check if the input string is shorter than the min length.
 				if(str.length() < (strlen(IMPLIES) + 2))
 				{
@@ -173,27 +171,17 @@ namespace InputHandler
 						stream.str(""); //Empty the stream...
 
 						AtomicFormula * atomic = NULL;
-						if(type == F_IMPLICATION)
-							atomic = GetAtomicFormula(cStr);
-						else
-							atomic = GetTempFormula(cStr);
 
-						if(atomic == NULL)
+						if(strcmp(cStr, FALSE) == 0)
 						{
-							if(cStr == FALSE)
-							{
-								atomic = new FalseFormula();
-							}
+							atomic = AddAtomicFormula(FALSE);
+						}
+						else
+						{
+							if(type == F_AXIOM)
+								atomic = AddTempFormula(cStr);
 							else
-							{
-								if(type == F_AXIOM)
-									atomic = new TempFormula(cStr);
-								else
-									atomic = new AtomicFormula(cStr);
-							}
-
-							AddAtomicFormula(atomic);
-
+								atomic = AddAtomicFormula(cStr);
 						}
 
 						formStack.push(atomic);

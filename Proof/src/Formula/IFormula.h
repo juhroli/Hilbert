@@ -19,4 +19,5 @@ public:
 	virtual string ToString() { return ""; }
 	virtual IFormula * Clone() { return NULL; }
 	virtual bool IsNull() { return true; }
+	virtual IFormula * Replace(IFormula& t, IFormula& x) { return NULL; }
 };
