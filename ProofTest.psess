@@ -50,7 +50,7 @@
       <LaunchMethod>Executable</LaunchMethod>
       <ExecutablePath>Release\ProofTest.exe</ExecutablePath>
       <StartupDirectory>ProofTest\</StartupDirectory>
-      <Arguments>1</Arguments>
+      <Arguments>4</Arguments>
       <NetAppHost>IIS</NetAppHost>
       <NetBrowser>InternetExplorer</NetBrowser>
       <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
@@ -67,9 +67,6 @@
     </ProjBinary>
   </Binaries>
   <Reports>
-    <Report>
-      <Path>Reports\AllTests.vsp</Path>
-    </Report>
     <Report>
       <Path>Reports\BothReplace.vsp</Path>
     </Report>

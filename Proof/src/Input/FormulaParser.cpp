@@ -57,7 +57,7 @@ namespace FormulaParser
 			return (ch == ')' ? ret : NULL);
 		}
 
-		if(ch == '_' || (ch >= 0 && ch <= 9)
+		if(ch == '_' || (ch >= '0' && ch <= '9')
 			|| (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
 		{
 			stringstream stream;
