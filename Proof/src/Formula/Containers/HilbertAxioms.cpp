@@ -1,7 +1,7 @@
 #include "HilbertAxioms.h"
-#include "../Input/InputHandler.h"
+#include "../../Input/FormulaParser.h"
 
-using namespace InputHandler;
+using namespace FormulaParser;
 
 /*
 *	1. (F -> (G -> H)) -> ((F -> G) -> (F -> H))
@@ -11,11 +11,11 @@ using namespace InputHandler;
 */
 HilbertAxioms::HilbertAxioms()
 {
-	m_axioms.push_back(static_cast<Axiom*>( StringToFormula(F_AXIOM, "(F -> (G -> H)) -> ((F -> G) -> (F -> H))") ));
-	m_axioms.push_back(static_cast<Axiom*>( StringToFormula(F_AXIOM, "F -> (G -> F)") ));
+	m_axioms.push_back(static_cast<Axiom*>( ParseTemp("(F -> (G -> H)) -> ((F -> G) -> (F -> H))") ));
+	m_axioms.push_back(static_cast<Axiom*>( ParseTemp("F -> (G -> F)") ));
 	stringstream stream;
 	stream<<"((F -> "<<FALSE<<") -> "<<FALSE<<") -> F\0";
-	m_axioms.push_back(static_cast<Axiom*>( StringToFormula(F_AXIOM, stream.str()) ));
+	m_axioms.push_back(static_cast<Axiom*>( ParseTemp(stream.str()) ));
 }
 
 /*
@@ -27,5 +27,5 @@ Axiom * HilbertAxioms::GetAxiom(unsigned index)
 	{
 		return new Axiom( *m_axioms[index-1] );
 	}
-	return NULL;
+	return __nullptr;
 }

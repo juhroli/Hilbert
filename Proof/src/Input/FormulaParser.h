@@ -5,6 +5,7 @@
 namespace FormulaParser
 {
 	IFormula * ParseFormula(string str);
-	IFormula * ReadFormula(string::iterator& it, string::iterator& end);
-	IFormula * ReadSingleFormula(string::iterator& it, string::iterator& end);
+	IFormula * ParseTemp(string str);
+	IFormula * ReadFormula(string::iterator& it, string::iterator& end, bool temp);
+	IFormula * ReadSingleFormula(string::iterator& it, string::iterator& end, bool temp);
 }

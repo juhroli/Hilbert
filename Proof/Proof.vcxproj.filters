@@ -19,75 +19,93 @@
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{3a049bec-8307-4040-83aa-3fa6440dcf51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Formula\Containers">
+      <UniqueIdentifier>{132f5ad1-ec44-48d6-94e1-550dc55ff17f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Formula\Atomic">
+      <UniqueIdentifier>{25cb342a-41d5-4223-95ca-c805476def27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Formula\Compound">
+      <UniqueIdentifier>{d13c5252-b321-4205-a90f-f33d43cd7293}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Algorithm">
+      <UniqueIdentifier>{32e11246-8c7f-4e8a-a2cf-b47e5f5dea83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Formula\IFormula.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\Axiom.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\FalseFormula.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\AtomicFormula.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\ImplicationFormula.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\HilbertAxioms.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
     <ClInclude Include="src\HilbertIncludes.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\TempFormula.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\AxiomContainer.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\AFormulaTable.h">
-      <Filter>Source Files\Formula</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input\InputHandler.h">
-      <Filter>Source Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="src\Input\FormulaParser.h">
       <Filter>Source Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Formula\Containers\FormulaSet.h">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Atomic\AtomicFormula.h">
+      <Filter>Source Files\Formula\Atomic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Atomic\FalseFormula.h">
+      <Filter>Source Files\Formula\Atomic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Atomic\TempFormula.h">
+      <Filter>Source Files\Formula\Atomic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Compound\Axiom.h">
+      <Filter>Source Files\Formula\Compound</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Compound\ImplicationFormula.h">
+      <Filter>Source Files\Formula\Compound</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\AFormulaTable.h">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\AxiomContainer.h">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\HilbertAxioms.h">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\IFormula.h">
+      <Filter>Source Files\Formula</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithm\General.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Formula\HilbertAxioms.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\AtomicFormula.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\Axiom.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\FalseFormula.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\ImplicationFormula.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\TempFormula.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\AxiomContainer.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\AFormulaTable.cpp">
-      <Filter>Source Files\Formula</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input\InputHandler.cpp">
-      <Filter>Source Files\Input</Filter>
-    </ClCompile>
     <ClCompile Include="src\Input\FormulaParser.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\FormulaSet.cpp">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Atomic\AtomicFormula.cpp">
+      <Filter>Source Files\Formula\Atomic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Atomic\FalseFormula.cpp">
+      <Filter>Source Files\Formula\Atomic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Atomic\TempFormula.cpp">
+      <Filter>Source Files\Formula\Atomic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Compound\Axiom.cpp">
+      <Filter>Source Files\Formula\Compound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Compound\ImplicationFormula.cpp">
+      <Filter>Source Files\Formula\Compound</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\AFormulaTable.cpp">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\AxiomContainer.cpp">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\HilbertAxioms.cpp">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Algorithm\General.cpp">
+      <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

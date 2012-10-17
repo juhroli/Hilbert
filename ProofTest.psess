@@ -4,6 +4,7 @@
     <Solution>Hilbert.sln</Solution>
     <CollectionMethod>Instrumentation</CollectionMethod>
     <AllocationMethod>None</AllocationMethod>
+    <Reportname>Reports\ProofTest.vsp</Reportname>
     <AddReport>true</AddReport>
     <ResourceBasedAnalysisSelected>true</ResourceBasedAnalysisSelected>
     <UniqueReport>Timestamp</UniqueReport>
@@ -50,7 +51,7 @@
       <LaunchMethod>Executable</LaunchMethod>
       <ExecutablePath>Release\ProofTest.exe</ExecutablePath>
       <StartupDirectory>ProofTest\</StartupDirectory>
-      <Arguments>4</Arguments>
+      <Arguments>5</Arguments>
       <NetAppHost>IIS</NetAppHost>
       <NetBrowser>InternetExplorer</NetBrowser>
       <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
@@ -81,6 +82,18 @@
     </Report>
     <Report>
       <Path>Reports\StringToFormula.vsp</Path>
+    </Report>
+    <Report>
+      <Path>Reports\FormulaSetAddv2.vsp</Path>
+    </Report>
+    <Report>
+      <Path>Reports\FormulaSetAddv1.vsp</Path>
+    </Report>
+    <Report>
+      <Path>Reports\FormulaSetAddv3.vsp</Path>
+    </Report>
+    <Report>
+      <Path>Reports\UnorderedMap-szorva.vsp</Path>
     </Report>
   </Reports>
   <Launches>

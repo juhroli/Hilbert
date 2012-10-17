@@ -15,12 +15,12 @@ Axiom * AxiomContainer::GetAxiom(unsigned index)
 	{
 		return new Axiom( *m_axioms[index-1] );
 	}
-	return NULL;
+	return __nullptr;
 }
 
 void AxiomContainer::AddAxiom(Axiom * axiom)
 {
-	if(axiom == NULL) return;
+	if(axiom == __nullptr) return;
 	
 	m_axioms.push_back(axiom);
 }

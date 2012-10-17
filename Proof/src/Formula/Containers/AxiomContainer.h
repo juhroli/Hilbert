@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Axiom.h"
+#include "../Compound/Axiom.h"
 #include <vector>
 
 using std::vector;

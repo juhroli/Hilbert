@@ -10,7 +10,7 @@ FalseFormula::FalseFormula(FalseFormula& formula)
 {
 	m_symbol = (char*)FALSE;
 	m_value = false;
-	m_id = formula.GetId();
+	m_hash = formula.HashCode();
 }
 
 bool FalseFormula::IsTemp()

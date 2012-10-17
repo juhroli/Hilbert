@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Input/FormulaParser.h"
-#include "Formula/AFormulaTable.h"
+#include "Formula/Containers/AFormulaTable.h"
 
 namespace ProofGUI {
 	using namespace System;
@@ -179,7 +179,7 @@ namespace ProofGUI {
 				 {
 					 String^ str2 = gcnew String(formula->ToString().c_str());
 					 textBox2->Text += str2->Replace("->", L"→")->Replace("~", L"↓") + "\r\n";
-					 if(!formula->IsAtomic()) delete formula;
+					 if(!formula->IsAtomic()) DELETEFORMULA(formula);
 				 }
 				 else
 				 {

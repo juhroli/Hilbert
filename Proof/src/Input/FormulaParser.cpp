@@ -1,23 +1,43 @@
 #include "FormulaParser.h"
-#include "../Formula/ImplicationFormula.h"
-#include "../Formula/AFormulaTable.h"
+
+#include "../Formula/Compound/ImplicationFormula.h"
+#include "../Formula/Compound/Axiom.h"
+#include "../Formula/Containers/AFormulaTable.h"
 
 namespace FormulaParser
 {
 	using namespace AFormulaTable;
-
+	
+	/*
+	*
+	*/
 	IFormula * ParseFormula(string str)
 	{
 		string::iterator& it = str.begin();
 		string::iterator& end = str.end();
 
-		IFormula * ret = ReadFormula(it, end);
-		return (it == end ? ret : NULL);
+		IFormula * ret = ReadFormula(it, end, false);
+		return (it == end ? ret : __nullptr);
 	}
-
-	IFormula * ReadFormula(string::iterator& it, string::iterator& end)
+	
+	/*
+	*
+	*/
+	IFormula * ParseTemp(string str)
 	{
-		IFormula * ret = ReadSingleFormula(it, end);
+		string::iterator& it = str.begin();
+		string::iterator& end = str.end();
+
+		IFormula * ret = ReadFormula(it, end, true);
+		return (it == end ? ret : __nullptr);
+	}
+	
+	/*
+	*
+	*/
+	IFormula * ReadFormula(string::iterator& it, string::iterator& end, bool temp)
+	{
+		IFormula * ret = ReadSingleFormula(it, end, temp);
 		while(it != end && *it == ' ')
 		{
 			it++;
@@ -26,35 +46,38 @@ namespace FormulaParser
 		{
 			it++;
 			if(it != end && *it != '>')
-				return NULL;
-			IFormula * right = ReadFormula(++it, end);
+				return __nullptr;
+			IFormula * right = ReadFormula(++it, end, temp);
 
 			if(!right)
-				return NULL;
+				return __nullptr;
 
-			ret = new ImplicationFormula(ret, right);
+			ret = (temp ? new Axiom(ret, right) : new ImplicationFormula(ret, right));
 		}
 		return ret;
 	}
 
-	IFormula * ReadSingleFormula(string::iterator& it, string::iterator& end)
+	/*
+	*
+	*/
+	IFormula * ReadSingleFormula(string::iterator& it, string::iterator& end, bool temp)
 	{
 		while(it != end && *it == ' ')
 		{
 			it++;
 		}
-		if(it == end) return NULL;
+		if(it == end) return __nullptr;
 		char ch = *(it++);
 		
 		
 		if(ch == *FALSE)
-			return AddAtomicFormula(FALSE);
+			return AddAtomicFormula(FALSE).get();
 
 		if(ch == '(')
 		{
-			IFormula * ret = ReadFormula(it, end);
+			IFormula * ret = ReadFormula(it, end, temp);
 			ch = *(it++);
-			return (ch == ')' ? ret : NULL);
+			return (ch == ')' ? ret : __nullptr);
 		}
 
 		if(ch == '_' || (ch >= '0' && ch <= '9')
@@ -68,13 +91,17 @@ namespace FormulaParser
 				stream<<*(it++);
 			}
 			stream<<'\0';
-			char * cStr = new char[stream.str().length()];
-			stream.str().copy(cStr, stream.str().length());
 
-			return AddAtomicFormula(cStr);
+			int len = stream.str().length();
+			char * cStr = new char[len];
+			strcpy_s(cStr, len, stream.str().c_str());
+
+			IFormula * ret = (temp ? AddTempFormula(cStr).get() : AddAtomicFormula(cStr).get());
+			delete[] cStr;
+			return ret;
 		}
-
-		return NULL;
+		
+		return __nullptr;
 	}
  
 }

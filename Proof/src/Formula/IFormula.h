@@ -1,7 +1,12 @@
 #pragma once
+
 #include "../HilbertIncludes.h"
 #include <sstream>
+#include <locale>
 
+using std::locale;
+using std::collate;
+using std::use_facet;
 using std::stringstream;
 using std::string;
 
@@ -11,13 +16,15 @@ using std::string;
 class IFormula
 {
 public:
-	IFormula() {}
-	virtual bool IsAtomic() { return true; }
-	virtual bool IsTemp() { return false; }
-	virtual bool Eval() { return true; }
-	virtual bool Equals(IFormula * formula) { return false; }
-	virtual string ToString() { return ""; }
-	virtual IFormula * Clone() { return NULL; }
-	virtual bool IsNull() { return true; }
-	virtual IFormula * Replace(IFormula& t, IFormula& x) { return NULL; }
+	virtual ~IFormula() {}
+	virtual bool IsAtomic() = 0;
+	virtual bool IsTemp() = 0;
+	virtual bool Eval() = 0;
+	virtual bool Equals(IFormula * formula) = 0;
+	virtual string ToString() = 0;
+	virtual IFormula * Clone() = 0;
+	virtual bool IsNull() = 0;
+	virtual IFormula * Replace(IFormula& t, IFormula& x) = 0;
+	virtual unsigned Length() = 0;
+	virtual long HashCode() = 0;
 };

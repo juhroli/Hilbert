@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85F5258C-2390-4CD7-B79A-6BF003F8BAA6}</ProjectGuid>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>ProofGUI</RootNamespace>
   </PropertyGroup>

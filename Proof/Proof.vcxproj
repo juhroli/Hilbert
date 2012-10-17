@@ -19,30 +19,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Formula\AFormulaTable.h" />
-    <ClInclude Include="src\Formula\AtomicFormula.h" />
-    <ClInclude Include="src\Formula\Axiom.h" />
-    <ClInclude Include="src\Formula\AxiomContainer.h" />
-    <ClInclude Include="src\Formula\FalseFormula.h" />
-    <ClInclude Include="src\Formula\HilbertAxioms.h" />
+    <ClInclude Include="src\Algorithm\General.h" />
+    <ClInclude Include="src\Formula\Atomic\AtomicFormula.h" />
+    <ClInclude Include="src\Formula\Atomic\FalseFormula.h" />
+    <ClInclude Include="src\Formula\Atomic\TempFormula.h" />
+    <ClInclude Include="src\Formula\Compound\Axiom.h" />
+    <ClInclude Include="src\Formula\Compound\ImplicationFormula.h" />
+    <ClInclude Include="src\Formula\Containers\AFormulaTable.h" />
+    <ClInclude Include="src\Formula\Containers\AxiomContainer.h" />
+    <ClInclude Include="src\Formula\Containers\FormulaSet.h" />
+    <ClInclude Include="src\Formula\Containers\HilbertAxioms.h" />
     <ClInclude Include="src\Formula\IFormula.h" />
-    <ClInclude Include="src\Formula\ImplicationFormula.h" />
-    <ClInclude Include="src\Formula\TempFormula.h" />
     <ClInclude Include="src\HilbertIncludes.h" />
     <ClInclude Include="src\Input\FormulaParser.h" />
-    <ClInclude Include="src\Input\InputHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Formula\AFormulaTable.cpp" />
-    <ClCompile Include="src\Formula\AtomicFormula.cpp" />
-    <ClCompile Include="src\Formula\Axiom.cpp" />
-    <ClCompile Include="src\Formula\AxiomContainer.cpp" />
-    <ClCompile Include="src\Formula\FalseFormula.cpp" />
-    <ClCompile Include="src\Formula\HilbertAxioms.cpp" />
-    <ClCompile Include="src\Formula\ImplicationFormula.cpp" />
-    <ClCompile Include="src\Formula\TempFormula.cpp" />
+    <ClCompile Include="src\Algorithm\General.cpp" />
+    <ClCompile Include="src\Formula\Atomic\AtomicFormula.cpp" />
+    <ClCompile Include="src\Formula\Atomic\FalseFormula.cpp" />
+    <ClCompile Include="src\Formula\Atomic\TempFormula.cpp" />
+    <ClCompile Include="src\Formula\Compound\Axiom.cpp" />
+    <ClCompile Include="src\Formula\Compound\ImplicationFormula.cpp" />
+    <ClCompile Include="src\Formula\Containers\AFormulaTable.cpp" />
+    <ClCompile Include="src\Formula\Containers\AxiomContainer.cpp" />
+    <ClCompile Include="src\Formula\Containers\FormulaSet.cpp" />
+    <ClCompile Include="src\Formula\Containers\HilbertAxioms.cpp" />
     <ClCompile Include="src\Input\FormulaParser.cpp" />
-    <ClCompile Include="src\Input\InputHandler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BF9D5AFA-CB6D-4045-9909-DD5EAAA9984F}</ProjectGuid>
