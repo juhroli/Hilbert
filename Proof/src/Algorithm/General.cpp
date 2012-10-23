@@ -3,6 +3,11 @@
 #include "../Formula/IFormula.h"
 #include "../Formula/Compound/ImplicationFormula.h"
 #include "../Formula/Containers/FormulaSet.h"
+#include "IAlgorithm.h"
+
+/*	Put algorithm headers here.	*/
+
+/*	===========================	*/
 
 namespace General
 {
@@ -36,5 +41,13 @@ namespace General
 	{
 		//TODO
 		return false;
+	}
+
+	/*
+	*	Create an algorithm instance.
+	*/
+	IAlgorithm * Create(AlgorithmType type)
+	{
+		return __nullptr;
 	}
 }

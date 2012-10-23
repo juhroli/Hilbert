@@ -72,6 +72,9 @@
     <ClInclude Include="src\Algorithm\General.h">
       <Filter>Source Files\Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Algorithm\IAlgorithm.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input\FormulaParser.cpp">

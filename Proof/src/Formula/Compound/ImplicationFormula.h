@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../IFormula.h"
-#include "../Atomic/TempFormula.h"
 
 class ImplicationFormula : public IFormula
 {

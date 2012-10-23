@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Algorithm\General.h" />
+    <ClInclude Include="src\Algorithm\IAlgorithm.h" />
     <ClInclude Include="src\Formula\Atomic\AtomicFormula.h" />
     <ClInclude Include="src\Formula\Atomic\FalseFormula.h" />
     <ClInclude Include="src\Formula\Atomic\TempFormula.h" />

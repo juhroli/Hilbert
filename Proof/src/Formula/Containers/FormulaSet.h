@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <vector>
 #include "../IFormula.h"
-#include "../Compound/ImplicationFormula.h"
 
 using namespace std;
 using namespace concurrency;
