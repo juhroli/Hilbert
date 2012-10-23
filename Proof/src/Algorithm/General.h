@@ -6,8 +6,7 @@ class FormulaSet;
 
 namespace General
 {
-	//empéző függvény, viszatér a levágott jobb oldallal
-	IFormula * mp(IFormula& f, ImplicationFormula& impF);
-	//Input imp formulának a bal oldalát belerakja a halmazba, visszatér a jobb oldalával
-	IFormula * deduct(ImplicationFormula& f, FormulaSet& sigma);
+	bool MP(IFormula& f, ImplicationFormula& impF, IFormula * res);
+	bool Deduction(ImplicationFormula& f, FormulaSet& sigma, IFormula * res);
+	bool Unification(IFormula& a, IFormula& b, IFormula * res);
 }

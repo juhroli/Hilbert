@@ -58,15 +58,11 @@ bool ImplicationFormula::Eval()
 
 bool ImplicationFormula::Equals(IFormula * formula)
 {
-	//TODO: check for temp formulas
-	if(!formula)
+	//TODO: check for temp formulas -> unification
+	if(!formula || formula->IsAtomic())
 		return false;
 
-	if(formula->IsAtomic())
-		return false;
-
-	return m_left->Equals(static_cast<ImplicationFormula*>(formula)->GetLeftSub()) 
-		&& m_right->Equals(static_cast<ImplicationFormula*>(formula)->GetRightSub());
+	return m_hash == formula->HashCode();
 }
 
 string ImplicationFormula::ToString()

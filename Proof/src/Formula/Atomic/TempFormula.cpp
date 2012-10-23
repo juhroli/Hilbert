@@ -36,7 +36,7 @@ bool TempFormula::IsTemp()
 
 bool TempFormula::Equals(IFormula * formula)
 {
-	if(!formula && !formula->IsAtomic() && !formula->IsTemp())
+	if(!formula || !formula->IsAtomic() || !formula->IsTemp())
 		return false;
 	
 	return m_hash == formula->HashCode();

@@ -3,7 +3,8 @@
 #include <memory>
 
 /*
-*	Delete macro for non-atomic formulas. Let the AtomicFormula table handle the Atomic Formulas' delete.
+*	Delete macro for non-atomic formulas. Let the atomic formula table handle the atomic formulas' delete.
+*	So this won't delete a formula if it's atomic...
 */
 #define DELETEFORMULA(x) if(x != __nullptr && !x->IsAtomic()) { delete x; } x = __nullptr;
 

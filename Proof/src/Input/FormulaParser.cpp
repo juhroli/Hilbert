@@ -49,7 +49,7 @@ namespace FormulaParser
 				return __nullptr;
 			IFormula * right = ReadFormula(++it, end, temp);
 
-			if(!right)
+			if(!right)	//Something's not right here...
 				return __nullptr;
 
 			ret = (temp ? new Axiom(ret, right) : new ImplicationFormula(ret, right));

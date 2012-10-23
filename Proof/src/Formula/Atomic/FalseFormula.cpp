@@ -23,7 +23,10 @@ bool FalseFormula::Eval()
 	return false;
 }
 
+/*
+*	False can't be cloned.
+*/
 IFormula * FalseFormula::Clone()
 {
-	return new FalseFormula(*this);
+	return this;
 }

@@ -52,7 +52,7 @@ bool AtomicFormula::Eval()
 
 bool AtomicFormula::Equals(IFormula * formula)
 {
-	if(!formula && !formula->IsAtomic())
+	if(!formula || !formula->IsAtomic())
 		return false;
 	
 	return m_hash == formula->HashCode();
