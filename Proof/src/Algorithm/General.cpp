@@ -55,13 +55,6 @@ namespace General
 	{
 		bool ret = true;
 
-		//If none of them is temp
-		if(!a->IsTemp() && !b->IsTemp())
-		{
-			*res = __nullptr;
-			return false;
-		}
-
 		if(a->Equals(b))
 		{
 			*res = a->Clone();
@@ -71,6 +64,12 @@ namespace General
 		//If both are compound
 		if(!a->IsAtomic() && !b->IsAtomic())
 		{
+			if(!a->IsTemp() && !b->IsTemp())
+			{
+				*res = __nullptr;
+				return false;
+			}
+
 			ImplicationFormula * F = static_cast<ImplicationFormula*>(a->Clone());
 			ImplicationFormula * G = static_cast<ImplicationFormula*>(b->Clone());
 
