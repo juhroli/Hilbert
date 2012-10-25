@@ -18,12 +18,12 @@ namespace General
 	*	else return false and res := null.
 	*	res is an output parameter which stores a pointer's memory address.
 	*/
-	bool MP(IFormula& f, ImplicationFormula& impF, IFormula ** res)
+	bool MP(IFormula * f, ImplicationFormula * impF, IFormula ** res)
 	{
 		bool ret;
 
-		if(ret = f.Equals(impF.GetLeftSub()))
-			*res = impF.GetRightSub()->Clone();
+		if(ret = f->Equals(impF->GetLeftSub()))
+			*res = impF->GetRightSub()->Clone();
 		else
 			*res = __nullptr;
 
@@ -35,9 +35,15 @@ namespace General
 	*	else return false and res := null.
 	*	res is an output parameter which stores a pointer's memory address.
 	*/
-	bool Deduction(ImplicationFormula& f, FormulaSet& sigma, IFormula ** res)
+	bool Deduction(IFormula * f, FormulaSet& sigma, IFormula ** res)
 	{
-		//TODO
+		if(!f->IsAtomic())
+		{
+			ImplicationFormula * impF = static_cast<ImplicationFormula*>(f);
+			sigma.Add(impF->GetLeftSub()->Clone());
+			*res = impF->GetRightSub()->Clone();
+			return true;
+		}
 		return false;
 	}
 
