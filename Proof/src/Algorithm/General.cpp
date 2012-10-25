@@ -20,8 +20,14 @@ namespace General
 	*/
 	bool MP(IFormula& f, ImplicationFormula& impF, IFormula ** res)
 	{
-		//TODO
-		return false;
+		bool ret;
+
+		if(ret = f.Equals(impF.GetLeftSub()))
+			*res = impF.GetRightSub()->Clone();
+		else
+			*res = __nullptr;
+
+		return ret;
 	}
 
 	/*
