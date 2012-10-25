@@ -12,4 +12,5 @@ public:
 	virtual void Start() = 0;
 	virtual void SetAxioms(AxiomContainer * container) = 0;
 	virtual void SetTask(FormulaSet * Sigma, IFormula * F) = 0;
+	virtual string GetResult() = 0;
 };

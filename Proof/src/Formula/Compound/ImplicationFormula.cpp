@@ -108,7 +108,7 @@ bool ImplicationFormula::IsNull()
 
 IFormula * ImplicationFormula::Replace(IFormula& t, IFormula& x)
 {
-	if(t.IsTemp())
+	if(t.IsTemp() && t.IsAtomic())
 		return new ImplicationFormula(this->GetLeftSub()->Replace(t, x), this->GetRightSub()->Replace(t, x));
 	return this;
 }

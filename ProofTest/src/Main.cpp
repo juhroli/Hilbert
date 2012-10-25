@@ -9,11 +9,13 @@
 #include "Formula/Containers/HilbertAxioms.h"
 #include "Input/FormulaParser.h"
 #include "Formula/Containers/FormulaSet.h"
+#include "Algorithm/General.h"
 
 #include <string>
 
 using namespace AFormulaTable;
 using namespace FormulaParser;
+using namespace General;
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -117,34 +119,22 @@ int main(int argc, char* argv[])
 			stream<<"(F"<<i<<" -> (G"<<i<<" -> H"<<i<<")) -> ((F"<<i<<" -> G"<<i<<") -> (F"<<i<<" -> H"<<i<<"))";
 			fset.Add(ParseFormula(stream.str()));
 		}
+	}
 
-		/*IFormula * f = ParseFormula("F");
-		fset.Add(f);
-		cout<<ListAtomicFormulas()<<endl;
-		DELETEFORMULA(f);
-		cout<<ListAtomicFormulas()<<endl;*/
+	/*=================TEST FOR UNIFICATION=================*/
+	if( argc > 1 && (atoi(argv[1]) == 6 || atoi(argv[1]) == 0))
+	{
+		IFormula * f1 = ParseFormula("((F -> G) -> (F -> G)) -> (((F-> G) -> F) -> ((F-> G) -> G))");
+		IFormula * f2 = ParseTemp("(x -> (y -> z)) -> ((x -> y) -> (x -> z))");
+		IFormula * res = __nullptr;
 
-		/*concurrent_vector<IFormula*>& vec = fset.GetFormulas();
-		hash_map<long, pair<IFormula*, bool>>& hashm = fset.GetMap();
-		vec = fset.GetFormulas();
-		hashm = fset.GetMap();
-
-		for(auto it : vec)
-		{
-			cout<<it->ToString()<<endl;
-		}
-
-		fset.SortFormulas();
-
-		for(auto it : vec)
-		{
-			cout<<it->ToString()<<" : "<<it->Length()<<endl;
-		}*/
-
-		/*for(auto x : hashm)
-		{
-			cout<<x.second.first->ToString()<<endl;
-		}*/
+		bool ret = Unification(f1, f2, &res);
+		
+		cout<<(res != __nullptr && !res->IsNull() ? res->ToString() : "fail") <<endl;
+		cout<<f1->ToString()<<endl<<f2->ToString()<<endl;
+		DELETEFORMULA(res);
+		DELETEFORMULA(f2);
+		DELETEFORMULA(f1);
 	}
 	
 	//SetDefaults();

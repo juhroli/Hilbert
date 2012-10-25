@@ -56,6 +56,6 @@ IFormula * TempFormula::Clone()
 IFormula * TempFormula::Replace(IFormula& t, IFormula& x)
 {
 	if(this->Equals( &t ))
-		return &x;
+		return x.IsAtomic() ? &x : x.Clone();
 	return this;
 }
