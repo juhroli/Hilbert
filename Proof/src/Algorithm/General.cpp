@@ -16,16 +16,16 @@ namespace General
 	*	Modus ponens:
 	*	Cut the left part of the impF if possible then return true, res will contain impF's right part
 	*	else return false and res := null.
-	*	res is an output parameter which stores a pointer's memory address.
+	*	res is an output parameter references a pointer.
 	*/
-	bool MP(IFormula * f, ImplicationFormula * impF, IFormula ** res)
+	bool MP(IFormula * f, ImplicationFormula * impF, IFormula*& res)
 	{
 		bool ret;
 
 		if(ret = f->Equals(impF->GetLeftSub()))
-			*res = impF->GetRightSub()->Clone();
+			res = impF->GetRightSub()->Clone();
 		else
-			*res = __nullptr;
+			res = __nullptr;
 
 		return ret;
 	}
@@ -33,19 +33,19 @@ namespace General
 	/*
 	*	Deduct f into sigma: the left part of f is put into sigma, res := f's right, return true
 	*	else return false and res := null.
-	*	res is an output parameter which stores a pointer's memory address.
+	*	res is an output parameter references a pointer.
 	*/
-	bool Deduction(IFormula * f, FormulaSet& sigma, IFormula ** res)
+	bool Deduction(IFormula * f, FormulaSet& sigma, IFormula*& res)
 	{
 		if(!f->IsAtomic())
 		{
 			ImplicationFormula * impF = static_cast<ImplicationFormula*>(f);
 			sigma.Add(impF->GetLeftSub()->Clone());
-			*res = impF->GetRightSub()->Clone();
+			res = impF->GetRightSub()->Clone();
 			return true;
 		}
 
-		*res = __nullptr;
+		res = __nullptr;
 
 		return false;
 	}
@@ -58,15 +58,15 @@ namespace General
 	*	Only formulas with temp atomic formulas can be unified with other formulas!
 	*	
 	*	uni will contain a sequence of replaces for the unification.
-	*	res is an output parameter which stores a pointer's memory address.
+	*	res is an output parameter references a pointer.
 	*/
-	bool Unification(IFormula * a, IFormula * b, IFormula ** res, unification& uni)
+	bool Unification(IFormula * a, IFormula * b, IFormula*& res, unification& uni)
 	{
 		bool ret = true;
 
 		if(a->Equals(b))
 		{
-			*res = a->Clone();
+			res = a->Clone();
 			return true;
 		}
 
@@ -75,7 +75,7 @@ namespace General
 		{
 			if(!a->IsTemp() && !b->IsTemp())
 			{
-				*res = __nullptr;
+				res = __nullptr;
 				return false;
 			}
 
@@ -117,9 +117,9 @@ namespace General
 
 			//If the result F and G contains null, set ret to false and res to nullptr
 			if(!(ret = !F->IsNull() && !G->IsNull()))
-				*res = __nullptr;
+				res = __nullptr;
 			else if(ret = F->Equals(G))
-				*res = F->Clone(); //If F equals G the result is the clone of F
+				res = F->Clone(); //If F equals G the result is the clone of F
 			
 			DELETEFORMULA(G);
 			DELETEFORMULA(F);
@@ -131,9 +131,8 @@ namespace General
 			IFormula * G = b;
 			if(F->IsAtomic() && !G->IsTemp() && F->IsTemp())
 			{
-				IFormula * temp = F;
-				F = G;
-				G = temp;
+				F = b;
+				G = a;
 			}
 
 			if(G->IsTemp() && G->IsAtomic())
@@ -154,7 +153,7 @@ namespace General
 			}
 			else
 			{
-				*res = __nullptr;
+				res = __nullptr;
 				ret = false;
 			}
 		}
@@ -169,14 +168,14 @@ namespace General
 	*
 	*	Only formulas with temp atomic formulas can be unified with other formulas!
 	*	
-	*	res is an output parameter which stores a pointer's memory address.
+	*	res is an output parameter references a pointer.
 	*/
-	bool Unification(IFormula * a, IFormula * b, IFormula ** res)
+	bool Unification(IFormula * a, IFormula * b, IFormula*& res)
 	{
-		*res = __nullptr;
+		res = __nullptr;
 		unification uni;
 
-		return Unification(a, b,res, uni);
+		return Unification(a, b, res, uni);
 	}
 
 	/*

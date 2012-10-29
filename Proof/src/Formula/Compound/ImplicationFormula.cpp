@@ -17,7 +17,7 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 	{
 		/* ==== Create the string of the formula ==== */
 		stringstream stream;
-		stringstream hashStream; //It is needed, because temp's are stored like this: "_Symbol"
+		stringstream hashStream; //It is needed, because temp's are stored like this: "_Symbol", so for them the GetSymbol() should be called
 
 		if(!m_left->IsAtomic())
 		{
@@ -48,7 +48,7 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 			hashStream << static_cast<AtomicFormula*>(m_right)->GetSymbol();
 		}
 
-		this->m_string = stream.str();
+		m_string = stream.str();
 
 		/* ==== End of creating string ==== */
 
@@ -59,7 +59,7 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 	{
 		m_hash = 0;
 		m_length = 0;
-		this->m_string = "";
+		m_string = "";
 	}
 }
 
@@ -184,12 +184,4 @@ string ImplicationFormula::ToStringPrefix()
 		stream << static_cast<ImplicationFormula*>(m_right)->ToStringPrefix();
 
 	return stream.str();
-}
-
-void ImplicationFormula::GenerateHash()
-{
-	//Generate hash code
-	string fs = this->ToString();
-	
-	m_hash = GenerateHashCode(fs);
 }

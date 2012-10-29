@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
 		IFormula * f2 = ParseTemp("(x -> (y -> z)) -> ((x -> y) -> (x -> z))");
 		IFormula * res = __nullptr;
 
-		bool ret = Unification(f1, f2, &res);
+		bool ret = Unification(f1, f2, res);
 		
 		cout<<(res != __nullptr && !res->IsNull() ? res->ToString() : "fail") <<endl;
 		cout<<f1->ToString()<<endl<<f2->ToString()<<endl;

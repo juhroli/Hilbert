@@ -31,6 +31,5 @@ protected:
 	IFormula * m_right;
 	unsigned m_length;
 	long m_hash;
-
-	void GenerateHash();
+	string m_string;
 };
