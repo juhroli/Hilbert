@@ -20,8 +20,6 @@ public:
 	unsigned Length();
 	long HashCode();
 
-	void SetLeftSub(IFormula * formula);
-	void SetRightSub(IFormula * formula);
 	IFormula * GetLeftSub();
 	IFormula * GetRightSub();
 

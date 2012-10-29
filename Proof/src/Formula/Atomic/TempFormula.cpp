@@ -16,10 +16,7 @@ TempFormula::TempFormula(char * symbol)
 	strcpy_s(m_symbol, len, stream.str().c_str());
 
 	//Generate hash code
-	string fs = this->GetSymbol();
-	locale loc;
-	const collate<char>& coll = use_facet<collate<char>>(loc);
-	m_hash = coll.hash(fs.data(), fs.end()._Ptr);
+	m_hash = GenerateHashCode(m_symbol);
 }
 
 TempFormula::TempFormula(TempFormula& formula)
@@ -50,9 +47,12 @@ string TempFormula::ToString()
 
 IFormula * TempFormula::Clone()
 {
-	return new TempFormula(*this);
+	return this;
 }
 
+/*
+*	If x is atomic then return x (there won't be another instance of it) else clone x (it must have been a compound formula)
+*/
 IFormula * TempFormula::Replace(IFormula& t, IFormula& x)
 {
 	if(this->Equals( &t ))

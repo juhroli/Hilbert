@@ -10,6 +10,14 @@ using std::use_facet;
 using std::stringstream;
 using std::string;
 
+static long GenerateHashCode(string str)
+{
+	static locale loc;
+	static const collate<char>& coll = use_facet<collate<char>>(loc);
+	return coll.hash(str.data(), str.end()._Ptr);
+}
+
+
 /*
 *	Formula interface
 */
@@ -27,4 +35,6 @@ public:
 	virtual IFormula * Replace(IFormula& t, IFormula& x) = 0;
 	virtual unsigned Length() = 0;
 	virtual long HashCode() = 0;
+protected:
+	string m_string;
 };

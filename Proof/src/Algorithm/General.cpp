@@ -44,6 +44,9 @@ namespace General
 			*res = impF->GetRightSub()->Clone();
 			return true;
 		}
+
+		*res = __nullptr;
+
 		return false;
 	}
 
@@ -52,7 +55,7 @@ namespace General
 	*	Unify a and b, if it was successful return true and put the unified formula in res,
 	*	else return false and res := null.
 	*
-	*	Only formulas with temp atomic formulas can be unified with formulas with atomic formulas!
+	*	Only formulas with temp atomic formulas can be unified with other formulas!
 	*	
 	*	uni will contain a sequence of replaces for the unification.
 	*	res is an output parameter which stores a pointer's memory address.
@@ -128,8 +131,9 @@ namespace General
 			IFormula * G = b;
 			if(F->IsAtomic() && !G->IsTemp() && F->IsTemp())
 			{
+				IFormula * temp = F;
 				F = G;
-				G = F;
+				G = temp;
 			}
 
 			if(G->IsTemp() && G->IsAtomic())
@@ -141,7 +145,7 @@ namespace General
 						return f->Equals(g);
 				    
 					return contains(static_cast<ImplicationFormula*>(f)->GetLeftSub(), g)
-						&& contains(static_cast<ImplicationFormula*>(f)->GetRightSub(), g);
+						|| contains(static_cast<ImplicationFormula*>(f)->GetRightSub(), g);
 				};
 				
 				//If F doesn't contain G
@@ -163,7 +167,7 @@ namespace General
 	*	Unify a and b, if it was successful return true and put the unified formula in res,
 	*	else return false and res := null.
 	*
-	*	Only formulas with temp atomic formulas can be unified with formulas with atomic formulas!
+	*	Only formulas with temp atomic formulas can be unified with other formulas!
 	*	
 	*	res is an output parameter which stores a pointer's memory address.
 	*/

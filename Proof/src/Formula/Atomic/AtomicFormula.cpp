@@ -13,10 +13,7 @@ AtomicFormula::AtomicFormula(char * symbol)
 	m_symbol = new char[strlen(symbol) + 1];
 	strcpy_s(m_symbol, strlen(symbol) + 1, symbol);
 	//Generate hash code
-	string fs = this->ToString();
-	locale loc;
-	const collate<char>& coll = use_facet<collate<char>>(loc);
-	m_hash = coll.hash(fs.data(), fs.end()._Ptr);
+	m_hash = GenerateHashCode(m_symbol);
 }
 
 AtomicFormula::AtomicFormula(AtomicFormula& formula)
@@ -65,7 +62,7 @@ string AtomicFormula::ToString()
 
 IFormula * AtomicFormula::Clone()
 {
-	return new AtomicFormula(*this);
+	return this;
 }
 
 bool AtomicFormula::IsNull()

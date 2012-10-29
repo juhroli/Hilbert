@@ -1,4 +1,5 @@
 #include "ImplicationFormula.h"
+#include "../Atomic/AtomicFormula.h"
 
 ImplicationFormula::ImplicationFormula()
 	: m_left(__nullptr)
@@ -14,11 +15,52 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 {
 	if(m_left != __nullptr && m_right != __nullptr)
 	{
-		this->GenerateHash();
+		/* ==== Create the string of the formula ==== */
+		stringstream stream;
+		stringstream hashStream; //It is needed, because temp's are stored like this: "_Symbol"
+
+		if(!m_left->IsAtomic())
+		{
+			stringstream local;
+			local << "(" << m_left->ToString() << ")";
+			stream << local;
+			hashStream << local;
+		}
+		else
+		{
+			stream << m_left->ToString();
+			hashStream << static_cast<AtomicFormula*>(m_left)->GetSymbol();
+		}
+	
+		stream << IMPLIES;
+		hashStream << IMPLIES;
+
+		if(!m_right->IsAtomic())
+		{
+			stringstream local;
+			local << "(" << m_right->ToString() << ")";
+			stream << local;
+			hashStream << local;
+		}
+		else
+		{
+			stream << m_right->ToString();
+			hashStream << static_cast<AtomicFormula*>(m_right)->GetSymbol();
+		}
+
+		this->m_string = stream.str();
+
+		/* ==== End of creating string ==== */
+
+		GenerateHashCode(hashStream.str());
 		m_length = m_left->Length() + m_right->Length();
 	}
 	else
+	{
+		m_hash = 0;
 		m_length = 0;
+		this->m_string = "";
+	}
 }
 
 ImplicationFormula::ImplicationFormula(ImplicationFormula& formula)
@@ -33,6 +75,7 @@ ImplicationFormula::ImplicationFormula(ImplicationFormula& formula)
 
 	m_length = formula.Length();
 	m_hash = formula.HashCode();
+	m_string = formula.ToString();
 }
 
 ImplicationFormula::~ImplicationFormula()
@@ -67,33 +110,7 @@ bool ImplicationFormula::Equals(IFormula * formula)
 
 string ImplicationFormula::ToString()
 {
-	stringstream stream;
-
-	if(!m_left->IsAtomic())
-	{
-		stream << "(";
-		stream << m_left->ToString();
-		stream << ")";
-	}
-	else
-	{
-		stream << m_left->ToString();
-	}
-	
-	stream << IMPLIES;
-
-	if(!m_right->IsAtomic())
-	{
-		stream << "(";
-		stream << m_right->ToString();
-		stream << ")";
-	}
-	else
-	{
-		stream << m_right->ToString();
-	}
-
-	return stream.str();
+	return this->m_string;
 }
 
 IFormula * ImplicationFormula::Clone()
@@ -121,32 +138,6 @@ unsigned ImplicationFormula::Length()
 long ImplicationFormula::HashCode()
 {
 	return m_hash;
-}
-
-void ImplicationFormula::SetLeftSub(IFormula * formula)
-{
-	m_left = formula;
-
-	if(m_left != __nullptr && m_right != __nullptr)
-	{
-		GenerateHash();
-		m_length = m_left->Length() + m_right->Length();
-	}
-	else
-		m_length = 0;
-}
-
-void ImplicationFormula::SetRightSub(IFormula * formula)
-{
-	m_right = formula;
-
-	if(m_left != __nullptr && m_right != __nullptr)
-	{
-		GenerateHash();
-		m_length = m_left->Length() + m_right->Length();
-	}
-	else
-		m_length = 0;
 }
 
 IFormula * ImplicationFormula::GetLeftSub()
@@ -199,7 +190,6 @@ void ImplicationFormula::GenerateHash()
 {
 	//Generate hash code
 	string fs = this->ToString();
-	locale loc;
-	const collate<char>& coll = use_facet<collate<char>>(loc);
-	m_hash = coll.hash(fs.data(), fs.end()._Ptr);
+	
+	m_hash = GenerateHashCode(fs);
 }
