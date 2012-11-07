@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Algorithm">
       <UniqueIdentifier>{32e11246-8c7f-4e8a-a2cf-b47e5f5dea83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Formula\Containers\Sets">
+      <UniqueIdentifier>{36c57eff-3889-44a6-9587-4351edacd0f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\HilbertIncludes.h">
@@ -38,9 +41,6 @@
     </ClInclude>
     <ClInclude Include="src\Input\FormulaParser.h">
       <Filter>Source Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\Containers\FormulaSet.h">
-      <Filter>Source Files\Formula\Containers</Filter>
     </ClInclude>
     <ClInclude Include="src\Formula\Atomic\AtomicFormula.h">
       <Filter>Source Files\Formula\Atomic</Filter>
@@ -75,13 +75,28 @@
     <ClInclude Include="src\Algorithm\IAlgorithm.h">
       <Filter>Source Files\Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Formula\Containers\FormulaWrapper.h">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\Sets\FormulaSetList.h">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\Sets\FormulaSetPriority.h">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\Sets\FormulaSetVector.h">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\Sets\IFormulaSet.h">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithm\Algorithm0.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input\FormulaParser.cpp">
       <Filter>Source Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Formula\Containers\FormulaSet.cpp">
-      <Filter>Source Files\Formula\Containers</Filter>
     </ClCompile>
     <ClCompile Include="src\Formula\Atomic\AtomicFormula.cpp">
       <Filter>Source Files\Formula\Atomic</Filter>
@@ -108,6 +123,21 @@
       <Filter>Source Files\Formula\Containers</Filter>
     </ClCompile>
     <ClCompile Include="src\Algorithm\General.cpp">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\FormulaWrapper.cpp">
+      <Filter>Source Files\Formula\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\Sets\FormulaSetList.cpp">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\Sets\FormulaSetVector.cpp">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Algorithm\Algorithm.cpp">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Algorithm\Algorithm0.cpp">
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>

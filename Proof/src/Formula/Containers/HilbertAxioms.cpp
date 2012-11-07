@@ -11,10 +11,10 @@ using namespace FormulaParser;
 */
 HilbertAxioms::HilbertAxioms()
 {
-	m_axioms.push_back(static_cast<Axiom*>( ParseTemp("(F -> (G -> H)) -> ((F -> G) -> (F -> H))") ));
-	m_axioms.push_back(static_cast<Axiom*>( ParseTemp("F -> (G -> F)") ));
+	m_axioms.push_back(static_cast<Axiom*>( ParseTemp("(a -> (b -> c)) -> ((a -> b) -> (a -> c))") ));
+	m_axioms.push_back(static_cast<Axiom*>( ParseTemp("a -> (b -> a)") ));
 	stringstream stream;
-	stream<<"((F -> "<<FALSE<<") -> "<<FALSE<<") -> F\0";
+	stream<<"((a -> "<<FALSE<<") -> "<<FALSE<<") -> a\0";
 	m_axioms.push_back(static_cast<Axiom*>( ParseTemp(stream.str()) ));
 }
 

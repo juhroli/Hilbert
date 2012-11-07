@@ -23,8 +23,8 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 		{
 			stringstream local;
 			local << "(" << m_left->ToString() << ")";
-			stream << local;
-			hashStream << local;
+			stream << local.str();
+			hashStream << local.str();
 		}
 		else
 		{
@@ -39,8 +39,8 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 		{
 			stringstream local;
 			local << "(" << m_right->ToString() << ")";
-			stream << local;
-			hashStream << local;
+			stream << local.str();
+			hashStream << local.str();
 		}
 		else
 		{
@@ -52,7 +52,7 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 
 		/* ==== End of creating string ==== */
 
-		GenerateHashCode(hashStream.str());
+		m_hash = GenerateHashCode(hashStream.str());
 		m_length = m_left->Length() + m_right->Length();
 	}
 	else
@@ -148,40 +148,4 @@ IFormula * ImplicationFormula::GetLeftSub()
 IFormula * ImplicationFormula::GetRightSub()
 {
 	return m_right;
-}
-
-string ImplicationFormula::ToStringPostfix()
-{
-	stringstream stream;
-
-	if(m_left->IsAtomic())
-		stream << m_left->ToString();
-	else
-		stream << static_cast<ImplicationFormula*>(m_left)->ToStringPostfix();
-
-	if(m_right->IsAtomic())
-		stream << m_right->ToString();
-	else
-		stream << static_cast<ImplicationFormula*>(m_right)->ToStringPostfix();
-	stream << IMPLIES;
-
-	return stream.str();
-}
-
-string ImplicationFormula::ToStringPrefix()
-{
-	stringstream stream;
-
-	stream << IMPLIES;
-	if(m_left->IsAtomic())
-		stream << m_left->ToString();
-	else
-		stream << static_cast<ImplicationFormula*>(m_left)->ToStringPrefix();
-
-	if(m_right->IsAtomic())
-		stream << m_right->ToString();
-	else
-		stream << static_cast<ImplicationFormula*>(m_right)->ToStringPrefix();
-
-	return stream.str();
 }

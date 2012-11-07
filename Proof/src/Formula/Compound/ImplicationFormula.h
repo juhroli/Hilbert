@@ -23,9 +23,6 @@ public:
 	IFormula * GetLeftSub();
 	IFormula * GetRightSub();
 
-	string ToStringPostfix();
-	string ToStringPrefix();
-
 protected:
 	IFormula * m_left;
 	IFormula * m_right;

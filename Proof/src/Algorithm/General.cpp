@@ -3,11 +3,12 @@
 #include<functional>
 #include "../Formula/IFormula.h"
 #include "../Formula/Compound/ImplicationFormula.h"
-#include "../Formula/Containers/FormulaSet.h"
+#include "../Formula/Containers/Sets/IFormulaSet.h"
+#include "../Formula/Containers/FormulaWrapper.h"
 #include "IAlgorithm.h"
 
 /*	Put algorithm headers here.	*/
-
+#include "Algorithm0.h"
 /*	===========================	*/
 
 namespace General
@@ -20,6 +21,12 @@ namespace General
 	*/
 	bool MP(IFormula * f, ImplicationFormula * impF, IFormula*& res)
 	{
+		if(f == __nullptr || impF == __nullptr)
+		{
+			res = __nullptr;
+			return false;
+		}
+
 		bool ret;
 
 		if(ret = f->Equals(impF->GetLeftSub()))
@@ -35,12 +42,18 @@ namespace General
 	*	else return false and res := null.
 	*	res is an output parameter references a pointer.
 	*/
-	bool Deduction(IFormula * f, FormulaSet& sigma, IFormula*& res)
+	bool Deduction(IFormula * f, IFormulaSet * sigma, IFormula*& res)
 	{
+		if(f == __nullptr || sigma == __nullptr)
+		{
+			res = __nullptr;
+			return false;
+		}
+
 		if(!f->IsAtomic())
 		{
 			ImplicationFormula * impF = static_cast<ImplicationFormula*>(f);
-			sigma.Add(impF->GetLeftSub()->Clone());
+			sigma->Add(impF->GetLeftSub()->Clone());
 			res = impF->GetRightSub()->Clone();
 			return true;
 		}
@@ -60,8 +73,14 @@ namespace General
 	*	uni will contain a sequence of replaces for the unification.
 	*	res is an output parameter references a pointer.
 	*/
-	bool Unification(IFormula * a, IFormula * b, IFormula*& res, unification& uni)
+	bool Unification(IFormula * a, IFormula * b, IFormula*& res, replaces& uni)
 	{
+		if(a == __nullptr || b == __nullptr)
+		{
+			res = __nullptr;
+			return false;
+		}
+
 		bool ret = true;
 
 		if(a->Equals(b))
@@ -136,20 +155,11 @@ namespace General
 			}
 
 			if(G->IsTemp() && G->IsAtomic())
-			{
-				//Lambda function to check if the first formula contains the second one
-				std::function<bool (IFormula *, IFormula *)> contains = [&] (IFormula * f, IFormula * g) -> bool
-				{
-					if(f->IsAtomic())
-						return f->Equals(g);
-				    
-					return contains(static_cast<ImplicationFormula*>(f)->GetLeftSub(), g)
-						|| contains(static_cast<ImplicationFormula*>(f)->GetRightSub(), g);
-				};
-				
+			{				
 				//If F doesn't contain G
-				if(ret = !contains(F, G))
+				if(ret = !ContainsFormula(F, G))
 					uni.push_back(make_pair(G, F));
+				res = G->Replace(*G, *F);
 			}
 			else
 			{
@@ -173,9 +183,30 @@ namespace General
 	bool Unification(IFormula * a, IFormula * b, IFormula*& res)
 	{
 		res = __nullptr;
-		unification uni;
+
+		if(a == __nullptr || b == __nullptr)
+			return false;
+
+		replaces uni;
 
 		return Unification(a, b, res, uni);
+	}
+
+	/*
+	*	Do all the replaces defined in "rep" on the formula.
+	*/
+	IFormula * ReplaceAll(IFormula * formula, replaces& rep)
+	{
+		IFormula * ret = formula->Clone();
+
+		for(auto it : rep)
+		{
+			if(!ret->IsTemp())
+				break;
+			ret = ret->Replace(*it.first, *it.second);
+		}
+
+		return ret;
 	}
 
 	/*
@@ -183,6 +214,30 @@ namespace General
 	*/
 	IAlgorithm * Create(AlgorithmType type)
 	{
+		switch(type)
+		{
+		case ALG_0:
+			return new Algorithm0();
+		}
 		return __nullptr;
 	}
+
+	/*
+	*	Check if the first formula contains the second one.
+	*/
+	bool ContainsFormula(IFormula * f, IFormula * g)
+	{
+		if(f->IsAtomic())
+			return f->Equals(g);
+		else if(f->Equals(g))
+			return true;
+
+		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(f);
+
+		if(wrap != __nullptr)
+			f = wrap->GetThis();
+
+		return ContainsFormula(static_cast<ImplicationFormula*>(f)->GetLeftSub(), g)
+			|| ContainsFormula(static_cast<ImplicationFormula*>(f)->GetRightSub(), g);
+	};
 }

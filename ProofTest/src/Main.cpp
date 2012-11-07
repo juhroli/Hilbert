@@ -8,10 +8,11 @@
 #include "Formula/Containers/AFormulaTable.h"
 #include "Formula/Containers/HilbertAxioms.h"
 #include "Input/FormulaParser.h"
-#include "Formula/Containers/FormulaSet.h"
+#include "Formula/Containers/Sets/FormulaSetList.h"
+#include "Formula/Containers/Sets/FormulaSetVector.h"
 #include "Algorithm/General.h"
-
 #include <string>
+#include "Algorithm/Algorithm0.h"
 
 using namespace AFormulaTable;
 using namespace FormulaParser;
@@ -28,6 +29,8 @@ int main(int argc, char* argv[])
 	*	3: old StringToFormula
 	*	4: new ParseFormula
 	*	5: FormulaSet
+	*	6: unification
+	*	7 "Formula": alg0x00
 	*/
 
 	/*=================TEST FOR REPLACE (OLD VERSION)=================*/
@@ -112,7 +115,7 @@ int main(int argc, char* argv[])
 	/*=================TEST FOR FORMULA SET=================*/
 	if( argc > 1 && (atoi(argv[1]) == 5 || atoi(argv[1]) == 0))
 	{
-		FormulaSet fset;
+		FormulaSetVector fset;
 		for(int i = 1; i <= 100; i++)
 		{
 			stringstream stream;
@@ -124,8 +127,8 @@ int main(int argc, char* argv[])
 	/*=================TEST FOR UNIFICATION=================*/
 	if( argc > 1 && (atoi(argv[1]) == 6 || atoi(argv[1]) == 0))
 	{
-		IFormula * f1 = ParseFormula("((F -> G) -> (F -> G)) -> (((F-> G) -> F) -> ((F-> G) -> G))");
-		IFormula * f2 = ParseTemp("(x -> (y -> z)) -> ((x -> y) -> (x -> z))");
+		IFormula * f1 = ParseFormula("(G->G)->(G->H)");
+		IFormula * f2 = ParseTemp("F->(G->F)");
 		IFormula * res = __nullptr;
 
 		bool ret = Unification(f1, f2, res);
@@ -137,40 +140,44 @@ int main(int argc, char* argv[])
 		DELETEFORMULA(f1);
 	}
 	
-	//SetDefaults();
-	//HilbertAxioms axioms;
-	//cout<<"Hilbert axioms:"<<endl;
-	//for(int i = 1; i <= 3; i++)
-	//{
-	//	cout<<axioms.GetAxiom(i)->ToString()<<endl;
-	//}
+	/*=================TEST FOR ALGORITHM 0x00=================*/
+	/*
+	*	EXAMPLES:
+	*	P->((P->~)->~)
+	*	F->F
+	*	(G->H)->((F->G)->(F->H))
+	*	~->F
+	*	((P->~)->P)->((P->~)->~)
+	*	((P->~)->~) -> ((P->Q) -> Q)
+	*	P -> ((P->~)->Q)
+	*	((P->(Q->R))->(P->Q))->((P->(Q->R))->(P->R))
+	*	(P->Q) -> (P->(R->Q))
+	*	(P->((Q->(R->Q))->S)) -> (P->S)
+	*	(P->Q) -> ((R->P)->(R->Q))
+	*	(P->~)->(P->Q)
+	*	((P->~)->P) -> P
+	*	((P->~)->(Q->~)) -> (Q->P)
+	*	((F->~)->(G->~))->(((F->~)->G)->F)
+	*	
+	*/
+	if( argc > 1 && (atoi(argv[1]) == 7 || atoi(argv[1]) == 0))
+	{
+		IAlgorithm * alg = Create(ALG_0);
+		IFormulaSet * fset = new FormulaSetList();
+		IFormula * task = ParseFormula(argv[2]);
+		cout<<"The task:"<<endl<<"|- "<<task->ToString()<<endl<<endl;
+		alg->SetTask(fset, task);
+		AxiomContainer * axioms = new HilbertAxioms();
+		alg->SetAxioms(axioms);
+		static_cast<Algorithm0*>(alg)->SetMaxLength(14);
+		alg->Start();
+		cout<<alg->GetResult()<<endl;
+		delete fset;
+		delete axioms;
+		delete alg;
+	}
 
-	//string str;
-	//
-	//while(true)
-	//{
-	//	cout<<"List of atomic formulas:"<<endl<<ListAtomicFormulas()<<endl;
-	//	cout<<"Write a formula: "<<endl;
-	//	str.clear();
-	//	cin.clear();
-	//	getline(cin, str);
-	//	IFormula * form = ParseFormula(str);
-	//	if(form != NULL)
-	//	{
-	//		cout<<form->ToString()<<endl;
-	//	}
-	//	else
-	//	{
-	//		cout<<"Syntax error."<<endl;
-	//	}
-
-	//	if(form != NULL && !form->IsAtomic()) delete form;
-	//	
-
-	//	cout<<"Type e to exit or press ENTER to continue...";
-	//	if(cin.get() == 'e')
-	//		break;
-	//}
+	
 	DestroyTable();
 
 	return 0;
