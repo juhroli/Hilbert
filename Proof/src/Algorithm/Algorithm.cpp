@@ -1,19 +1,23 @@
 #include "IAlgorithm.h"
+#include "General.h"
+#include<functional>
 
-using General::Unification;
-using General::MP;
-using General::ReplaceAll;
+using namespace General;
 
 /*
 *	This function does modus ponens, there and back. (The Hobbit function)
-*	a: the formula from the outer loop
+*	fset: put the result in this set
+*	a: the formula (usually) from the outer loop
 *	aImpl: a casted to ImplicationFormula
 *	aLeft: if a is an ImplicationFormula this is it's left subformula
 *	aWrapper: if a is a FromulaWrapper, then it is casted to that
 *	returns true if the target formula was found
 */
-bool IAlgorithm::MPBothWays(IFormula * a, IFormula * b)
+bool IAlgorithm::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
 {
+	if(a == __nullptr || b == __nullptr || fset == __nullptr)
+		return false;
+
 	/* ===== Initialization ===== */
 	ImplicationFormula * bImpl = __nullptr;
 	IFormula * bLeft = __nullptr;
@@ -58,7 +62,7 @@ bool IAlgorithm::MPBothWays(IFormula * a, IFormula * b)
 
 			if(wrap->Length() <= m_maxLength && !m_sigma->Contains(wrap->HashCode()))
 			{
-				m_sigma->Add(wrap);
+				fset->Add(wrap);
 				m_last = wrap;
 			}
 			else

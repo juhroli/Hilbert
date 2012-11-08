@@ -155,9 +155,9 @@ int main(int argc, char* argv[])
 	*	(P->((Q->(R->Q))->S)) -> (P->S)
 	*	(P->Q) -> ((R->P)->(R->Q))
 	*	(P->~)->(P->Q)
-	*	((P->~)->P) -> P
 	*	((P->~)->(Q->~)) -> (Q->P)
 	*	((F->~)->(G->~))->(((F->~)->G)->F)
+	*	((P->~)->P) -> P //Won't work
 	*	
 	*/
 	if( argc > 1 && (atoi(argv[1]) == 7 || atoi(argv[1]) == 0))
@@ -169,7 +169,8 @@ int main(int argc, char* argv[])
 		alg->SetTask(fset, task);
 		AxiomContainer * axioms = new HilbertAxioms();
 		alg->SetAxioms(axioms);
-		static_cast<Algorithm0*>(alg)->SetMaxLength(14);
+		alg->SetMaxLength(14);
+		static_cast<Algorithm0*>(alg)->SetSigmaLimit(500);
 		alg->Start();
 		cout<<alg->GetResult()<<endl;
 		delete fset;

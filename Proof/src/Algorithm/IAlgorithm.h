@@ -32,7 +32,7 @@ public:
 	virtual string GetResult() = 0;
 
 	void SetMaxLength(unsigned length);
-	bool MPBothWays(IFormula * a, IFormula * b);
+	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset);
 	
 protected:
     AxiomContainer * m_axioms; //axioms to use for the algorithm

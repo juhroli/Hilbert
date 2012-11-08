@@ -70,11 +70,13 @@ namespace AFormulaTable
 		//TODO
 		AddAtomicFormula(new FalseFormula());
 		AddAtomicFormula(new AtomicFormula("F"));
-		AddAtomicFormula(new TempFormula("F"));
 		AddAtomicFormula(new AtomicFormula("G"));
-		AddAtomicFormula(new TempFormula("G"));
 		AddAtomicFormula(new AtomicFormula("H"));
-		AddAtomicFormula(new TempFormula("H"));
+
+		AddAtomicFormula(new TempFormula("a"));
+		AddAtomicFormula(new TempFormula("b"));
+		AddAtomicFormula(new TempFormula("c"));
+		AddAtomicFormula(new TempFormula("d"));
 	}
 
 	void DestroyTable()

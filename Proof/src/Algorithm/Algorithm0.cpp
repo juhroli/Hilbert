@@ -13,8 +13,7 @@ Algorithm0::Algorithm0()
 	: IAlgorithm()
 	, m_sigmaLimit(1000)
 {
-	if(m_sigma == __nullptr)
-		m_sigma = new FormulaSetList();
+	m_sigma = new FormulaSetList();
 }
 
 Algorithm0::~Algorithm0()
@@ -80,7 +79,7 @@ void Algorithm0::Run()
 		*/
 		for(int i = 1; i <= m_axioms->GetSize(); i++)
 		{
-			if(MPBothWays(iter, m_axioms->GetAxiom(i)))
+			if(MPBothWays(iter, m_axioms->GetAxiom(i), sigma))
 				return;
 		}
 
@@ -110,7 +109,7 @@ void Algorithm0::Run()
 		*/
 		do
 		{
-			if(++itS == it || itS == sigma->End())
+			if((!begin && (itS != sigma->End() && ++itS == it)) || itS == sigma->End())
 			{
 				continue;
 			}
@@ -122,11 +121,16 @@ void Algorithm0::Run()
 
 			m_last = new FormulaWrapper(iterS);
 
-			if(MPBothWays(iter, iterS))
+			if(MPBothWays(iter, iterS, sigma))
 				return;
-			
+
+			if(begin)
+				itS++;
+
 		} while(itS != end && itS != sigma->End() && (!m_last->Equals(m_target)
 			|| (!m_last->IsTemp() && !m_last->IsAtomic())));
+
+		it++;
 
 		auto endpp = end;
 		if(it == end && ++endpp != sigma->End())
@@ -135,20 +139,15 @@ void Algorithm0::Run()
 			end++;
 			begin = true;
 		}
-
-		it++;
 	}
 
 	if(m_last->Equals(m_target))
 		m_finished = true;
-
-	if(!m_finished)
+	else if(it == sigma->End() || it == end)
 	{
-		if(it == sigma->End() || it == end)
-		{
-			m_finished = false;
-		}
+		m_finished = false;
 	}
+
 }
 
 void Algorithm0::SetAxioms(AxiomContainer * container)
@@ -158,7 +157,7 @@ void Algorithm0::SetAxioms(AxiomContainer * container)
 
 void Algorithm0::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
-	m_sigma = Sigma;
+	m_sigma->Add(*Sigma);
 	m_target = F->Clone();
 }
 
