@@ -70,7 +70,7 @@ bool AtomicFormula::IsNull()
 	return m_symbol == __nullptr;
 }
 
-IFormula * AtomicFormula::Replace(IFormula& t, IFormula& x)
+IFormula * AtomicFormula::Replace(IFormula * t, IFormula * x)
 {
 	return this;
 }

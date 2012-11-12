@@ -109,8 +109,8 @@ namespace General
 			{
 				for(auto it : uni)
 				{
-					F = static_cast<ImplicationFormula*>(F->Replace(*it.first, *it.second));
-					G = static_cast<ImplicationFormula*>(G->Replace(*it.first, *it.second));
+					F = static_cast<ImplicationFormula*>(F->Replace(it.first, it.second));
+					G = static_cast<ImplicationFormula*>(G->Replace(it.first, it.second));
 				}
 			};
 
@@ -148,7 +148,7 @@ namespace General
 			//If at least one of them is an atomic temp
 			IFormula * F = a;
 			IFormula * G = b;
-			if(F->IsAtomic() && !G->IsTemp() && F->IsTemp())
+			if(F->IsAtomic() && F->IsTemp() && !G->IsTemp())
 			{
 				F = b;
 				G = a;
@@ -158,8 +158,8 @@ namespace General
 			{				
 				//If F doesn't contain G
 				if(ret = !ContainsFormula(F, G))
-					uni.push_back(make_pair(G, F));
-				res = G->Replace(*G, *F);
+					uni.push_back(make_pair(G->Clone(), F->Clone()));
+				res = G->Replace(G, F);
 			}
 			else
 			{
@@ -203,7 +203,7 @@ namespace General
 		{
 			if(!ret->IsTemp())
 				break;
-			ret = ret->Replace(*it.first, *it.second);
+			ret = ret->Replace(it.first, it.second);
 		}
 
 		return ret;

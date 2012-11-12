@@ -16,7 +16,7 @@ public:
 	string ToString();
 	IFormula * Clone();
 	bool IsNull();
-	IFormula * Replace(IFormula& t, IFormula& x);
+	IFormula * Replace(IFormula * t, IFormula * x);
 	unsigned Length();
 	long HashCode();
 
@@ -29,4 +29,5 @@ protected:
 	unsigned m_length;
 	long m_hash;
 	string m_string;
+	bool m_temp;
 };

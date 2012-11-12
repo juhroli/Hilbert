@@ -13,12 +13,13 @@ Algorithm0::Algorithm0()
 	: IAlgorithm()
 	, m_sigmaLimit(1000)
 {
-	m_sigma = new FormulaSetList();
 }
 
 Algorithm0::~Algorithm0()
 {
-
+	DELETEFORMULA(m_target);
+	delete m_sigma;
+	m_sigma = __nullptr;
 }
 
 void Algorithm0::Start()
@@ -48,102 +49,61 @@ void Algorithm0::Run()
 	{
 		return;
 	}
+
+	//Set m_firstEnd to the end after deduction
+	m_firstEnd = sigma->End();
+	--m_firstEnd;
+
+	//Put the axioms into sigma
+	for(int i = 1; i <= m_axioms->GetSize(); i++)
+	{
+		sigma->Add(m_axioms->GetAxiom(i));
+	}
 	
 	list<spIFormula>::iterator it = sigma->Begin();
-	list<spIFormula>::iterator end = sigma->End();
-	if(sigma->Size() > 0 && end != sigma->Begin())
-	{
-		--end;
-		m_firstEnd = end;
-	}
-
-	//Iterate from sigma's beginning in the second loop?
-	bool begin = false;
-
 	m_last = new FormulaWrapper(it->get());
 
-	while(sigma->Size() > 0 && sigma->Size() <= m_sigmaLimit && it != sigma->End() && (!m_last->Equals(m_target)
-		|| (!m_last->IsTemp() && !m_last->IsAtomic())))
+	while(sigma->Size() <= m_sigmaLimit && it != sigma->End() && !m_target->Equals(it->get()))
 	{
-		if(it->get()->Length() > m_maxLength)
+		IFormula * iter = it->get();
+
+		if(iter->Length() > m_maxLength)
 		{
 			it++;
 			continue;
 		}
-
-		IFormula * iter = it->get();
+		
 		m_last = new FormulaWrapper(iter);
 
-		/*
-		*	Iterate through the axioms and try to cut both ways.
-		*/
-		for(int i = 1; i <= m_axioms->GetSize(); i++)
-		{
-			if(MPBothWays(iter, m_axioms->GetAxiom(i), sigma))
-				return;
-		}
-
 		//The 2nd loop's iterator
-		list<spIFormula>::iterator itS;
-
-		/*
-		*	Check if the iterator should be pointed to the beginning.
-		*	After we finish with sigma's original content the
-		*	itS iterator should start from the beginning of sigma
-		*	because the it iterator points to a formula created by
-		*	modus ponens.
-		*/
-		if(begin)
-			itS = sigma->Begin();
-		else
-		{
-			itS = it;
-			if(itS != end && (++itS) == sigma->End())
-				continue;
-			if(itS != sigma->Begin())
-				--itS;
-		}
+		list<spIFormula>::iterator itS = sigma->Begin();
+		list<spIFormula>::iterator end = it;
+		end++;
 
 		/*
 		*	Iterate through the rest of sigma and try to cut both ways.
 		*/
-		do
+		while(itS != end)
 		{
-			if((!begin && (itS != sigma->End() && ++itS == it)) || itS == sigma->End())
-			{
-				continue;
-			}
-
-			if(itS->get()->Length() > m_maxLength)
-				continue;
-
 			IFormula * iterS = itS->get();
+
+			if(iterS->Length() > m_maxLength)
+				continue;
 
 			m_last = new FormulaWrapper(iterS);
 
 			if(MPBothWays(iter, iterS, sigma))
 				return;
 
-			if(begin)
-				itS++;
-
-		} while(itS != end && itS != sigma->End() && (!m_last->Equals(m_target)
-			|| (!m_last->IsTemp() && !m_last->IsAtomic())));
+			itS++;
+		}
 
 		it++;
-
-		auto endpp = end;
-		if(it == end && ++endpp != sigma->End())
-		{
-			end = it;
-			end++;
-			begin = true;
-		}
 	}
 
 	if(m_last->Equals(m_target))
 		m_finished = true;
-	else if(it == sigma->End() || it == end)
+	else if(it == sigma->End())
 	{
 		m_finished = false;
 	}
@@ -157,6 +117,13 @@ void Algorithm0::SetAxioms(AxiomContainer * container)
 
 void Algorithm0::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
+	if(m_sigma != __nullptr)
+	{
+		delete m_sigma;
+		m_sigma = __nullptr;
+	}
+	m_sigma = new FormulaSetList();
+
 	m_sigma->Add(*Sigma);
 	m_target = F->Clone();
 }
@@ -184,8 +151,8 @@ string Algorithm0::GetResult()
 	if(sigma->Size() > 0 && m_firstEnd != sigma->End())
 	{
 		list<spIFormula>::iterator it = sigma->Begin();
-		list<spIFormula>::iterator end = ++m_firstEnd;
-		m_firstEnd--;
+		list<spIFormula>::iterator end = m_firstEnd;
+		end++;
 	
 		stream << "After applying deduction: " << endl << "{ ";
 

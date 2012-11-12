@@ -32,7 +32,7 @@ public:
 	virtual string ToString() = 0;
 	virtual IFormula * Clone() = 0;
 	virtual bool IsNull() = 0;
-	virtual IFormula * Replace(IFormula& t, IFormula& x) = 0;
+	virtual IFormula * Replace(IFormula * t, IFormula * x) = 0;
 	virtual unsigned Length() = 0;
 	virtual long HashCode() = 0;
 };

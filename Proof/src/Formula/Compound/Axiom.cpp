@@ -23,6 +23,7 @@ Axiom::Axiom(Axiom& axiom)
 	m_length = axiom.Length();
 	m_hash = axiom.HashCode();
 	this->m_string = axiom.ToString();
+	this->m_temp = axiom.IsTemp();
 }
 
 IFormula * Axiom::Clone()

@@ -73,9 +73,9 @@ int main(int argc, char* argv[])
 
 		for(int i = 0; i < 100; i++)
 		{
-			IFormula * f1 = ax->Replace(*GetTempFormula("F"), *GetAtomicFormula("F"));
-			IFormula * f2 = f1->Replace(*GetTempFormula("G"), *GetAtomicFormula("G"));
-			IFormula * f3 = f2->Replace(*GetTempFormula("H"), *GetAtomicFormula("H"));
+			IFormula * f1 = ax->Replace(GetTempFormula("F").get(), GetAtomicFormula("F").get());
+			IFormula * f2 = f1->Replace(GetTempFormula("G").get(), GetAtomicFormula("G").get());
+			IFormula * f3 = f2->Replace(GetTempFormula("H").get(), GetAtomicFormula("H").get());
 
 			delete f3;
 			delete f2;
@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
 	*	(P->~)->(P->Q)
 	*	((P->~)->(Q->~)) -> (Q->P)
 	*	((F->~)->(G->~))->(((F->~)->G)->F)
-	*	((P->~)->P) -> P //Won't work
+	*	((P->~)->P) -> P
 	*	
 	*/
 	if( argc > 1 && (atoi(argv[1]) == 7 || atoi(argv[1]) == 0))

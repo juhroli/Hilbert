@@ -54,6 +54,7 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 
 		m_hash = GenerateHashCode(hashStream.str());
 		m_length = m_left->Length() + m_right->Length();
+		m_temp = ( m_left->IsTemp() || m_right->IsTemp() );
 	}
 	else
 	{
@@ -76,6 +77,7 @@ ImplicationFormula::ImplicationFormula(ImplicationFormula& formula)
 	m_length = formula.Length();
 	m_hash = formula.HashCode();
 	m_string = formula.ToString();
+	m_temp = formula.IsTemp();
 }
 
 ImplicationFormula::~ImplicationFormula()
@@ -91,7 +93,7 @@ bool ImplicationFormula::IsAtomic()
 
 bool ImplicationFormula::IsTemp()
 {
-	return ( m_left->IsTemp() || m_right->IsTemp() );
+	return m_temp;
 }
 
 bool ImplicationFormula::Eval()
@@ -101,7 +103,6 @@ bool ImplicationFormula::Eval()
 
 bool ImplicationFormula::Equals(IFormula * formula)
 {
-	//TODO: check for temp formulas -> unification
 	if(!formula || formula->IsAtomic())
 		return false;
 
@@ -123,9 +124,12 @@ bool ImplicationFormula::IsNull()
 	return m_left == __nullptr || m_right == __nullptr;
 }
 
-IFormula * ImplicationFormula::Replace(IFormula& t, IFormula& x)
+IFormula * ImplicationFormula::Replace(IFormula * t, IFormula * x)
 {
-	if(t.IsTemp() && t.IsAtomic())
+	if(t == __nullptr || x == __nullptr)
+		return this;
+
+	if(this->IsTemp() && t->IsTemp() && t->IsAtomic())
 		return new ImplicationFormula(this->GetLeftSub()->Replace(t, x), this->GetRightSub()->Replace(t, x));
 	return this;
 }
