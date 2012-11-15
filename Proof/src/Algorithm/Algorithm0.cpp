@@ -157,7 +157,8 @@ string Algorithm0::GetResult()
 		stream << "After applying deduction: " << endl << "{ ";
 
 		do {
-			stream << (it++)->get()->ToString() << ((it != m_firstEnd) ? ", " : "");
+			stream << (it++)->get()->ToString();
+			stream << ((it != end) ? ", " : "");
 		} while(it != end);
 		stream<<" } ";
 	}
