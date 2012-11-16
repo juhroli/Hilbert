@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IAlgorithm.h"
+#include "AlgorithmBase.h"
 
 class FormulaWrapper;
 
 /*
 *
 */
-class Algorithm0 : public IAlgorithm
+class Algorithm0 : public AlgorithmBase
 {
 public:
 	Algorithm0();

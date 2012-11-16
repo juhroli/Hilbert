@@ -1,16 +1,12 @@
 #include "Algorithm0.h"
 #include "General.h"
 #include "../Formula/Containers/Sets/FormulaSetList.h"
-#include "../Formula/Containers/Sets/FormulaSetVector.h"
-#include "../Formula/Compound/ImplicationFormula.h"
-#include "../Formula/Containers/AFormulaTable.h"
 
 using namespace General;
-using namespace AFormulaTable;
 using std::endl;
 
 Algorithm0::Algorithm0()
-	: IAlgorithm()
+	: AlgorithmBase()
 	, m_sigmaLimit(1000)
 {
 }
@@ -171,12 +167,59 @@ string Algorithm0::GetResult()
 		[&] (IFormula * a)
 		{
 			FormulaWrapper * F = dynamic_cast<FormulaWrapper*>(a);
+			FormulaWrapper * first = __nullptr;
+			FormulaWrapper * second = __nullptr;
+			FormulaWrapper * wrap = __nullptr;
+
+			replaces rep;
+			if(a->IsAtomic() && a->IsTemp())
+			{
+				rep.push_back(make_pair(F->GetThis(), m_target));
+			}
+
 			if(F != nullptr)
 			{
-				add(F->GetOrigin().first);
-				add(F->GetOrigin().second);
-				fset.Add(sigma->Get(F->HashCode()));
+				F->AddReplaces(rep);
+				first = dynamic_cast<FormulaWrapper*>(F->GetOrigin().first);
+				if(F->GetOrigin().first != __nullptr)
+				{
+					
+					if(first == __nullptr)
+					{
+						first = new FormulaWrapper(F->GetOrigin().first->Clone());
+					}
+
+					if(first->IsAxiom() || !first->IsFromSigma())
+						first->AddReplaces(F->GetReplaces());
+					add(first);
+					
+				}
+				second = dynamic_cast<FormulaWrapper*>(F->GetOrigin().second);
+				if(F->GetOrigin().second != __nullptr)
+				{
+					
+					if(second == __nullptr)
+					{
+						second = new FormulaWrapper(F->GetOrigin().second->Clone());
+					}
+
+					if(second->IsAxiom() || !second->IsFromSigma())
+						second->AddReplaces(F->GetReplaces());
+					add(second);
+				}
+				if(first != __nullptr && second != __nullptr)
+					wrap = new FormulaWrapper(F->Clone(), make_pair(first, second), F->GetReplaces());
+				else
+				{
+					wrap = new FormulaWrapper(F->Clone(), F->GetReplaces());
+				}
 			}
+			else
+			{
+				wrap = new FormulaWrapper(a->Clone(), rep);
+			}
+			
+			fset.Add(wrap);
 	
 		};
 
@@ -189,15 +232,24 @@ string Algorithm0::GetResult()
 	for(auto it = fset.Begin(); it != fset.End(); it++, i++)
 	{
 		FormulaWrapper * F = dynamic_cast<FormulaWrapper*>(it->get());
+
+		//First normalize the replaces
+		if(F != __nullptr)
+		{
+			NormalizeReplaces(F->GetReplaces());
+		}
+
 		stream<<i<<". ";
 		if(F == __nullptr)
-			stream<<it->get()->ToString()<<"    (in Sigma)"<<endl<<endl;
+			stream<<F->ToString()<<"    (in Sigma)"<<F->GetReplacesString()<<endl<<endl;
 		else if(F->IsFromSigma())
-			stream<<F->ToString()<<"    "<<F->GetReplaces()<<endl<<endl;
+			stream<<F->ToString()<<"    from Sigma"<<F->GetReplacesString()<<endl<<endl;
+		else if(F->IsAxiom())
+			stream<<ReplaceAll(F, F->GetReplaces())->ToString()<<"    Axiom: "<<F->ToString()<<" "<<F->GetReplacesString()<<endl<<endl;
 		else if(!F->Equals(m_last) || !F->IsTemp())
-			stream<<F->ToString()<<"    : Cut "<<F->GetOrigin().second->ToString()<<" with "<<F->GetOrigin().first->ToString()<<" "<<F->GetReplaces()<<endl<<endl;
+			stream<<ReplaceAll(F, F->GetReplaces())->ToString()<<"    : Cut "<<ReplaceAll(F->GetOrigin().second, F->GetReplaces())->ToString()<<" with "<<ReplaceAll(F->GetOrigin().first, F->GetReplaces())->ToString()<<endl<<endl;
 		else
-			stream<<m_target->ToString()<<"    : Cut "<<F->GetOrigin().second->ToString()<<" with "<<F->GetOrigin().first->ToString()<<" "<<F->GetReplaces()<<"["<<F->ToString()<<"/"<<m_target->ToString()<<"]"<<endl<<endl;
+			stream<<m_target->ToString()<<"    : Cut "<<F->GetOrigin().second->ToString()<<" with "<<F->GetOrigin().first->ToString()<<"["<<F->ToString()<<"/"<<m_target->ToString()<<"]"<<endl<<endl;
 	}
 
 	return stream.str();

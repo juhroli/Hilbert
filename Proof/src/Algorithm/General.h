@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include <vector>
+#include <list>
 
 class IFormula;
 class ImplicationFormula;
 class IFormulaSet;
-class IAlgorithm;
+class AlgorithmBase;
 
 using namespace std;
 
@@ -16,7 +16,7 @@ namespace General
 		ALG_0
 	};
 
-	typedef vector<pair<IFormula*, IFormula*>> replaces;
+	typedef list<pair<IFormula*, IFormula*>> replaces;
 
 	bool MP(IFormula * f, ImplicationFormula * impF, IFormula*& res);
 	bool Deduction(IFormula * f, IFormulaSet * sigma, IFormula*& res);
@@ -24,6 +24,7 @@ namespace General
 	bool Unification(IFormula * a, IFormula * b, IFormula*& res);
 	IFormula * ReplaceAll(IFormula * formula, replaces& rep);
 	bool ContainsFormula(IFormula * f, IFormula * g);
+	void NormalizeReplaces(replaces& rep);
 
-	IAlgorithm * Create(AlgorithmType type);
+	AlgorithmBase * Create(AlgorithmType type);
 }

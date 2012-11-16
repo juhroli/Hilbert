@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClInclude Include="src\Algorithm\Algorithm0.h" />
     <ClInclude Include="src\Algorithm\General.h" />
-    <ClInclude Include="src\Algorithm\IAlgorithm.h" />
+    <ClInclude Include="src\Algorithm\AlgorithmBase.h" />
     <ClInclude Include="src\Formula\Atomic\AtomicFormula.h" />
     <ClInclude Include="src\Formula\Atomic\FalseFormula.h" />
     <ClInclude Include="src\Formula\Atomic\TempFormula.h" />
@@ -40,7 +40,7 @@
     <ClInclude Include="src\Input\FormulaParser.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Algorithm\Algorithm.cpp" />
+    <ClCompile Include="src\Algorithm\AlgorithmBase.cpp" />
     <ClCompile Include="src\Algorithm\Algorithm0.cpp" />
     <ClCompile Include="src\Algorithm\General.cpp" />
     <ClCompile Include="src\Formula\Atomic\AtomicFormula.cpp" />

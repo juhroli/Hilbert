@@ -5,7 +5,7 @@
 #include "../Formula/Compound/ImplicationFormula.h"
 #include "../Formula/Containers/Sets/IFormulaSet.h"
 #include "../Formula/Containers/FormulaWrapper.h"
-#include "IAlgorithm.h"
+#include "AlgorithmBase.h"
 
 /*	Put algorithm headers here.	*/
 #include "Algorithm0.h"
@@ -212,7 +212,7 @@ namespace General
 	/*
 	*	Create an algorithm instance.
 	*/
-	IAlgorithm * Create(AlgorithmType type)
+	AlgorithmBase * Create(AlgorithmType type)
 	{
 		switch(type)
 		{
@@ -240,4 +240,71 @@ namespace General
 		return ContainsFormula(static_cast<ImplicationFormula*>(f)->GetLeftSub(), g)
 			|| ContainsFormula(static_cast<ImplicationFormula*>(f)->GetRightSub(), g);
 	};
+
+	/*
+	*	Normalize replaces:
+	*	If there is a [a/c] [c/F] like replace, where
+	*	a and c are temps, and F is a formula then
+	*	transform it into: [a/F] [c/F].
+	*	And checks if rep has a
+	*	[a/b->G] like and a [b/F] like replace
+	*	and then transforms it into [a/F->G].
+	*/
+	void NormalizeReplaces(replaces& rep)
+	{
+		if(rep.size() == 1)
+			return;
+
+		replaces::iterator it = rep.begin();
+		while(it != rep.end())
+		{
+			if(it->second->IsTemp())
+			{
+				replaces::iterator it2 = rep.begin();
+				replaces::iterator it3 = rep.end();
+				while(it2 != rep.end() && it3 != rep.begin())
+				{
+					//Normalize the chain replaces
+					if(it != it2 && it->second->Equals(it2->first))
+					{
+						it->second = it2->second->Clone();
+					}
+
+					--it3;
+
+					if(it3 != it && ContainsFormula(it->second, it3->first))
+					{
+						it->second = it->second->Replace(it3->first, it3->second);
+					}
+					
+					it2++;
+				}
+			}
+			it++;
+		}
+
+		/*
+		*	Erase multiple replaces.
+		*	Example: [a/F] [b/G] [a/H] will be
+		*	[a/F] [b/G].
+		*/
+		it = rep.begin();
+		while(it != rep.end())
+		{
+			replaces::iterator it2 = rep.begin();
+			while(it2 != rep.end())
+			{
+				if(it != it2 && it->first->Equals(it2->first))
+				{
+					auto erase = it2;
+					if(it2 != rep.end())
+						it2++;
+					rep.erase(erase);
+				}
+				else
+					it2++;
+			}
+			it++;
+		}
+	}
 }

@@ -72,9 +72,6 @@
     <ClInclude Include="src\Algorithm\General.h">
       <Filter>Source Files\Algorithm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Algorithm\IAlgorithm.h">
-      <Filter>Source Files\Algorithm</Filter>
-    </ClInclude>
     <ClInclude Include="src\Formula\Containers\FormulaWrapper.h">
       <Filter>Source Files\Formula\Containers</Filter>
     </ClInclude>
@@ -91,6 +88,9 @@
       <Filter>Source Files\Formula\Containers\Sets</Filter>
     </ClInclude>
     <ClInclude Include="src\Algorithm\Algorithm0.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithm\AlgorithmBase.h">
       <Filter>Source Files\Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,10 +134,10 @@
     <ClCompile Include="src\Formula\Containers\Sets\FormulaSetVector.cpp">
       <Filter>Source Files\Formula\Containers\Sets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Algorithm\Algorithm.cpp">
+    <ClCompile Include="src\Algorithm\Algorithm0.cpp">
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="src\Algorithm\Algorithm0.cpp">
+    <ClCompile Include="src\Algorithm\AlgorithmBase.cpp">
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>

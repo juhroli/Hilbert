@@ -1,4 +1,4 @@
-#include "IAlgorithm.h"
+#include "AlgorithmBase.h"
 #include "General.h"
 #include<functional>
 
@@ -16,7 +16,7 @@ using namespace General;
 *
 *	returns true if the target or a temp atomic formula was found
 */
-bool IAlgorithm::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
+bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
 {
 	if(a == __nullptr || b == __nullptr || fset == __nullptr)
 		return false;
@@ -108,7 +108,7 @@ bool IAlgorithm::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
 		|| uniMP(make_pair(b, bWrapper), bImpl, bLeft, make_pair(a, aWrapper));
 }
 
-void IAlgorithm::SetMaxLength(unsigned length)
+void AlgorithmBase::SetMaxLength(unsigned length)
 {
 	m_maxLength = length;
 }

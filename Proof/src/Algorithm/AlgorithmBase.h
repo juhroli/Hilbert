@@ -10,10 +10,10 @@
 /*
 *	Base class of the algorithms.
 */
-class IAlgorithm
+class AlgorithmBase
 {
 public:
-	IAlgorithm()
+	AlgorithmBase()
 		: m_axioms(__nullptr)
 		, m_mpResults(__nullptr)
 		, m_target(__nullptr)
@@ -23,7 +23,7 @@ public:
 		, m_maxLength(20)
 	{
 	}
-	virtual ~IAlgorithm() {}
+	virtual ~AlgorithmBase() {}
 	virtual void Start() = 0;
 	virtual void Run() = 0;
 	virtual void SetAxioms(AxiomContainer * container) = 0;

@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
 	*/
 	if( argc > 1 && (atoi(argv[1]) == 7 || atoi(argv[1]) == 0))
 	{
-		IAlgorithm * alg = Create(ALG_0);
+		AlgorithmBase * alg = Create(ALG_0);
 		IFormulaSet * fset = new FormulaSetList();
 		IFormula * task = ParseFormula(argv[2]);
 		cout<<"The task:"<<endl<<"|- "<<task->ToString()<<endl<<endl;
