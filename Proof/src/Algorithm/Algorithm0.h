@@ -1,5 +1,7 @@
-#pragma once
+#ifndef Algorithm0_h
+#define Algorithm0_h
 
+#include "../HilbertIncludes.h"
 #include "AlgorithmBase.h"
 
 class FormulaWrapper;
@@ -24,3 +26,5 @@ private:
 	list<spIFormula>::iterator m_firstEnd; //iterator to sigma's end after deduction
 	unsigned m_sigmaLimit; //limit sigma's size
 };
+
+#endif

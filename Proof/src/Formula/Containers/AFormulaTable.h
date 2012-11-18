@@ -1,10 +1,12 @@
-#pragma once
+#ifndef AFormulaTable_h
+#define AFormulaTable_h
 
+#include "../../HilbertIncludes.h"
 #include "../Atomic/AtomicFormula.h"
 #include "../Atomic/TempFormula.h"
-#include <hash_map>
+#include <unordered_map>
 
-using std::hash_map;
+using std::unordered_map;
 using std::static_pointer_cast;
 
 /*
@@ -12,8 +14,6 @@ using std::static_pointer_cast;
 */
 namespace AFormulaTable
 {
-	
-
 	spAtomicFormula GetAtomicFormula(char * symbol);
 	spTempFormula GetTempFormula(char * symbol);
 	spAtomicFormula GetAtomicFormula(long hash);
@@ -25,6 +25,8 @@ namespace AFormulaTable
 	void DestroyTable();
 	string ListAtomicFormulas();
 
-	hash_map<long, spAtomicFormula>::iterator TableBegin();
-	hash_map<long, spAtomicFormula>::iterator TableEnd();
+	unordered_map<long, spAtomicFormula>::iterator TableBegin();
+	unordered_map<long, spAtomicFormula>::iterator TableEnd();
 }
+
+#endif

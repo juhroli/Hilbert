@@ -1,5 +1,7 @@
-#pragma once
+#ifndef IFormulaSet_h
+#define IFormulaSet_h
 
+#include "../../../HilbertIncludes.h"
 #include <unordered_map>
 #include "../../IFormula.h"
 
@@ -25,3 +27,5 @@ public:
 protected:
 	unordered_map<long, spIFormula> m_formulaMap;
 };
+
+#endif

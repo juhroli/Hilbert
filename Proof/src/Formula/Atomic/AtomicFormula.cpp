@@ -1,7 +1,8 @@
+#include "../../HilbertIncludes.h"
 #include "AtomicFormula.h"
 
 AtomicFormula::AtomicFormula()
-	: m_symbol(__nullptr)
+	: m_symbol(nullptr)
 	, m_value(true)
 	, m_hash(0)
 {
@@ -11,7 +12,11 @@ AtomicFormula::AtomicFormula(char * symbol)
 	: m_value(true)
 {
 	m_symbol = new char[strlen(symbol) + 1];
+#ifdef _MSC_VER
 	strcpy_s(m_symbol, strlen(symbol) + 1, symbol);
+#else
+	strcpy(m_symbol, symbol);
+#endif
 	//Generate hash code
 	m_hash = GenerateHashCode(m_symbol);
 }
@@ -25,10 +30,10 @@ AtomicFormula::AtomicFormula(AtomicFormula& formula)
 
 AtomicFormula::~AtomicFormula()
 {
-	if(m_symbol != __nullptr)
+	if(m_symbol != nullptr)
 	{
 		delete[] m_symbol;
-		m_symbol = __nullptr;
+		m_symbol = nullptr;
 	}
 }
 
@@ -67,7 +72,7 @@ IFormula * AtomicFormula::Clone()
 
 bool AtomicFormula::IsNull()
 {
-	return m_symbol == __nullptr;
+	return m_symbol == nullptr;
 }
 
 IFormula * AtomicFormula::Replace(IFormula * t, IFormula * x)

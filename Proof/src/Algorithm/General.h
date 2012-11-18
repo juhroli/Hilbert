@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef General_h
+#define General_h
 
 #include <list>
 
@@ -28,3 +29,5 @@ namespace General
 
 	AlgorithmBase * Create(AlgorithmType type);
 }
+
+#endif

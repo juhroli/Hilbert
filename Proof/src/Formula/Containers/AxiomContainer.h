@@ -1,5 +1,7 @@
-#pragma once
+#ifndef AxiomContainer_h
+#define AxiomContainer_h
 
+#include "../../HilbertIncludes.h"
 #include "../Compound/Axiom.h"
 #include <vector>
 
@@ -18,3 +20,5 @@ public:
 protected:
 	vector<Axiom*> m_axioms;
 };
+
+#endif

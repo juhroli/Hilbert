@@ -1,4 +1,5 @@
-﻿#include "General.h"
+﻿#include "../HilbertIncludes.h"
+#include "General.h"
 
 #include<functional>
 #include "../Formula/IFormula.h"
@@ -21,9 +22,9 @@ namespace General
 	*/
 	bool MP(IFormula * f, ImplicationFormula * impF, IFormula*& res)
 	{
-		if(f == __nullptr || impF == __nullptr)
+		if(f == nullptr || impF == nullptr)
 		{
-			res = __nullptr;
+			res = nullptr;
 			return false;
 		}
 
@@ -32,7 +33,7 @@ namespace General
 		if(ret = f->Equals(impF->GetLeftSub()))
 			res = impF->GetRightSub()->Clone();
 		else
-			res = __nullptr;
+			res = nullptr;
 
 		return ret;
 	}
@@ -44,9 +45,9 @@ namespace General
 	*/
 	bool Deduction(IFormula * f, IFormulaSet * sigma, IFormula*& res)
 	{
-		if(f == __nullptr || sigma == __nullptr)
+		if(f == nullptr || sigma == nullptr)
 		{
-			res = __nullptr;
+			res = nullptr;
 			return false;
 		}
 
@@ -58,7 +59,7 @@ namespace General
 			return true;
 		}
 
-		res = __nullptr;
+		res = nullptr;
 
 		return false;
 	}
@@ -75,9 +76,9 @@ namespace General
 	*/
 	bool Unification(IFormula * a, IFormula * b, IFormula*& res, replaces& uni)
 	{
-		if(a == __nullptr || b == __nullptr)
+		if(a == nullptr || b == nullptr)
 		{
-			res = __nullptr;
+			res = nullptr;
 			return false;
 		}
 
@@ -94,7 +95,7 @@ namespace General
 		{
 			if(!a->IsTemp() && !b->IsTemp())
 			{
-				res = __nullptr;
+				res = nullptr;
 				return false;
 			}
 
@@ -136,7 +137,7 @@ namespace General
 
 			//If the result F and G contains null, set ret to false and res to nullptr
 			if(!(ret = !F->IsNull() && !G->IsNull()))
-				res = __nullptr;
+				res = nullptr;
 			else if(ret = F->Equals(G))
 				res = F->Clone(); //If F equals G the result is the clone of F
 			
@@ -163,7 +164,7 @@ namespace General
 			}
 			else
 			{
-				res = __nullptr;
+				res = nullptr;
 				ret = false;
 			}
 		}
@@ -182,9 +183,9 @@ namespace General
 	*/
 	bool Unification(IFormula * a, IFormula * b, IFormula*& res)
 	{
-		res = __nullptr;
+		res = nullptr;
 
-		if(a == __nullptr || b == __nullptr)
+		if(a == nullptr || b == nullptr)
 			return false;
 
 		replaces uni;
@@ -219,7 +220,7 @@ namespace General
 		case ALG_0:
 			return new Algorithm0();
 		}
-		return __nullptr;
+		return nullptr;
 	}
 
 	/*
@@ -234,7 +235,7 @@ namespace General
 
 		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(f);
 
-		if(wrap != __nullptr)
+		if(wrap != nullptr)
 			f = wrap->GetThis();
 
 		return ContainsFormula(static_cast<ImplicationFormula*>(f)->GetLeftSub(), g)

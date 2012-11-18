@@ -3,14 +3,14 @@
 
 namespace AFormulaTable
 {
-	static hash_map<long, spAtomicFormula> table;
-	static hash_map<string, long> charTable;
+	static unordered_map<long, spAtomicFormula> table;
+	static unordered_map<string, long> charTable;
 
 	spAtomicFormula GetAtomicFormula(char * symbol)
 	{
-		hash_map<string, long>::iterator it = charTable.find(symbol);
+		unordered_map<string, long>::iterator it = charTable.find(symbol);
 		if(it == charTable.end())
-			return __nullptr;
+			return nullptr;
 		return table[ it->second ];
 	}
 
@@ -20,7 +20,12 @@ namespace AFormulaTable
 		stream<<'_'<<symbol<<'\0';
 		int len = stream.str().length();
 		symbol = new char[len];
+
+#ifdef _MSC_VER
 		strcpy_s(symbol, len, stream.str().c_str());
+#else
+		strcpy(symbol, stream.str().c_str());
+#endif
 
 		return static_pointer_cast<TempFormula>(GetAtomicFormula(symbol));
 	}
@@ -34,7 +39,7 @@ namespace AFormulaTable
 	{
 		spAtomicFormula ret = GetAtomicFormula(formula->GetSymbol());
 
-		if(ret == __nullptr)
+		if(ret == nullptr)
 		{
 			long hash = formula->HashCode();
 			ret = spAtomicFormula(formula);
@@ -49,7 +54,7 @@ namespace AFormulaTable
 	{
 		spAtomicFormula ret = GetAtomicFormula(symbol);
 
-		if(ret == __nullptr)
+		if(ret == nullptr)
 			ret = AddAtomicFormula(new AtomicFormula(symbol));
 
 		return ret;
@@ -59,7 +64,7 @@ namespace AFormulaTable
 	{
 		spAtomicFormula ret = GetTempFormula(symbol);
 
-		if(ret == __nullptr)
+		if(ret == nullptr)
 			ret = AddAtomicFormula(new TempFormula(symbol));
 
 		return static_pointer_cast<TempFormula>(ret);
@@ -96,12 +101,12 @@ namespace AFormulaTable
 		return stream.str();
 	}
 
-	hash_map<long, spAtomicFormula>::iterator TableBegin()
+	unordered_map<long, spAtomicFormula>::iterator TableBegin()
 	{
 		return table.begin();
 	}
 
-	hash_map<long, spAtomicFormula>::iterator TableEnd()
+	unordered_map<long, spAtomicFormula>::iterator TableEnd()
 	{
 		return table.end();
 	}

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Axiom_h
+#define Axiom_h
 
 #include "ImplicationFormula.h"
 
@@ -12,3 +13,5 @@ public:
 
 	IFormula * Clone();
 };
+
+#endif

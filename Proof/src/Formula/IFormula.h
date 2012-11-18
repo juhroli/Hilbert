@@ -1,20 +1,23 @@
-#pragma once
+#ifndef IFormula_h
+#define IFormula_h
 
 #include "../HilbertIncludes.h"
 #include <sstream>
 #include <locale>
+#include <cstring>
 
 using std::locale;
 using std::collate;
 using std::use_facet;
 using std::stringstream;
 using std::string;
+using std::strlen;
 
 static long GenerateHashCode(string str)
 {
 	static locale loc;
 	static const collate<char>& coll = use_facet<collate<char>>(loc);
-	return coll.hash(str.data(), str.end()._Ptr);
+	return coll.hash(str.data(), &*str.end());
 }
 
 
@@ -36,3 +39,5 @@ public:
 	virtual unsigned Length() = 0;
 	virtual long HashCode() = 0;
 };
+
+#endif

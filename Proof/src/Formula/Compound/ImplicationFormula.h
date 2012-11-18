@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ImplicationFormula_h
+#define ImplicationFormula_h
 
 #include "../IFormula.h"
 
@@ -31,3 +32,5 @@ protected:
 	string m_string;
 	bool m_temp;
 };
+
+#endif

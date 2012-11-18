@@ -1,10 +1,11 @@
-#pragma once
+#ifndef FormulaSetList_h
+#define FormulaSetList_h
 
-#include <ppl.h>
-#include <list>
+#include "../../../HilbertIncludes.h"
 #include "IFormulaSet.h"
+#include <list>
 
-using namespace concurrency;
+using std::list;
 
 /*
 *	Advantage of using list: if an item is added to
@@ -32,3 +33,5 @@ public:
 private:
 	list<spIFormula> m_formulas;
 };
+
+#endif

@@ -3,7 +3,21 @@ Implementation of Hilbert calculus
 Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. At the moment there is only one algorithm to use.
 
 This project is made in Visual Studio 2012.
-Linux/gcc support coming soon.
+
+Linux support is added!
+Tested with gcc 4.6.3
+
+How to compile (with static library):
+
+	First cd to Proof/src then use this command to create the objects:
+	g++ -std=c++0x -c Formula/Atomic/*.cpp Formula/Compound/*.cpp Formula/Containers/*.cpp Formula/Containers/Sets/*.cpp Input/*.cpp Algorithm/*.cpp
+
+	Then to create the library:
+	ar rcs libproof.a *.o
+
+	Linking is simple, for example:
+	g++ -std=c++0x Main.cpp -L. -lproof -o ProofTest
+
 
 Some examples of proofs made by the lib using the axioms:
 1. (a -> (b -> c)) -> ((a -> b) -> (a -> c))

@@ -5,15 +5,17 @@
 using General::ContainsFormula;
 
 FormulaWrapper::FormulaWrapper()
-	: m_this(__nullptr)
-	, m_origin(make_pair(__nullptr, __nullptr))
+	: m_this(nullptr)
+	, m_origin(make_pair(nullptr, nullptr))
 	, m_fromSigma(false)
+	, m_isAxiom(false)
+	, m_hash(0)
 {
 }
 
 FormulaWrapper::FormulaWrapper(IFormula * thisF)
 	: m_this(thisF)
-	, m_origin(make_pair(__nullptr, __nullptr))
+	, m_origin(make_pair(nullptr, nullptr))
 	, m_fromSigma(true)
 {
 	if( (m_isAxiom = thisF->IsTemp() && !thisF->IsAtomic()) )
@@ -24,7 +26,7 @@ FormulaWrapper::FormulaWrapper(IFormula * thisF)
 
 FormulaWrapper::FormulaWrapper(IFormula * thisF, replaces rep)
 	: m_this(thisF)
-	, m_origin(make_pair(__nullptr, __nullptr))
+	, m_origin(make_pair(nullptr, nullptr))
 	, m_replaces(rep)
 	, m_fromSigma(true)
 {

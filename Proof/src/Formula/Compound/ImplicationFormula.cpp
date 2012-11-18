@@ -1,9 +1,10 @@
+#include "../../HilbertIncludes.h"
 #include "ImplicationFormula.h"
 #include "../Atomic/AtomicFormula.h"
 
 ImplicationFormula::ImplicationFormula()
-	: m_left(__nullptr)
-	, m_right(__nullptr)
+	: m_left(nullptr)
+	, m_right(nullptr)
 	, m_length(0)
 	, m_hash(0)
 {
@@ -13,7 +14,7 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 	: m_left(left)
 	, m_right(right)
 {
-	if(m_left != __nullptr && m_right != __nullptr)
+	if(m_left != nullptr && m_right != nullptr)
 	{
 		/* ==== Create the string of the formula ==== */
 		stringstream stream;
@@ -69,9 +70,9 @@ ImplicationFormula::ImplicationFormula(ImplicationFormula& formula)
 	m_left = formula.GetLeftSub();
 	m_right = formula.GetRightSub();
 
-	if(m_left != __nullptr && !m_left->IsAtomic())
+	if(m_left != nullptr && !m_left->IsAtomic())
 		m_left = m_left->Clone();
-	if(m_right != __nullptr && !m_right->IsAtomic())
+	if(m_right != nullptr && !m_right->IsAtomic())
 		m_right = m_right->Clone();
 
 	m_length = formula.Length();
@@ -121,12 +122,12 @@ IFormula * ImplicationFormula::Clone()
 
 bool ImplicationFormula::IsNull()
 {
-	return m_left == __nullptr || m_right == __nullptr;
+	return m_left == nullptr || m_right == nullptr;
 }
 
 IFormula * ImplicationFormula::Replace(IFormula * t, IFormula * x)
 {
-	if(t == __nullptr || x == __nullptr)
+	if(t == nullptr || x == nullptr)
 		return this;
 
 	if(this->IsTemp() && t->IsTemp() && t->IsAtomic())

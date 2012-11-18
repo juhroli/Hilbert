@@ -36,9 +36,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\HilbertIncludes.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Input\FormulaParser.h">
       <Filter>Source Files\Input</Filter>
     </ClInclude>
@@ -92,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="src\Algorithm\AlgorithmBase.h">
       <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HilbertIncludes.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

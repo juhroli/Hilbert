@@ -13,11 +13,11 @@ void FormulaSetVector::Add(IFormula * formula)
 {
 	long hash = formula->HashCode();
 
-	if(m_formulaMap[hash] == __nullptr)
+	if(m_formulaMap[hash] == nullptr)
 	{
 		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula);
 		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == __nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
+			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
 		m_formulas.push_back(m_formulaMap[hash]);
 	}
 }
@@ -36,11 +36,11 @@ void FormulaSetVector::AddFormula(spIFormula formula)
 {
 	long hash = formula->HashCode();
 
-	if(m_formulaMap[hash] == __nullptr)
+	if(m_formulaMap[hash] == nullptr)
 	{
 		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula.get());
 		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == __nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
+			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
 		m_formulas.push_back(m_formulaMap[hash]);
 	}
 }
@@ -50,10 +50,12 @@ void FormulaSetVector::AddFormula(spIFormula formula)
 */
 void FormulaSetVector::SortFormulas()
 {
+#ifdef _MSC_VER
 	parallel_radixsort(begin(m_formulas), end(m_formulas),
 		[](spIFormula f) -> unsigned {
 			return f->Length();
 		});
+#endif
 }
 
 vector<spIFormula>::iterator FormulaSetVector::Begin()
@@ -73,7 +75,7 @@ unsigned FormulaSetVector::Size()
 
 bool FormulaSetVector::Contains(long hash)
 {
-	return m_formulaMap[hash] != __nullptr;
+	return m_formulaMap[hash] != nullptr;
 }
 
 spIFormula FormulaSetVector::Get(long hash)

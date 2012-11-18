@@ -27,5 +27,5 @@ Axiom * HilbertAxioms::GetAxiom(unsigned index)
 	{
 		return new Axiom( *m_axioms[index-1] );
 	}
-	return __nullptr;
+	return nullptr;
 }

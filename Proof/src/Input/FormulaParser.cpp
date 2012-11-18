@@ -13,11 +13,11 @@ namespace FormulaParser
 	*/
 	IFormula * ParseFormula(string str)
 	{
-		string::iterator& it = str.begin();
-		string::iterator& end = str.end();
+		string::iterator it = str.begin();
+		string::iterator end = str.end();
 
 		IFormula * ret = ReadFormula(it, end, false);
-		return (it == end ? ret : __nullptr);
+		return (it == end ? ret : nullptr);
 	}
 	
 	/*
@@ -25,11 +25,11 @@ namespace FormulaParser
 	*/
 	IFormula * ParseTemp(string str)
 	{
-		string::iterator& it = str.begin();
-		string::iterator& end = str.end();
+		string::iterator it = str.begin();
+		string::iterator end = str.end();
 
 		IFormula * ret = ReadFormula(it, end, true);
-		return (it == end ? ret : __nullptr);
+		return (it == end ? ret : nullptr);
 	}
 	
 	/*
@@ -46,11 +46,11 @@ namespace FormulaParser
 		{
 			it++;
 			if(it != end && *it != '>')
-				return __nullptr;
+				return nullptr;
 			IFormula * right = ReadFormula(++it, end, temp);
 
 			if(!right)	//Something's not right here...
-				return __nullptr;
+				return nullptr;
 
 			ret = (temp ? new Axiom(ret, right) : new ImplicationFormula(ret, right));
 		}
@@ -66,7 +66,7 @@ namespace FormulaParser
 		{
 			it++;
 		}
-		if(it == end) return __nullptr;
+		if(it == end) return nullptr;
 		char ch = *(it++);
 		
 		
@@ -77,7 +77,7 @@ namespace FormulaParser
 		{
 			IFormula * ret = ReadFormula(it, end, temp);
 			ch = *(it++);
-			return (ch == ')' ? ret : __nullptr);
+			return (ch == ')' ? ret : nullptr);
 		}
 
 		if(ch == '_' || (ch >= '0' && ch <= '9')
@@ -94,14 +94,19 @@ namespace FormulaParser
 
 			int len = stream.str().length();
 			char * cStr = new char[len];
+
+#ifdef _MSC_VER
 			strcpy_s(cStr, len, stream.str().c_str());
+#else
+			strcpy(cStr, stream.str().c_str());
+#endif
 
 			IFormula * ret = (temp ? AddTempFormula(cStr).get() : AddAtomicFormula(cStr).get());
 			delete[] cStr;
 			return ret;
 		}
 		
-		return __nullptr;
+		return nullptr;
 	}
  
 }

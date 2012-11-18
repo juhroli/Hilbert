@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AtomicFormula_h
+#define AtomicFormula_h
 
 #include "../IFormula.h"
 
@@ -30,3 +31,5 @@ protected:
 	bool m_value;
 	long m_hash;
 };
+
+#endif

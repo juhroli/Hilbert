@@ -18,15 +18,15 @@ using namespace General;
 */
 bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
 {
-	if(a == __nullptr || b == __nullptr || fset == __nullptr)
+	if(a == nullptr || b == nullptr || fset == nullptr)
 		return false;
 
 	/* ===== Initialization ===== */
-	ImplicationFormula * bImpl = __nullptr;
-	IFormula * bLeft = __nullptr;
+	ImplicationFormula * bImpl = nullptr;
+	IFormula * bLeft = nullptr;
 	FormulaWrapper * bWrapper = dynamic_cast<FormulaWrapper*>(b);
 
-	if(bWrapper != __nullptr)
+	if(bWrapper != nullptr)
 	{
 		b = bWrapper->GetThis();
 	}
@@ -37,11 +37,11 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
 		bLeft = bImpl->GetLeftSub();
 	}
 
-	ImplicationFormula * aImpl = __nullptr;
-	IFormula * aLeft = __nullptr;
+	ImplicationFormula * aImpl = nullptr;
+	IFormula * aLeft = nullptr;
 	FormulaWrapper * aWrapper = dynamic_cast<FormulaWrapper*>(a);
 
-	if(aWrapper != __nullptr)
+	if(aWrapper != nullptr)
 	{
 		a = aWrapper->GetThis();
 	}
@@ -81,7 +81,7 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
 	std::function<bool (pair<IFormula *, FormulaWrapper*>, ImplicationFormula*, IFormula*, pair<IFormula*, FormulaWrapper*>)> uniMP =
 		[&] (pair<IFormula*, FormulaWrapper*> x, ImplicationFormula * xImpl, IFormula * xLeft, pair<IFormula*, FormulaWrapper*> y) -> bool
 		{
-			IFormula * unified = __nullptr;
+			IFormula * unified = nullptr;
 			replaces uni;
 
 			if(Unification(xLeft, y.first, unified, uni))
@@ -93,7 +93,7 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset)
 				//Cut with the unified
 				if(MP(unified, xImpl, res))
 				{
-					addWrap(y.second == __nullptr ? y.first : y.second, x.second == __nullptr ? x.first : x.second, res, uni);
+					addWrap(y.second == nullptr ? y.first : y.second, x.second == nullptr ? x.first : x.second, res, uni);
 					if(m_last->Equals(m_target) || (m_last->IsTemp() && m_last->IsAtomic()))
 					{
 						return m_finished = true;

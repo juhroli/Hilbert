@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AlgorithmBase_h
+#define AlgorithmBase_h
 
 #include "../HilbertIncludes.h"
 #include "../Formula/IFormula.h"
@@ -14,10 +15,10 @@ class AlgorithmBase
 {
 public:
 	AlgorithmBase()
-		: m_axioms(__nullptr)
-		, m_mpResults(__nullptr)
-		, m_target(__nullptr)
-		, m_sigma(__nullptr)
+		: m_axioms(nullptr)
+		, m_mpResults(nullptr)
+		, m_target(nullptr)
+		, m_sigma(nullptr)
 		, m_result("")
 		, m_finished(false)
 		, m_maxLength(20)
@@ -44,3 +45,5 @@ protected:
 	FormulaWrapper * m_last; //the last formula in the iteration
 	unsigned m_maxLength; //maximum length of the formulas
 };
+
+#endif

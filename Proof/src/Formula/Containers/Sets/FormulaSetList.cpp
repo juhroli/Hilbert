@@ -13,11 +13,11 @@ void FormulaSetList::Add(IFormula * formula)
 {
 	long hash = formula->HashCode();
 
-	if(m_formulaMap[hash] == __nullptr)
+	if(m_formulaMap[hash] == nullptr)
 	{
 		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula);
 		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == __nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
+			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
 		m_formulas.push_back(m_formulaMap[hash]);
 	}
 }
@@ -26,11 +26,11 @@ void FormulaSetList::Add(spIFormula formula)
 {
 	long hash = formula->HashCode();
 
-	if(m_formulaMap[hash] == __nullptr)
+	if(m_formulaMap[hash] == nullptr)
 	{
 		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula.get());
 		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == __nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
+			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
 		m_formulas.push_back(m_formulaMap[hash]);
 	}
 }
@@ -39,7 +39,7 @@ void FormulaSetList::Add(IFormulaSet& fset)
 {
 	FormulaSetList& fsetList = dynamic_cast<FormulaSetList&>(fset);
 	
-	if(&fsetList != __nullptr)
+	if(&fsetList != nullptr)
 	{
 		list<spIFormula>::iterator end = fsetList.End();
 		for(auto it = fsetList.Begin(); it != end; it++)
@@ -66,7 +66,7 @@ unsigned FormulaSetList::Size()
 
 bool FormulaSetList::Contains(long hash)
 {
-	return m_formulaMap[hash] != __nullptr;
+	return m_formulaMap[hash] != nullptr;
 }
 
 spIFormula FormulaSetList::Get(long hash)

@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#ifndef HilbertIncludes_h
+#define HilbertIncludes_h
+
 /*
           ^^         |         ^^
           ::         |         ::
@@ -28,7 +30,10 @@
 *	Delete macro for non-atomic formulas. Let the atomic formula table handle the atomic formulas' delete.
 *	So this won't delete a formula if it's atomic...
 */
-#define DELETEFORMULA(x) if(x != __nullptr && !x->IsAtomic()) { delete x; } x = __nullptr;
+#define DELETEFORMULA(x) if(x != nullptr && !x->IsAtomic()) { delete x; } x = nullptr;
+
+#define FALSE "~"
+#define IMPLIES "->"
 
 using std::shared_ptr;
 
@@ -44,5 +49,4 @@ typedef shared_ptr<TempFormula> spTempFormula;
 typedef shared_ptr<ImplicationFormula> spImplicationFormula;
 typedef shared_ptr<Axiom> spAxiom;
 
-const static char * IMPLIES = "->";
-static char * FALSE = "~";
+#endif

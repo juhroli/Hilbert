@@ -1,3 +1,4 @@
+#include "../../HilbertIncludes.h"
 #include "TempFormula.h"
 
 TempFormula::TempFormula()
@@ -13,7 +14,12 @@ TempFormula::TempFormula(char * symbol)
 	stream<<'_'<<m_symbol<<'\0';
 	int len = stream.str().length();
 	m_symbol = new char[len];
+
+#ifdef _MSC_VER
 	strcpy_s(m_symbol, len, stream.str().c_str());
+#else
+	strcpy(m_symbol, stream.str().c_str());
+#endif	
 
 	//Generate hash code
 	m_hash = GenerateHashCode(m_symbol);
@@ -55,7 +61,7 @@ IFormula * TempFormula::Clone()
 */
 IFormula * TempFormula::Replace(IFormula * t, IFormula * x)
 {
-	if(t == __nullptr || x == __nullptr)
+	if(t == nullptr || x == nullptr)
 		return this;
 
 	if(this->Equals( t ))

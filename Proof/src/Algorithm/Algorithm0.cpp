@@ -1,9 +1,11 @@
 #include "Algorithm0.h"
 #include "General.h"
 #include "../Formula/Containers/Sets/FormulaSetList.h"
+#include <functional>
 
 using namespace General;
 using std::endl;
+using std::function;
 
 Algorithm0::Algorithm0()
 	: AlgorithmBase()
@@ -15,12 +17,12 @@ Algorithm0::~Algorithm0()
 {
 	DELETEFORMULA(m_target);
 	delete m_sigma;
-	m_sigma = __nullptr;
+	m_sigma = nullptr;
 }
 
 void Algorithm0::Start()
 {
-	if(m_target == __nullptr || m_axioms == __nullptr)
+	if(m_target == nullptr || m_axioms == nullptr)
 		return;
 	this->Run();
 }
@@ -29,19 +31,19 @@ void Algorithm0::Run()
 {
 	//Do the deduction
 	IFormula * deduct = m_target;
-	IFormula * res = __nullptr;
+	IFormula * res = nullptr;
 	while(Deduction(deduct, m_sigma, res))
 	{
 		m_target = res;
 		deduct = m_target;
-		res = __nullptr;
+		res = nullptr;
 	}
-	res = __nullptr;
-	deduct = __nullptr;
+	res = nullptr;
+	deduct = nullptr;
 
 	//Cast m_sigma to the proper FormulaSet, if it fails return
 	FormulaSetList * sigma = dynamic_cast<FormulaSetList*>(m_sigma);
-	if(sigma == __nullptr)
+	if(sigma == nullptr)
 	{
 		return;
 	}
@@ -113,10 +115,10 @@ void Algorithm0::SetAxioms(AxiomContainer * container)
 
 void Algorithm0::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
-	if(m_sigma != __nullptr)
+	if(m_sigma != nullptr)
 	{
 		delete m_sigma;
-		m_sigma = __nullptr;
+		m_sigma = nullptr;
 	}
 	m_sigma = new FormulaSetList();
 
@@ -163,13 +165,18 @@ string Algorithm0::GetResult()
 	stream<<"The proof is:"<<endl;
 	FormulaSetList fset;
 
+	/*
+	*	First create fset, which will contain
+	*	the formulas in the proof.
+	*	These formmulas are converted into FormulaWrappers.
+	*/
 	std::function<void (IFormula*)> add =
 		[&] (IFormula * a)
 		{
 			FormulaWrapper * F = dynamic_cast<FormulaWrapper*>(a);
-			FormulaWrapper * first = __nullptr;
-			FormulaWrapper * second = __nullptr;
-			FormulaWrapper * wrap = __nullptr;
+			FormulaWrapper * first = nullptr;
+			FormulaWrapper * second = nullptr;
+			FormulaWrapper * wrap = nullptr;
 
 			replaces rep;
 			if(a->IsAtomic() && a->IsTemp())
@@ -180,11 +187,12 @@ string Algorithm0::GetResult()
 			if(F != nullptr)
 			{
 				F->AddReplaces(rep);
+
 				first = dynamic_cast<FormulaWrapper*>(F->GetOrigin().first);
-				if(F->GetOrigin().first != __nullptr)
+				if(F->GetOrigin().first != nullptr)
 				{
 					
-					if(first == __nullptr)
+					if(first == nullptr)
 					{
 						first = new FormulaWrapper(F->GetOrigin().first->Clone());
 					}
@@ -194,11 +202,13 @@ string Algorithm0::GetResult()
 					add(first);
 					
 				}
+
 				second = dynamic_cast<FormulaWrapper*>(F->GetOrigin().second);
-				if(F->GetOrigin().second != __nullptr)
+
+				if(F->GetOrigin().second != nullptr)
 				{
 					
-					if(second == __nullptr)
+					if(second == nullptr)
 					{
 						second = new FormulaWrapper(F->GetOrigin().second->Clone());
 					}
@@ -207,12 +217,11 @@ string Algorithm0::GetResult()
 						second->AddReplaces(F->GetReplaces());
 					add(second);
 				}
-				if(first != __nullptr && second != __nullptr)
+
+				if(first != nullptr && second != nullptr)
 					wrap = new FormulaWrapper(F->Clone(), make_pair(first, second), F->GetReplaces());
 				else
-				{
 					wrap = new FormulaWrapper(F->Clone(), F->GetReplaces());
-				}
 			}
 			else
 			{
@@ -234,22 +243,21 @@ string Algorithm0::GetResult()
 		FormulaWrapper * F = dynamic_cast<FormulaWrapper*>(it->get());
 
 		//First normalize the replaces
-		if(F != __nullptr)
+		if(F != nullptr)
 		{
 			NormalizeReplaces(F->GetReplaces());
 		}
 
 		stream<<i<<". ";
-		if(F == __nullptr)
-			stream<<F->ToString()<<"    (in Sigma)"<<F->GetReplacesString()<<endl<<endl;
-		else if(F->IsFromSigma())
+		if(F->IsFromSigma())
 			stream<<F->ToString()<<"    from Sigma"<<F->GetReplacesString()<<endl<<endl;
 		else if(F->IsAxiom())
-			stream<<ReplaceAll(F, F->GetReplaces())->ToString()<<"    Axiom: "<<F->ToString()<<" "<<F->GetReplacesString()<<endl<<endl;
+			stream<<ReplaceAll(F, F->GetReplaces())->ToString()<<"    Axiom: "<<F->ToString()<<" "
+				<<F->GetReplacesString()<<endl<<endl;
 		else if(!F->Equals(m_last) || !F->IsTemp())
-			stream<<ReplaceAll(F, F->GetReplaces())->ToString()<<"    : Cut "<<ReplaceAll(F->GetOrigin().second, F->GetReplaces())->ToString()<<" with "<<ReplaceAll(F->GetOrigin().first, F->GetReplaces())->ToString()<<endl<<endl;
-		else
-			stream<<m_target->ToString()<<"    : Cut "<<F->GetOrigin().second->ToString()<<" with "<<F->GetOrigin().first->ToString()<<"["<<F->ToString()<<"/"<<m_target->ToString()<<"]"<<endl<<endl;
+			stream<<ReplaceAll(F, F->GetReplaces())->ToString()<<"    : Cut "
+				<<ReplaceAll(F->GetOrigin().second, F->GetReplaces())->ToString()
+				<<" with "<<ReplaceAll(F->GetOrigin().first, F->GetReplaces())->ToString()<<endl<<endl;
 	}
 
 	return stream.str();

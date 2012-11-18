@@ -1,10 +1,15 @@
-#pragma once
+#ifndef FormulaSetVector_h
+#define FormulaSetVector_h
 
-#include <ppl.h>
+#include "../../../HilbertIncludes.h"
+#ifdef _MSC_VER
+	#include <ppl.h>
+	using namespace concurrency;
+#endif
 #include <vector>
 #include "IFormulaSet.h"
 
-using namespace concurrency;
+	using std::vector;
 
 class FormulaSetVector : public IFormulaSet
 {
@@ -37,3 +42,5 @@ private:
 protected:
 	void AddFormula(spIFormula formula);
 };
+
+#endif

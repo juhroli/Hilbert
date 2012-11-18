@@ -1,4 +1,5 @@
-﻿#include "FalseFormula.h"
+﻿#include "../../HilbertIncludes.h"
+#include "FalseFormula.h"
 
 FalseFormula::FalseFormula()
 	: AtomicFormula((char*)FALSE)

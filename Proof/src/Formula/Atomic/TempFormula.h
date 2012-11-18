@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TempFormula_h
+#define TempFormula_h
 
 #include "AtomicFormula.h"
 
@@ -16,3 +17,5 @@ public:
 	IFormula * Clone();
 	IFormula * Replace(IFormula * t, IFormula * x);
 };
+
+#endif

@@ -1,5 +1,7 @@
-#pragma once
+#ifndef FormulaWrapper_h
+#define FormulaWrapper_h
 
+#include "../../HilbertIncludes.h"
 #include "../IFormula.h"
 #include "../../Algorithm/General.h"
 
@@ -47,3 +49,5 @@ private:
 	bool m_isAxiom; //is m_this an axiom?
 	long m_hash;
 };
+
+#endif

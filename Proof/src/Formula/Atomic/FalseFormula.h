@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef FalseFormula_h
+#define FalseFormula_h
 
 #include "AtomicFormula.h"
 
@@ -12,3 +13,5 @@ public:
 	bool Eval();
 	IFormula * Clone();
 };
+
+#endif
