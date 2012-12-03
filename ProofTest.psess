@@ -68,19 +68,19 @@
   </Binaries>
   <Reports>
     <Report>
-      <Path>Reports\BothReplace.vsp</Path>
+      <Path>Reports\_BothReplace.vsp</Path>
     </Report>
     <Report>
-      <Path>Reports\NewReplace.vsp</Path>
+      <Path>Reports\_NewReplace.vsp</Path>
     </Report>
     <Report>
-      <Path>Reports\OldReplace.vsp</Path>
+      <Path>Reports\_OldReplace.vsp</Path>
     </Report>
     <Report>
-      <Path>Reports\ParseFormula.vsp</Path>
+      <Path>Reports\_ParseFormula.vsp</Path>
     </Report>
     <Report>
-      <Path>Reports\StringToFormula.vsp</Path>
+      <Path>Reports\_StringToFormula.vsp</Path>
     </Report>
     <Report>
       <Path>Reports\FormulaSetAddv2.vsp</Path>
