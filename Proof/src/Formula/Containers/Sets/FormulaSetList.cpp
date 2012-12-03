@@ -6,7 +6,7 @@ using namespace AFormulaTable;
 
 FormulaSetList::~FormulaSetList()
 {
-	Clear();
+	this->Clear();
 }
 
 void FormulaSetList::Add(IFormula * formula)

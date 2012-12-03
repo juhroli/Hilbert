@@ -14,7 +14,10 @@ namespace General
 {
 	enum AlgorithmType
 	{
-		ALG_0
+		ALG_0x00,
+		ALG_0x01,
+		ALG_0x02,
+		ALG_0x03
 	};
 
 	typedef list<pair<IFormula*, IFormula*>> replaces;
@@ -26,8 +29,9 @@ namespace General
 	IFormula * ReplaceAll(IFormula * formula, replaces& rep);
 	bool ContainsFormula(IFormula * f, IFormula * g);
 	void NormalizeReplaces(replaces& rep);
+	void ClearReplaces(replaces& rep);
 
-	AlgorithmBase * Create(AlgorithmType type);
+	AlgorithmBase * CreateAlgorithm(AlgorithmType type);
 }
 
 #endif

@@ -9,7 +9,6 @@ public:
 	FalseFormula();
 	FalseFormula(FalseFormula& formula);
 	~FalseFormula() {}
-	bool IsTemp();
 	bool Eval();
 	IFormula * Clone();
 };

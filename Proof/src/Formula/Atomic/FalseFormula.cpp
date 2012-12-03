@@ -14,11 +14,6 @@ FalseFormula::FalseFormula(FalseFormula& formula)
 	m_hash = formula.HashCode();
 }
 
-bool FalseFormula::IsTemp()
-{
-	return false;
-}
-
 bool FalseFormula::Eval()
 {
 	return false;

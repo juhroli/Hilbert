@@ -9,7 +9,8 @@
 #include "AlgorithmBase.h"
 
 /*	Put algorithm headers here.	*/
-#include "Algorithm0.h"
+#include "Algorithm0x00.h"
+#include "Algorithm0x03.h"
 /*	===========================	*/
 
 namespace General
@@ -33,7 +34,9 @@ namespace General
 		if(ret = f->Equals(impF->GetLeftSub()))
 			res = impF->GetRightSub()->Clone();
 		else
-			res = nullptr;
+		{
+			DELETEFORMULA(res);
+		}
 
 		return ret;
 	}
@@ -47,7 +50,7 @@ namespace General
 	{
 		if(f == nullptr || sigma == nullptr)
 		{
-			res = nullptr;
+			DELETEFORMULA(res);
 			return false;
 		}
 
@@ -59,7 +62,7 @@ namespace General
 			return true;
 		}
 
-		res = nullptr;
+		DELETEFORMULA(res);
 
 		return false;
 	}
@@ -78,7 +81,8 @@ namespace General
 	{
 		if(a == nullptr || b == nullptr)
 		{
-			res = nullptr;
+			ClearReplaces(uni);
+			DELETEFORMULA(res);
 			return false;
 		}
 
@@ -86,6 +90,7 @@ namespace General
 
 		if(a->Equals(b))
 		{
+			DELETEFORMULA(res);
 			res = a->Clone();
 			return true;
 		}
@@ -95,7 +100,8 @@ namespace General
 		{
 			if(!a->IsTemp() && !b->IsTemp())
 			{
-				res = nullptr;
+				ClearReplaces(uni);
+				DELETEFORMULA(res);
 				return false;
 			}
 
@@ -108,10 +114,21 @@ namespace General
 			*/
 			auto replace = [&]()
 			{
-				for(auto it : uni)
+				IFormula * x = F;
+
+				F = static_cast<ImplicationFormula*>(ReplaceAll(F, uni));
+
+				if(F != x)
 				{
-					F = static_cast<ImplicationFormula*>(F->Replace(it.first, it.second));
-					G = static_cast<ImplicationFormula*>(G->Replace(it.first, it.second));
+					DELETEFORMULA(x);
+				}
+				
+				x = G;
+				G = static_cast<ImplicationFormula*>(ReplaceAll(G, uni));
+
+				if(G != x)
+				{
+					DELETEFORMULA(x);
 				}
 			};
 
@@ -120,6 +137,8 @@ namespace General
 				replace();
 			else
 			{
+				ClearReplaces(uni);
+				DELETEFORMULA(res);
 				DELETEFORMULA(G);
 				DELETEFORMULA(F);
 				return false;
@@ -130,6 +149,8 @@ namespace General
 				replace();
 			else
 			{
+				ClearReplaces(uni);
+				DELETEFORMULA(res);
 				DELETEFORMULA(G);
 				DELETEFORMULA(F);
 				return false;
@@ -137,9 +158,15 @@ namespace General
 
 			//If the result F and G contains null, set ret to false and res to nullptr
 			if(!(ret = !F->IsNull() && !G->IsNull()))
-				res = nullptr;
+			{
+				ClearReplaces(uni);
+				DELETEFORMULA(res);
+			}
 			else if(ret = F->Equals(G))
-				res = F->Clone(); //If F equals G the result is the clone of F
+			{
+				DELETEFORMULA(res);
+				res = F->Clone(); //If F equals G, the result is the clone of F
+			}
 			
 			DELETEFORMULA(G);
 			DELETEFORMULA(F);
@@ -160,11 +187,19 @@ namespace General
 				//If F doesn't contain G
 				if(ret = !ContainsFormula(F, G))
 					uni.push_back(make_pair(G->Clone(), F->Clone()));
+
+				IFormula * x;
+				x = res;
 				res = G->Replace(G, F);
+				if(res != x)
+				{
+					DELETEFORMULA(x);
+				}
 			}
 			else
 			{
-				res = nullptr;
+				ClearReplaces(uni);
+				DELETEFORMULA(res);
 				ret = false;
 			}
 		}
@@ -189,8 +224,11 @@ namespace General
 			return false;
 
 		replaces uni;
+		bool ret = Unification(a, b, res, uni);
+		
+		ClearReplaces(uni);
 
-		return Unification(a, b, res, uni);
+		return ret;
 	}
 
 	/*
@@ -204,7 +242,15 @@ namespace General
 		{
 			if(!ret->IsTemp())
 				break;
+
+			IFormula * x = ret;
+
 			ret = ret->Replace(it.first, it.second);
+
+			if(ret != x)
+			{
+				DELETEFORMULA(x);
+			}
 		}
 
 		return ret;
@@ -213,12 +259,14 @@ namespace General
 	/*
 	*	Create an algorithm instance.
 	*/
-	AlgorithmBase * Create(AlgorithmType type)
+	AlgorithmBase * CreateAlgorithm(AlgorithmType type)
 	{
 		switch(type)
 		{
-		case ALG_0:
-			return new Algorithm0();
+		case ALG_0x00:
+			return new Algorithm0x00();
+		case ALG_0x03:
+			return new Algorithm0x03();
 		}
 		return nullptr;
 	}
@@ -268,6 +316,7 @@ namespace General
 					//Normalize the chain replaces
 					if(it != it2 && it->second->Equals(it2->first))
 					{
+						DELETEFORMULA(it->second);
 						it->second = it2->second->Clone();
 					}
 
@@ -275,7 +324,13 @@ namespace General
 
 					if(it3 != it && ContainsFormula(it->second, it3->first))
 					{
+						IFormula * temp = it->second;
 						it->second = it->second->Replace(it3->first, it3->second);
+
+						if(temp != it->second)
+						{
+							DELETEFORMULA(temp);
+						}
 					}
 					
 					it2++;
@@ -285,7 +340,7 @@ namespace General
 		}
 
 		/*
-		*	Erase multiple replaces.
+		*	Erase duplications.
 		*	Example: [a/F] [b/G] [a/H] will be
 		*	[a/F] [b/G].
 		*/
@@ -300,6 +355,9 @@ namespace General
 					auto erase = it2;
 					if(it2 != rep.end())
 						it2++;
+
+					DELETEFORMULA(erase->first);
+					DELETEFORMULA(erase->second);
 					rep.erase(erase);
 				}
 				else
@@ -307,5 +365,18 @@ namespace General
 			}
 			it++;
 		}
+	}
+
+	/*
+	*	Deletes the formulas in the list.
+	*/
+	void ClearReplaces(replaces& rep)
+	{
+		for(auto it : rep)
+		{
+			DELETEFORMULA(it.first);
+			DELETEFORMULA(it.second);
+		}
+		rep.clear();
 	}
 }

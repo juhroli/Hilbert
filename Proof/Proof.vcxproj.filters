@@ -84,14 +84,17 @@
     <ClInclude Include="src\Formula\Containers\Sets\IFormulaSet.h">
       <Filter>Source Files\Formula\Containers\Sets</Filter>
     </ClInclude>
-    <ClInclude Include="src\Algorithm\Algorithm0.h">
-      <Filter>Source Files\Algorithm</Filter>
-    </ClInclude>
     <ClInclude Include="src\Algorithm\AlgorithmBase.h">
       <Filter>Source Files\Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="src\HilbertIncludes.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithm\Algorithm0x03.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithm\Algorithm0x00.h">
+      <Filter>Source Files\Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,10 +137,13 @@
     <ClCompile Include="src\Formula\Containers\Sets\FormulaSetVector.cpp">
       <Filter>Source Files\Formula\Containers\Sets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Algorithm\Algorithm0.cpp">
+    <ClCompile Include="src\Algorithm\AlgorithmBase.cpp">
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="src\Algorithm\AlgorithmBase.cpp">
+    <ClCompile Include="src\Algorithm\Algorithm0x03.cpp">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Algorithm\Algorithm0x00.cpp">
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,7 +8,7 @@ class HilbertAxioms : public AxiomContainer
 {
 public:
 	HilbertAxioms();
-	~HilbertAxioms() {}
+	~HilbertAxioms();
 	Axiom * GetAxiom(unsigned index);
 };
 

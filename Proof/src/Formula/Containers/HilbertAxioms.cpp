@@ -18,6 +18,11 @@ HilbertAxioms::HilbertAxioms()
 	m_axioms.push_back(static_cast<Axiom*>( ParseTemp(stream.str()) ));
 }
 
+HilbertAxioms::~HilbertAxioms()
+{
+	m_axioms.clear();
+}
+
 /*
 *	Indexed from 1.
 */

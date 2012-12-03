@@ -53,6 +53,7 @@ namespace FormulaParser
 				return nullptr;
 
 			ret = (temp ? new Axiom(ret, right) : new ImplicationFormula(ret, right));
+			right = nullptr;
 		}
 		return ret;
 	}
@@ -66,7 +67,10 @@ namespace FormulaParser
 		{
 			it++;
 		}
-		if(it == end) return nullptr;
+
+		if(it == end)
+			return nullptr;
+
 		char ch = *(it++);
 		
 		

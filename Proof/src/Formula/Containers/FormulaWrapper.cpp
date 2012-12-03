@@ -3,6 +3,7 @@
 #include "../../Algorithm/General.h"
 
 using General::ContainsFormula;
+using General::ClearReplaces;
 
 FormulaWrapper::FormulaWrapper()
 	: m_this(nullptr)
@@ -24,7 +25,7 @@ FormulaWrapper::FormulaWrapper(IFormula * thisF)
 	m_hash = m_this->HashCode();
 }
 
-FormulaWrapper::FormulaWrapper(IFormula * thisF, replaces rep)
+FormulaWrapper::FormulaWrapper(IFormula * thisF, replaces& rep)
 	: m_this(thisF)
 	, m_origin(make_pair(nullptr, nullptr))
 	, m_replaces(rep)
@@ -48,7 +49,7 @@ FormulaWrapper::FormulaWrapper(IFormula * thisF, pair<IFormula*, IFormula*> orig
 	m_hash = m_this->HashCode();
 }
 
-FormulaWrapper::FormulaWrapper(IFormula * thisF, pair<IFormula*, IFormula*> origin, replaces rep)
+FormulaWrapper::FormulaWrapper(IFormula * thisF, pair<IFormula*, IFormula*> origin, replaces& rep)
 	: m_this(thisF)
 	, m_origin(origin)
 	, m_replaces(rep)
@@ -64,7 +65,7 @@ FormulaWrapper::FormulaWrapper(FormulaWrapper& formula)
 {
 	m_this = formula.m_this->Clone();
 	if(!formula.IsFromSigma() && !formula.IsAxiom())
-		m_origin = make_pair(formula.m_origin.first->Clone(), formula.m_origin.second->Clone());
+		m_origin = make_pair(formula.m_origin.first, formula.m_origin.second);
 	AddReplaces(formula.m_replaces);
 	m_fromSigma = formula.IsFromSigma();
 	m_isAxiom = formula.IsAxiom();
@@ -73,7 +74,17 @@ FormulaWrapper::FormulaWrapper(FormulaWrapper& formula)
 
 FormulaWrapper::~FormulaWrapper()
 {
-	DELETEFORMULA(m_this);
+	ClearReplaces(m_replaces);
+
+	m_origin.first = nullptr;
+	m_origin.second = nullptr;
+
+	if(dynamic_cast<FormulaWrapper*>(m_this) == nullptr)
+	{
+		DELETEFORMULA(m_this);
+	}
+	else
+		delete m_this;
 }
 
 bool FormulaWrapper::IsAtomic()
@@ -126,6 +137,11 @@ long FormulaWrapper::HashCode()
 	return m_hash;
 }
 
+bool FormulaWrapper::IsWrapped()
+{
+	return true;
+}
+
 pair<IFormula*, IFormula*> FormulaWrapper::GetOrigin()
 {
 	return m_origin;
@@ -161,6 +177,8 @@ string FormulaWrapper::GetReplacesString()
 }
 
 /*
+*	USE THIS AT YOUR OWN RISK!
+*	This function updates the hash code, it will mess up hash storing...
 *	Adds the replaces to the member.
 */
 void FormulaWrapper::AddReplaces(replaces rep)
@@ -171,6 +189,11 @@ void FormulaWrapper::AddReplaces(replaces rep)
 		m_replaces.push_back(make_pair(it->first->Clone(), it->second->Clone()));
 		it++;
 	}
+
+	//Update the hash code, but it's dangerous for storing! TODO: find another way
+	stringstream stream;
+	stream << m_this->ToString() << GetReplacesString();
+	m_hash = GenerateHashCode(stream.str());
 }
 
 replaces& FormulaWrapper::GetReplaces()

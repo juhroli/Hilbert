@@ -1,5 +1,5 @@
-#ifndef Algorithm0_h
-#define Algorithm0_h
+#ifndef Algorithm0x00_h
+#define Algorithm0x00_h
 
 #include "../HilbertIncludes.h"
 #include "AlgorithmBase.h"
@@ -9,11 +9,11 @@ class FormulaWrapper;
 /*
 *
 */
-class Algorithm0 : public AlgorithmBase
+class Algorithm0x00 : public AlgorithmBase
 {
 public:
-	Algorithm0();
-	~Algorithm0();
+	Algorithm0x00();
+	~Algorithm0x00();
 	void Start();
 	void Run();
 	void SetAxioms(AxiomContainer * container);

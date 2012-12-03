@@ -6,13 +6,14 @@
 #include "Formula/Compound/ImplicationFormula.h"
 #include "Formula/Compound/Axiom.h"
 #include "Formula/Containers/AFormulaTable.h"
-#include "Formula/Containers/HilbertAxioms.h"
 #include "Input/FormulaParser.h"
 #include "Formula/Containers/Sets/FormulaSetList.h"
 #include "Formula/Containers/Sets/FormulaSetVector.h"
 #include "Algorithm/General.h"
 #include <string>
-#include "Algorithm/Algorithm0.h"
+#include "Formula/Containers/HilbertAxioms.h"
+#include "Formula/Compound/Axiom.h"
+#include "Algorithm/AlgorithmBase.h"
 
 using namespace AFormulaTable;
 using namespace FormulaParser;
@@ -127,9 +128,11 @@ int main(int argc, char* argv[])
 	/*=================TEST FOR UNIFICATION=================*/
 	if( argc > 1 && (atoi(argv[1]) == 6 || atoi(argv[1]) == 0))
 	{
+		for(int i = 0; i< 1000000; i++)
+		{
 		IFormula * f1 = ParseFormula("(G->G)->(G->H)");
 		IFormula * f2 = ParseTemp("F->(G->F)");
-		IFormula * res = __nullptr;
+		IFormula * res = nullptr;
 
 		bool ret = Unification(f1, f2, res);
 		
@@ -138,6 +141,8 @@ int main(int argc, char* argv[])
 		DELETEFORMULA(res);
 		DELETEFORMULA(f2);
 		DELETEFORMULA(f1);
+		DestroyTable();
+		}
 	}
 	
 	/*=================TEST FOR ALGORITHM 0x00=================*/
@@ -162,20 +167,46 @@ int main(int argc, char* argv[])
 	*/
 	if( argc > 1 && (atoi(argv[1]) == 7 || atoi(argv[1]) == 0))
 	{
-		AlgorithmBase * alg = Create(ALG_0);
-		IFormulaSet * fset = new FormulaSetList();
+		AlgorithmType algType = (AlgorithmType)atoi(argv[3]);
+		AlgorithmBase * alg = CreateAlgorithm(algType);
+		FormulaSetList * fset = new FormulaSetList();
 		IFormula * task = ParseFormula(argv[2]);
 		cout<<"The task:"<<endl<<"|- "<<task->ToString()<<endl<<endl;
 		alg->SetTask(fset, task);
 		AxiomContainer * axioms = new HilbertAxioms();
 		alg->SetAxioms(axioms);
 		alg->SetMaxLength(14);
-		static_cast<Algorithm0*>(alg)->SetSigmaLimit(500);
+		//static_cast<Algorithm0*>(alg)->SetSigmaLimit(500);
 		alg->Start();
 		cout<<alg->GetResult()<<endl;
 		delete fset;
 		delete axioms;
 		delete alg;
+	}
+
+	/*=================MEMORY LEAK TEST FOR ALGORITHM 0x00=================*/
+	if( argc > 1 && (atoi(argv[1]) == 8 || atoi(argv[1]) == 0))
+	{
+		for(int i = 0; i< 1000; i++)
+		{
+			AlgorithmType algType = (AlgorithmType)atoi(argv[3]);
+			AlgorithmBase * alg = CreateAlgorithm(algType);
+			FormulaSetList * fset = new FormulaSetList();
+			IFormula * task = ParseFormula(argv[2]);
+			//cout<<i<<". The task:"<<endl<<"|- "<<task->ToString()<<endl<<endl;
+			alg->SetTask(fset, task);
+			HilbertAxioms * axioms = new HilbertAxioms();
+			alg->SetAxioms(axioms);
+			alg->SetMaxLength(14);
+			//static_cast<Algorithm0*>(alg)->SetSigmaLimit(500);
+			alg->Start();
+			cout<<alg->GetResult()<<endl;
+			delete axioms;
+			delete fset;
+			delete alg;
+			DELETEFORMULA(task);
+			DestroyTable();
+		}
 	}
 
 	

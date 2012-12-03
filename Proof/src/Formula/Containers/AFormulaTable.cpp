@@ -27,7 +27,11 @@ namespace AFormulaTable
 		strcpy(symbol, stream.str().c_str());
 #endif
 
-		return static_pointer_cast<TempFormula>(GetAtomicFormula(symbol));
+		auto ret = static_pointer_cast<TempFormula>(GetAtomicFormula(symbol));
+		
+		delete symbol;
+
+		return ret;
 	}
 
 	spAtomicFormula GetAtomicFormula(long hash)

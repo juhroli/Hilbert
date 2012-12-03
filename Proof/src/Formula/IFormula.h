@@ -17,7 +17,13 @@ static long GenerateHashCode(string str)
 {
 	static locale loc;
 	static const collate<char>& coll = use_facet<collate<char>>(loc);
+
+	//For some reason this doesn't work in VS debug mode...
+#ifndef _DEBUG
 	return coll.hash(str.data(), &*str.end());
+#else
+	return coll.hash(str.data(), str.end()._Ptr);
+#endif
 }
 
 
@@ -38,6 +44,7 @@ public:
 	virtual IFormula * Replace(IFormula * t, IFormula * x) = 0;
 	virtual unsigned Length() = 0;
 	virtual long HashCode() = 0;
+	virtual bool IsWrapped() = 0;
 };
 
 #endif

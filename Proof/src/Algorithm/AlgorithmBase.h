@@ -19,6 +19,7 @@ public:
 		, m_mpResults(nullptr)
 		, m_target(nullptr)
 		, m_sigma(nullptr)
+		, m_last(nullptr)
 		, m_result("")
 		, m_finished(false)
 		, m_maxLength(20)
@@ -33,7 +34,7 @@ public:
 	virtual string GetResult() = 0;
 
 	void SetMaxLength(unsigned length);
-	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet * fset);
+	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset);
 	
 protected:
     AxiomContainer * m_axioms; //axioms to use for the algorithm
@@ -44,6 +45,12 @@ protected:
 	bool m_finished; //is the algorithm finished?
 	FormulaWrapper * m_last; //the last formula in the iteration
 	unsigned m_maxLength; //maximum length of the formulas
+	string m_resString; //this string contains the proof
+	string m_taskString; //this is the task's string after deduction -> Sigma |- F
+
+	virtual string ResultString(); //generates the result and returns it
+	virtual void DoDeduction(); //do the deduction of the task
+	virtual void AddAxiomsToSigma(); //add the axioms to sigma for easier iteration
 };
 
 #endif

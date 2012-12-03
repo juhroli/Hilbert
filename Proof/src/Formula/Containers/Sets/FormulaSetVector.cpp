@@ -6,7 +6,7 @@ using namespace AFormulaTable;
 
 FormulaSetVector::~FormulaSetVector()
 {
-	Clear();
+	this->Clear();
 }
 
 void FormulaSetVector::Add(IFormula * formula)
@@ -87,4 +87,12 @@ void FormulaSetVector::Clear()
 {
 	m_formulaMap.clear();
 	m_formulas.clear();
+}
+
+spIFormula FormulaSetVector::operator[](unsigned pos)
+{
+	if(pos >= Size())
+		return nullptr;
+
+	return m_formulas[pos];
 }

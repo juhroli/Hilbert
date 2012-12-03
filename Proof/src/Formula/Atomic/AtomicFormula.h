@@ -21,6 +21,7 @@ public:
 	IFormula * Replace(IFormula * t, IFormula * x);
 	unsigned Length();
 	long HashCode();
+	bool IsWrapped();
 
 	void SetValue(bool value);
 	void NegValue(); //Negates current value

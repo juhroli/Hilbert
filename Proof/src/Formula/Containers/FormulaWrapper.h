@@ -16,9 +16,9 @@ class FormulaWrapper : public IFormula
 public:
 	FormulaWrapper();
 	FormulaWrapper(IFormula * thisF);
-	FormulaWrapper(IFormula * thisF, replaces rep);
+	FormulaWrapper(IFormula * thisF, replaces& rep);
 	FormulaWrapper(IFormula * thisF, pair<IFormula*, IFormula*> origin);
-	FormulaWrapper(IFormula * thisF, pair<IFormula*, IFormula*> origin, replaces rep);
+	FormulaWrapper(IFormula * thisF, pair<IFormula*, IFormula*> origin, replaces& rep);
 	FormulaWrapper(FormulaWrapper& formula);
 	~FormulaWrapper();
 
@@ -32,6 +32,7 @@ public:
 	IFormula * Replace(IFormula * t, IFormula * x);
 	unsigned Length();
 	long HashCode();
+	bool IsWrapped();
 	
 	pair<IFormula*, IFormula*> GetOrigin();
 	bool IsFromSigma();

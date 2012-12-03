@@ -30,12 +30,8 @@ public:
 	bool Contains(long hash);
 	spIFormula Get(long hash);
 	void Clear();
-
-	vector<spIFormula>& GetVector()
-	{
-		return m_formulas;
-	}
-
+	spIFormula operator[](unsigned pos);
+	
 private:
 	vector<spIFormula> m_formulas;
 

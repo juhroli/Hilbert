@@ -6,7 +6,7 @@ AxiomContainer::AxiomContainer()
 
 AxiomContainer::~AxiomContainer()
 {
-	m_axioms.clear();
+	this->m_axioms.clear();
 }
 
 Axiom * AxiomContainer::GetAxiom(unsigned index)
@@ -20,7 +20,8 @@ Axiom * AxiomContainer::GetAxiom(unsigned index)
 
 void AxiomContainer::AddAxiom(Axiom * axiom)
 {
-	if(axiom == nullptr) return;
+	if(axiom == nullptr)
+		return;
 	
 	m_axioms.push_back(axiom);
 }

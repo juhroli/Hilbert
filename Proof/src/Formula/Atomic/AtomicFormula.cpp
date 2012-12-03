@@ -104,3 +104,8 @@ long AtomicFormula::HashCode()
 {
 	return m_hash;
 }
+
+bool AtomicFormula::IsWrapped()
+{
+	return false;
+}

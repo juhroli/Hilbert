@@ -20,6 +20,7 @@ public:
 	IFormula * Replace(IFormula * t, IFormula * x);
 	unsigned Length();
 	long HashCode();
+	bool IsWrapped();
 
 	IFormula * GetLeftSub();
 	IFormula * GetRightSub();

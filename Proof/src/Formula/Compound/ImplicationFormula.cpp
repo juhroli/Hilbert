@@ -128,11 +128,11 @@ bool ImplicationFormula::IsNull()
 IFormula * ImplicationFormula::Replace(IFormula * t, IFormula * x)
 {
 	if(t == nullptr || x == nullptr)
-		return this;
+		return this->Clone();
 
 	if(this->IsTemp() && t->IsTemp() && t->IsAtomic())
 		return new ImplicationFormula(this->GetLeftSub()->Replace(t, x), this->GetRightSub()->Replace(t, x));
-	return this;
+	return this->Clone();
 }
 
 unsigned ImplicationFormula::Length()
@@ -143,6 +143,11 @@ unsigned ImplicationFormula::Length()
 long ImplicationFormula::HashCode()
 {
 	return m_hash;
+}
+
+bool ImplicationFormula::IsWrapped()
+{
+	return false;
 }
 
 IFormula * ImplicationFormula::GetLeftSub()
