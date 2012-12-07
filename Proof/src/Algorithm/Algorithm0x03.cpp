@@ -56,11 +56,31 @@ void Algorithm0x03::Run()
 	AddAxiomsToSigma();
 
 	srand((unsigned)time(0));
+
+	unordered_map<int, bool> usedFormulas;
 	
 	while(sigma->Size() <= m_sigmaLimit && !m_target->Equals(m_last))
 	{
-		int rnd1 = int((rand() % sigma->Size()));
-		int rnd2 = int((rand() % sigma->Size()));
+		unsigned rnd1 = unsigned((rand() % sigma->Size()));
+		unsigned rnd2 = unsigned((rand() % sigma->Size()));
+
+		/*
+		*	Using the Cantor pairing function to create one integer from two.
+		*	Which is a bijection:
+		*	f : N x N -> N (N := non-negative integers)
+		*	defined by
+		*	f(x, y) := ( (x + y) * (x + y + 1) ) / 2 + y
+		*
+		*	With this we can use an unordered map to identify
+		*	which formula pairs were used already then skip them.
+		*/
+
+		unsigned pair = ((rnd1 + rnd2) * (rnd1 + rnd2 + 1)) / 2 + rnd2;
+
+		if(usedFormulas[pair] == true)
+			continue;
+
+		usedFormulas[pair] = true;
 
 		IFormula * first = (*sigma)[rnd1].get();
 		IFormula * second = (*sigma)[rnd2].get();

@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProofTest", "ProofTest\Proo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProofGUI", "ProofGUI\ProofGUI.vcxproj", "{85F5258C-2390-4CD7-B79A-6BF003F8BAA6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProofUI", "ProofUI\ProofUI.vcxproj", "{82817D61-1AEA-448F-8EFC-A1C091BB8C0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +41,12 @@ Global
 		{85F5258C-2390-4CD7-B79A-6BF003F8BAA6}.Release|Win32.ActiveCfg = Release|Win32
 		{85F5258C-2390-4CD7-B79A-6BF003F8BAA6}.Release|Win32.Build.0 = Release|Win32
 		{85F5258C-2390-4CD7-B79A-6BF003F8BAA6}.Release|x64.ActiveCfg = Release|Win32
+		{82817D61-1AEA-448F-8EFC-A1C091BB8C0F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{82817D61-1AEA-448F-8EFC-A1C091BB8C0F}.Debug|Win32.Build.0 = Debug|Win32
+		{82817D61-1AEA-448F-8EFC-A1C091BB8C0F}.Debug|x64.ActiveCfg = Debug|Win32
+		{82817D61-1AEA-448F-8EFC-A1C091BB8C0F}.Release|Win32.ActiveCfg = Release|Win32
+		{82817D61-1AEA-448F-8EFC-A1C091BB8C0F}.Release|Win32.Build.0 = Release|Win32
+		{82817D61-1AEA-448F-8EFC-A1C091BB8C0F}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

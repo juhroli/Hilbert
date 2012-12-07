@@ -19,7 +19,7 @@ namespace General
 	*	Modus ponens:
 	*	Cut the left part of the impF if possible then return true, res will contain impF's right part
 	*	else return false and res := null.
-	*	res is an output parameter references a pointer.
+	*	res is an output parameter referencing to a pointer.
 	*/
 	bool MP(IFormula * f, ImplicationFormula * impF, IFormula*& res)
 	{
@@ -44,7 +44,7 @@ namespace General
 	/*
 	*	Deduct f into sigma: the left part of f is put into sigma, res := f's right, return true
 	*	else return false and res := null.
-	*	res is an output parameter references a pointer.
+	*	res is an output parameter referencing to a pointer.
 	*/
 	bool Deduction(IFormula * f, IFormulaSet * sigma, IFormula*& res)
 	{
@@ -75,7 +75,7 @@ namespace General
 	*	Only formulas with temp atomic formulas can be unified with other formulas!
 	*	
 	*	uni will contain a sequence of replaces for the unification.
-	*	res is an output parameter references a pointer.
+	*	res is an output parameter referencing to a pointer.
 	*/
 	bool Unification(IFormula * a, IFormula * b, IFormula*& res, replaces& uni)
 	{
@@ -214,7 +214,7 @@ namespace General
 	*
 	*	Only formulas with temp atomic formulas can be unified with other formulas!
 	*	
-	*	res is an output parameter references a pointer.
+	*	res is an output parameter referencing to a pointer.
 	*/
 	bool Unification(IFormula * a, IFormula * b, IFormula*& res)
 	{
