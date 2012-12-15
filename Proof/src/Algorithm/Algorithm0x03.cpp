@@ -52,6 +52,7 @@ void Algorithm0x03::Run()
 
 	//Set m_firstEnd to the end after deduction
 	m_firstEnd = sigma->Size() - 1;
+	m_firstEnd = m_firstEnd < 0 ? 0 : m_firstEnd;
 
 	AddAxiomsToSigma();
 

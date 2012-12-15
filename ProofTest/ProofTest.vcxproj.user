@@ -9,7 +9,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>7 "((P-&gt;~)-&gt;P)-&gt;P" 3</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>7 "((P-&gt;~)-&gt;P)-&gt;P" 0</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -17,7 +17,18 @@ namespace FormulaParser
 		string::iterator end = str.end();
 
 		IFormula * ret = ReadFormula(it, end, false);
-		return (it == end ? ret : nullptr);
+
+		while(it != end && *it != ',')
+		{
+			it++;
+		}
+		
+		if(it != end && *it != ',')
+		{
+			DELETEFORMULA(ret);
+		}
+
+		return ret;
 	}
 	
 	/*
@@ -29,7 +40,18 @@ namespace FormulaParser
 		string::iterator end = str.end();
 
 		IFormula * ret = ReadFormula(it, end, true);
-		return (it == end ? ret : nullptr);
+
+		while(it != end && *it != ',')
+		{
+			it++;
+		}
+
+		if(it != end && *it != ',')
+		{
+			DELETEFORMULA(ret);
+		}
+
+		return ret;
 	}
 	
 	/*
@@ -38,10 +60,12 @@ namespace FormulaParser
 	IFormula * ReadFormula(string::iterator& it, string::iterator& end, bool temp)
 	{
 		IFormula * ret = ReadSingleFormula(it, end, temp);
+
 		while(it != end && *it == ' ')
 		{
 			it++;
 		}
+
 		if(ret && it != end && *it == '-')
 		{
 			it++;
@@ -50,11 +74,15 @@ namespace FormulaParser
 			IFormula * right = ReadFormula(++it, end, temp);
 
 			if(!right)	//Something's not right here...
+			{
+				DELETEFORMULA(ret);
 				return nullptr;
+			}
 
 			ret = (temp ? new Axiom(ret, right) : new ImplicationFormula(ret, right));
 			right = nullptr;
 		}
+
 		return ret;
 	}
 

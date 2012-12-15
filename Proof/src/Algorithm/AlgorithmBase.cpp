@@ -1,8 +1,11 @@
 #include "AlgorithmBase.h"
+
 #include "General.h"
 #include "../Formula/Containers/Sets/FormulaSetList.h"
+
 #include<functional>
 #include <iostream>
+
 using namespace General;
 
 /*
@@ -144,8 +147,7 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 		};
 
 	/* Cut both ways. */
-	return uniMP(a, b)
-		|| uniMP(b, a);
+	return uniMP(a, b) || uniMP(b, a);
 }
 
 void AlgorithmBase::SetMaxLength(unsigned length)

@@ -99,7 +99,7 @@ bool ImplicationFormula::IsTemp()
 
 bool ImplicationFormula::Eval()
 {
-	return ( !m_left || m_right );
+	return ( !m_left->Eval() || m_right->Eval() );
 }
 
 bool ImplicationFormula::Equals(IFormula * formula)
