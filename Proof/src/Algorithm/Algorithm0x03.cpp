@@ -111,11 +111,6 @@ void Algorithm0x03::Run()
 		m_finished = true;
 }
 
-void Algorithm0x03::SetAxioms(AxiomContainer * container)
-{
-    m_axioms = container;
-}
-
 void Algorithm0x03::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
 	if(m_sigma != nullptr)
@@ -127,11 +122,6 @@ void Algorithm0x03::SetTask(IFormulaSet * Sigma, IFormula * F)
 
 	m_sigma->Add(*Sigma);
 	m_target = F->Clone();
-}
-
-bool Algorithm0x03::IsFinished()
-{
-	return m_finished;
 }
 
 /*

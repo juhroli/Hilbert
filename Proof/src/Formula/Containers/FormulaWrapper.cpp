@@ -79,12 +79,7 @@ FormulaWrapper::~FormulaWrapper()
 	m_origin.first = nullptr;
 	m_origin.second = nullptr;
 
-	if(dynamic_cast<FormulaWrapper*>(m_this) == nullptr)
-	{
-		DELETEFORMULA(m_this);
-	}
-	else
-		delete m_this;
+	DELETEFORMULA(m_this);
 }
 
 bool FormulaWrapper::IsAtomic()

@@ -18,10 +18,11 @@ public:
 	AlgorithmBase();
 	virtual ~AlgorithmBase() {}
 	virtual void Start() = 0; //starts the algorithm processing
-	virtual void SetAxioms(AxiomContainer * container) = 0;
 	virtual void SetTask(IFormulaSet * Sigma, IFormula * F) = 0;
-	virtual bool IsFinished() = 0;
 	virtual string GetResult() = 0;
+
+	virtual void SetAxioms(AxiomContainer * container);
+	virtual bool IsFinished();
 
 	void SetMaxLength(unsigned length);
 	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset);

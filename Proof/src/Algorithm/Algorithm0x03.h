@@ -16,9 +16,7 @@ public:
 	~Algorithm0x03();
 	void Start();
 	void Run();
-	void SetAxioms(AxiomContainer * container);
 	void SetTask(IFormulaSet * Sigma, IFormula * F);
-	bool IsFinished();
 	string GetResult();
 	void SetSigmaLimit(unsigned limit);
 

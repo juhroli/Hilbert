@@ -20,6 +20,21 @@ AlgorithmBase::AlgorithmBase()
 {
 }
 
+void AlgorithmBase::SetAxioms(AxiomContainer * container)
+{
+    m_axioms = container;
+}
+
+bool AlgorithmBase::IsFinished()
+{
+	return m_finished;
+}
+
+void AlgorithmBase::SetMaxLength(unsigned length)
+{
+	m_maxLength = length;
+}
+
 /*
 *	This function does modus ponens, there and back. (The Hobbit function)
 *
@@ -134,10 +149,8 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 					addWrap(yWrapper == nullptr ? y : yWrapper, xWrapper == nullptr ? x : xWrapper, res, uni);
 
 					//Axioms count
-					if(!x->IsWrapped() && !x->IsAtomic() && x->IsTemp())
-						Stat_incAxiomCount();
-
-					if(!y->IsWrapped() && !y->IsAtomic() && y->IsTemp())
+					if(!x->IsWrapped() && !x->IsAtomic() && x->IsTemp()
+						|| !y->IsWrapped() && !y->IsAtomic() && y->IsTemp())
 						Stat_incAxiomCount();
 
 					if(m_last->Equals(m_target) || (m_last->IsTemp() && m_last->IsAtomic()))
@@ -171,11 +184,6 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 
 	/* Cut both ways. */
 	return uniMP(a, b) || uniMP(b, a);
-}
-
-void AlgorithmBase::SetMaxLength(unsigned length)
-{
-	m_maxLength = length;
 }
 
 /*
@@ -263,7 +271,7 @@ string AlgorithmBase::ResultString()
 				wrap->AddReplaces(rep);
 				ClearReplaces(rep);
 			}
-			
+
 			fset.Add(wrap);
 		};
 
