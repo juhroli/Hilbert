@@ -210,6 +210,17 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	/*=================TEST FOR FORMULA SET PARSER=================*/
+	if( argc > 1 && (atoi(argv[1]) == 9 || atoi(argv[1]) == 0))
+	{
+		IFormulaSet * fset = ParseFormulaSet(argv[2], FSET_LIST);
+		if(fset != nullptr)
+		{
+			cout<<fset->ToString()<<endl;
+			delete fset;
+		}
+	}
+
 	
 	DestroyTable();
 

@@ -89,7 +89,6 @@ string FormulaSetList::ToString()
 
 	list<spIFormula>::iterator it = Begin();
 	list<spIFormula>::iterator end = End();
-	end++;
 	
 	stream << "{ ";
 

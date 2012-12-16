@@ -3,6 +3,8 @@
 #include "../Formula/Compound/ImplicationFormula.h"
 #include "../Formula/Compound/Axiom.h"
 #include "../Formula/Containers/AFormulaTable.h"
+#include "../Formula/Containers/Sets/FormulaSetList.h"
+#include "../Formula/Containers/Sets/FormulaSetVector.h"
 
 namespace FormulaParser
 {
@@ -17,13 +19,8 @@ namespace FormulaParser
 		string::iterator end = str.end();
 
 		IFormula * ret = ReadFormula(it, end, false);
-
-		while(it != end && *it != ',')
-		{
-			it++;
-		}
 		
-		if(it != end && *it != ',')
+		if(it != end && (*it != ',' || *it != ' '))
 		{
 			DELETEFORMULA(ret);
 		}
@@ -41,12 +38,7 @@ namespace FormulaParser
 
 		IFormula * ret = ReadFormula(it, end, true);
 
-		while(it != end && *it != ',')
-		{
-			it++;
-		}
-
-		if(it != end && *it != ',')
+		if(it != end && (*it != ',' || *it != ' '))
 		{
 			DELETEFORMULA(ret);
 		}
@@ -149,6 +141,64 @@ namespace FormulaParser
 		}
 		
 		return nullptr;
+	}
+
+	/*
+	*
+	*/
+	IFormulaSet * ParseFormulaSet(string str, FSetType type)
+	{
+		IFormulaSet * ret = nullptr;
+
+		switch(type)
+		{
+		case FSET_LIST:
+			ret = new FormulaSetList();
+			break;
+		case FSET_VEC:
+			ret = new FormulaSetVector();
+		}
+		
+		auto it = str.begin();
+		auto end = str.end();
+
+		while(it != end && *it == ' ')
+				it++;
+
+		if( *it != '{' || !ReadFormulaSet(++it, end, false, ret) )
+		{
+			delete ret;
+			ret = nullptr;
+		}
+
+		return ret;
+	}
+
+	/*
+	*
+	*/
+	bool ReadFormulaSet(string::iterator& it, string::iterator& end, bool temp, IFormulaSet * fset)
+	{
+		IFormula * F = ReadFormula(it, end, temp);
+
+		if(it == end)
+			return false;
+
+		while(it != end && *it == ' ')
+			it++;
+
+		if(*it != ',' && *it != '}')
+		{
+			DELETEFORMULA(F);
+			return false;
+		}
+
+		fset->Add(F);
+
+		if(*it == '}')
+			return true;
+
+		return ReadFormulaSet(++it, end, temp, fset);
 	}
  
 }
