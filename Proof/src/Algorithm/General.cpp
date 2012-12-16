@@ -379,4 +379,15 @@ namespace General
 		}
 		rep.clear();
 	}
+
+	/*
+	*	Normalize the input string to only contain
+	*	atomic formulas labeled from a, b, ..., z.
+	*	(use this in FormulaParser)
+	*/
+	string NormalizeAxiomString(string str)
+	{
+		//TODO
+		return "";
+	}
 }

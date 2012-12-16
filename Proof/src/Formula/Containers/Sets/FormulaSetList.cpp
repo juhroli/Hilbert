@@ -79,3 +79,26 @@ void FormulaSetList::Clear()
 	m_formulaMap.clear();
 	m_formulas.clear();
 }
+
+string FormulaSetList::ToString()
+{
+	if(Size() == 0)
+		return "Empty set";
+
+	stringstream stream;
+
+	list<spIFormula>::iterator it = Begin();
+	list<spIFormula>::iterator end = End();
+	end++;
+	
+	stream << "{ ";
+
+	do {
+		stream << (it++)->get()->ToString();
+		stream << ((it != end) ? ", " : "");
+	} while(it != end);
+
+	stream<<" }";
+
+	return stream.str();
+}

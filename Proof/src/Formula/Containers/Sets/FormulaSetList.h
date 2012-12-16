@@ -29,6 +29,7 @@ public:
 	bool Contains(long hash);
 	spIFormula Get(long hash);
 	void Clear();
+	string ToString();
 
 private:
 	list<spIFormula> m_formulas;

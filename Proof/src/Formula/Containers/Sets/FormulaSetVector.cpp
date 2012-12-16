@@ -89,6 +89,28 @@ void FormulaSetVector::Clear()
 	m_formulas.clear();
 }
 
+string FormulaSetVector::ToString()
+{
+	if(Size() == 0)
+		return "Empty set";
+
+	stringstream stream;
+
+	unsigned end = Size();
+
+	stream << "{ ";
+
+	for(unsigned i = 0; i < end; i++)
+	{
+		stream << (*this)[i].get()->ToString();
+		stream << ((i != end) ? ", " : "");
+	}
+
+	stream<<" }";
+
+	return stream.str();
+}
+
 spIFormula FormulaSetVector::operator[](unsigned pos)
 {
 	if(pos >= Size())

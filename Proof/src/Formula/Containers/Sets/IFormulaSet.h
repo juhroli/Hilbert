@@ -32,6 +32,7 @@ public:
 	virtual bool Contains(long hash) = 0;
 	virtual spIFormula Get(long hash) = 0;
 	virtual void Clear() = 0;
+	virtual string ToString() = 0;
 
 protected:
 	unordered_map<long, spIFormula> m_formulaMap;
