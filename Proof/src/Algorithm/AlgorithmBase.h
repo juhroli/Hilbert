@@ -2,6 +2,7 @@
 #define AlgorithmBase_h
 
 #include "../HilbertIncludes.h"
+#include "Stat.h"
 #include "../Formula/IFormula.h"
 #include "../Formula/Containers/Sets/IFormulaSet.h"
 #include "../Formula/Containers/AxiomContainer.h"
@@ -11,23 +12,12 @@
 /*
 *	Base class of the algorithms.
 */
-class AlgorithmBase
+class AlgorithmBase : public Stat
 {
 public:
-	AlgorithmBase()
-		: m_axioms(nullptr)
-		, m_mpResults(nullptr)
-		, m_target(nullptr)
-		, m_sigma(nullptr)
-		, m_last(nullptr)
-		, m_result("")
-		, m_finished(false)
-		, m_maxLength(20)
-	{
-	}
+	AlgorithmBase();
 	virtual ~AlgorithmBase() {}
-	virtual void Start() = 0;
-	virtual void Run() = 0;
+	virtual void Start() = 0; //starts the algorithm processing
 	virtual void SetAxioms(AxiomContainer * container) = 0;
 	virtual void SetTask(IFormulaSet * Sigma, IFormula * F) = 0;
 	virtual bool IsFinished() = 0;
@@ -48,6 +38,7 @@ protected:
 	string m_resString; //this string contains the proof
 	string m_taskString; //this is the task's string after deduction -> Sigma |- F
 
+	virtual void Run() = 0; //run the algorithm
 	virtual string ResultString(); //generates the result and returns it
 	virtual void DoDeduction(); //do the deduction of the task
 	virtual void AddAxiomsToSigma(); //add the axioms to sigma for easier iteration

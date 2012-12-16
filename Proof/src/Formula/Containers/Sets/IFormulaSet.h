@@ -8,7 +8,16 @@
 using namespace std;
 
 /*
-Interface for formula set
+*	Type of the formula sets.
+*/
+enum FSetType
+{
+	FSET_VEC,
+	FSET_LIST
+};
+
+/*
+*	Interface for formula set
 */
 class IFormulaSet
 {

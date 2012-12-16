@@ -179,6 +179,7 @@ int main(int argc, char* argv[])
 		//static_cast<Algorithm0*>(alg)->SetSigmaLimit(500);
 		alg->Start();
 		cout<<alg->GetResult()<<endl;
+		cout<<"Stats: " << endl << alg->Stat_ToString()<<endl;
 		delete fset;
 		delete axioms;
 		delete alg;

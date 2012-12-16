@@ -70,7 +70,11 @@ namespace FormulaParser
 		{
 			it++;
 			if(it != end && *it != '>')
+			{
+				DELETEFORMULA(ret);
 				return nullptr;
+			}
+
 			IFormula * right = ReadFormula(++it, end, temp);
 
 			if(!right)	//Something's not right here...
@@ -109,7 +113,13 @@ namespace FormulaParser
 		{
 			IFormula * ret = ReadFormula(it, end, temp);
 			ch = *(it++);
-			return (ch == ')' ? ret : nullptr);
+			
+			if(ch != ')')
+			{
+				DELETEFORMULA(ret);
+			}
+
+			return ret;
 		}
 
 		if(ch == '_' || (ch >= '0' && ch <= '9')

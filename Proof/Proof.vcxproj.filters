@@ -96,6 +96,9 @@
     <ClInclude Include="src\Algorithm\Algorithm0x00.h">
       <Filter>Source Files\Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Algorithm\Stat.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input\FormulaParser.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="src\Algorithm\Algorithm0x00.cpp">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Algorithm\Stat.cpp">
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>

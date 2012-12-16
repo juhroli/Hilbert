@@ -8,6 +8,18 @@
 
 using namespace General;
 
+AlgorithmBase::AlgorithmBase()
+	: m_axioms(nullptr)
+		, m_mpResults(nullptr)
+		, m_target(nullptr)
+		, m_sigma(nullptr)
+		, m_last(nullptr)
+		, m_result("")
+		, m_finished(false)
+		, m_maxLength(20)
+{
+}
+
 /*
 *	This function does modus ponens, there and back. (The Hobbit function)
 *
@@ -101,6 +113,8 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 
 			if(Unification(xLeft, y, unified, uni))
 			{
+				Stat_incUnificationCount();
+
 				//Do the replaces on x.
 				if(xImpl->IsTemp())
 				{
@@ -115,7 +129,16 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 				//Cut with the unified
 				if(MP(unified, xImpl, res))
 				{
+					Stat_incMPCount();
+
 					addWrap(yWrapper == nullptr ? y : yWrapper, xWrapper == nullptr ? x : xWrapper, res, uni);
+
+					//Axioms count
+					if(!x->IsWrapped() && !x->IsAtomic() && x->IsTemp())
+						Stat_incAxiomCount();
+
+					if(!y->IsWrapped() && !y->IsAtomic() && y->IsTemp())
+						Stat_incAxiomCount();
 
 					if(m_last->Equals(m_target) || (m_last->IsTemp() && m_last->IsAtomic()))
 					{

@@ -33,7 +33,11 @@ void Algorithm0x03::Start()
 {
 	if(m_target == nullptr || m_axioms == nullptr)
 		return;
+
 	this->Run();
+
+	Stat_EndTimer();
+	Stat_EndSize(m_sigma->Size());
 }
 
 void Algorithm0x03::Run()
@@ -59,7 +63,10 @@ void Algorithm0x03::Run()
 	srand((unsigned)time(0));
 
 	unordered_map<int, bool> usedFormulas;
-	
+
+	Stat_StartTimer();
+	Stat_StartSize(m_sigma->Size());
+
 	while(sigma->Size() <= m_sigmaLimit && !m_target->Equals(m_last))
 	{
 		unsigned rnd1 = unsigned((rand() % sigma->Size()));

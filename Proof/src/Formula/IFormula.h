@@ -4,7 +4,7 @@
 #include "../HilbertIncludes.h"
 #include <sstream>
 #include <locale>
-#include <cstring>
+#include <string>
 
 using std::locale;
 using std::collate;
