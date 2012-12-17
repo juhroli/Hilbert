@@ -4,6 +4,7 @@
 #include "../HilbertIncludes.h"
 #include "../Formula/IFormula.h"
 #include "../Formula/Containers/Sets/IFormulaSet.h"
+#include "../Formula/Containers/AxiomContainer.h"
 
 namespace FormulaParser
 {
@@ -13,7 +14,10 @@ namespace FormulaParser
 	IFormula * ReadSingleFormula(string::iterator& it, string::iterator& end, bool temp);
 
 	IFormulaSet * ParseFormulaSet(string str, FSetType type);
-	bool ReadFormulaSet(string::iterator& it, string::iterator& end, bool temp, IFormulaSet * fset);
+	AxiomContainer * ParseAxioms(string str);
+
+	template<typename T>
+	bool ReadFormulaSet(string::iterator& it, string::iterator& end, bool temp, T * formulas);
 }
 
 #endif

@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
 	/*=================TEST FOR UNIFICATION=================*/
 	if( argc > 1 && (atoi(argv[1]) == 6 || atoi(argv[1]) == 0))
 	{
-		for(int i = 0; i< 1000000; i++)
+		for(int i = 0; i< 1000; i++)
 		{
 		IFormula * f1 = ParseFormula("(G->G)->(G->H)");
 		IFormula * f2 = ParseTemp("F->(G->F)");
@@ -136,7 +136,7 @@ int main(int argc, char* argv[])
 
 		bool ret = Unification(f1, f2, res);
 		
-		cout<<(res != __nullptr && !res->IsNull() ? res->ToString() : "fail") <<endl;
+		cout<<(res != nullptr && !res->IsNull() ? res->ToString() : "fail") <<endl;
 		cout<<f1->ToString()<<endl<<f2->ToString()<<endl;
 		DELETEFORMULA(res);
 		DELETEFORMULA(f2);

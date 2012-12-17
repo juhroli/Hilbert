@@ -18,15 +18,39 @@ Axiom * AxiomContainer::GetAxiom(unsigned index)
 	return nullptr;
 }
 
-void AxiomContainer::AddAxiom(Axiom * axiom)
+void AxiomContainer::Add(IFormula * axiom)
 {
-	if(axiom == nullptr)
+	Axiom * input = nullptr;
+	if(axiom == nullptr
+		|| (input = dynamic_cast<Axiom*>(axiom)) == nullptr)
 		return;
 	
-	m_axioms.push_back(axiom);
+	m_axioms.push_back(input);
 }
 
-int AxiomContainer::GetSize()
+int AxiomContainer::Size()
 {
 	return m_axioms.size();
+}
+
+string AxiomContainer::ToString()
+{
+	if(Size() == 0)
+	return "Empty set";
+
+	stringstream stream;
+
+	unsigned end = Size();
+
+	stream << "{ ";
+
+	for(unsigned i = 0; i < end; i++)
+	{
+		stream << m_axioms[i]->ToString();
+		stream << ((i != end) ? ", " : "");
+	}
+
+	stream<<" }";
+
+	return stream.str();
 }

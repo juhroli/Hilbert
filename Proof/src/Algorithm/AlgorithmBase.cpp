@@ -345,7 +345,7 @@ void AlgorithmBase::DoDeduction()
 
 void AlgorithmBase::AddAxiomsToSigma()
 {
-	for(int i = 1; i <= m_axioms->GetSize(); i++)
+	for(int i = 1; i <= m_axioms->Size(); i++)
 	{
 		m_sigma->Add(m_axioms->GetAxiom(i));
 	}

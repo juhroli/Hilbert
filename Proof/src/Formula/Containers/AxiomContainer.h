@@ -14,8 +14,10 @@ public:
 	virtual ~AxiomContainer();
 
 	virtual Axiom * GetAxiom(unsigned index);
-	void AddAxiom(Axiom * axiom);
-	int GetSize();
+	void Add(IFormula * axiom);
+	int Size();
+
+	virtual string ToString();
 
 protected:
 	vector<Axiom*> m_axioms;
