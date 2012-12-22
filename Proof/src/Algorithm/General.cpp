@@ -390,4 +390,33 @@ namespace General
 		//TODO
 		return "";
 	}
+
+	string AlgorithmsDescription()
+	{
+		//TODO: write desc.
+		stringstream stream;
+		stream << "Algorithm arg id: " << ALG_0x00 << endl
+			<< "\tdesc.: this algorithm does deduction on the target," << endl
+			<< "\tputs the axioms into its set then iterates forward" << endl
+			<< "\ton the set and tries to cut the formulas both ways with each other." << endl
+			<< "\tThe algorithm will stop either if it found a result or not." << endl
+			<< "\tReturning no results does not necessary mean that there is no proof," << endl
+			<< "\tthere might be, but the algorithm couldn't find it." << endl
+
+			<< "Algorithm arg id: " << ALG_0x01 << endl
+			<< "\tdesc.: not implemented yet." << endl
+			<< "Algorithm arg id: " << ALG_0x02 << endl
+			<< "\tdesc.: not implemented yet." << endl
+
+			<< "Algorithm arg id: " << ALG_0x03 << endl
+			<< "\tdesc.: this algorithm does deduction on the target," << endl
+			<< "\tputs the axioms into its set then chooses two formulas" << endl
+			<< "\trandomly from its set and tries to cut the formulas" << endl
+			<< "\tboth ways with each other." << endl
+			<< "\tThe algorithm will stop either if it found a result or not." << endl
+			<< "\tReturning no results does not necessary mean that there is no proof," << endl
+			<< "\tthere might be, but the algorithm couldn't find it." << endl;
+
+		return stream.str();
+	}
 }

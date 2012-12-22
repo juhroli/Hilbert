@@ -10,13 +10,14 @@ using namespace General;
 
 AlgorithmBase::AlgorithmBase()
 	: m_axioms(nullptr)
-		, m_mpResults(nullptr)
-		, m_target(nullptr)
-		, m_sigma(nullptr)
-		, m_last(nullptr)
-		, m_result("")
-		, m_finished(false)
-		, m_maxLength(20)
+	, m_target(nullptr)
+	, m_sigma(nullptr)
+	, m_last(nullptr)
+	, m_result("")
+	, m_finished(false)
+	, m_maxLength(15)
+	, m_sigmaLimit(250)
+	, m_reader(nullptr)
 {
 }
 
@@ -33,6 +34,11 @@ bool AlgorithmBase::IsFinished()
 void AlgorithmBase::SetMaxLength(unsigned length)
 {
 	m_maxLength = length;
+}
+
+void AlgorithmBase::SetSigmaLimit(unsigned limit)
+{
+	m_sigmaLimit = limit;
 }
 
 /*

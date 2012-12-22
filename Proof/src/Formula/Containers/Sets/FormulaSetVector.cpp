@@ -29,7 +29,16 @@ void FormulaSetVector::Add(spIFormula formula)
 
 void FormulaSetVector::Add(IFormulaSet& fset)
 {
-	//TODO
+	FormulaSetVector& fsetVec = dynamic_cast<FormulaSetVector&>(fset);
+	
+	if(&fsetVec != nullptr)
+	{
+		vector<spIFormula>::iterator end = fsetVec.End();
+		for(auto it = fsetVec.Begin(); it != end; it++)
+		{
+			this->Add(*it);
+		}
+	}
 }
 
 void FormulaSetVector::AddFormula(spIFormula formula)

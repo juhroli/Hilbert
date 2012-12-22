@@ -221,6 +221,18 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	if( argc > 1 && (atoi(argv[1]) == 10 || atoi(argv[1]) == 0))
+	{
+		AlgorithmType algType = (AlgorithmType)atoi(argv[3]);
+		AlgorithmBase * alg = CreateAlgorithm(algType);
+		alg->ReadFromFile(argv[2]);
+
+		alg->Start();
+		cout<<alg->GetResult()<<endl;
+		cout<<"Stats: " << endl << alg->Stat_ToString()<<endl;
+		delete alg;
+	}
+
 	
 	DestroyTable();
 

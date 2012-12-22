@@ -1,10 +1,10 @@
 Efficient implementation of Hilbert's system
 
-Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. At the moment there is only one algorithm to use.
+Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. At the moment there are two algorithms to use.
 
 This project is made in Visual Studio 2012.
 
-Linux support is added!
+Linux support is added.
 Tested with gcc 4.6.3
 
 How to compile (with static library):
@@ -21,7 +21,8 @@ How to compile (with static library):
 
 	
 	Linking is simple, for example:
-	g++ -std=c++0x Main.cpp -L. -lproof -o ProofTest
+	g++ -std=c++0x Main.cpp -L. -lproof -o ProofUI
+	But the library's headers should be availabe for the code, which means they should be in the same directory.
 
 
 Some examples of proofs made by the lib using the axioms:

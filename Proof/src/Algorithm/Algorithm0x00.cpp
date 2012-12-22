@@ -9,7 +9,6 @@ using std::function;
 
 Algorithm0x00::Algorithm0x00()
 	: AlgorithmBase()
-	, m_sigmaLimit(250)
 {
 }
 
@@ -24,6 +23,12 @@ Algorithm0x00::~Algorithm0x00()
 	{
 		delete m_sigma;
 		m_sigma = nullptr;
+	}
+
+	if(m_reader != nullptr)
+	{
+		delete m_reader;
+		m_reader = nullptr;
 	}
 }
 
@@ -128,7 +133,9 @@ void Algorithm0x00::SetTask(IFormulaSet * Sigma, IFormula * F)
 	}
 	m_sigma = new FormulaSetList();
 
-	m_sigma->Add(*Sigma);
+	if(Sigma != nullptr)
+		m_sigma->Add(*Sigma);
+
 	m_target = F->Clone();
 }
 
@@ -177,7 +184,24 @@ string Algorithm0x00::GetResult()
 	return stream.str();
 }
 
-void Algorithm0x00::SetSigmaLimit(unsigned limit)
+bool Algorithm0x00::ReadFromFile(string file)
 {
-	m_sigmaLimit = limit;
+	m_reader = new FileReader(file, FSET_LIST);
+
+	if( m_reader->ReadFile() )
+	{
+		this->SetTask(m_reader->GetSet(), m_reader->GetTarget());
+		this->SetAxioms(m_reader->GetAxioms());
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
+}
+
+FSetType Algorithm0x00::GetFSetType()
+{
+	return FSET_LIST;
 }

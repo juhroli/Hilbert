@@ -39,6 +39,7 @@
     <ClInclude Include="src\Formula\Containers\Sets\IFormulaSet.h" />
     <ClInclude Include="src\Formula\IFormula.h" />
     <ClInclude Include="src\HilbertIncludes.h" />
+    <ClInclude Include="src\Input\FileReader.h" />
     <ClInclude Include="src\Input\FormulaParser.h" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +59,7 @@
     <ClCompile Include="src\Formula\Containers\HilbertAxioms.cpp" />
     <ClCompile Include="src\Formula\Containers\Sets\FormulaSetList.cpp" />
     <ClCompile Include="src\Formula\Containers\Sets\FormulaSetVector.cpp" />
+    <ClCompile Include="src\Input\FileReader.cpp" />
     <ClCompile Include="src\Input\FormulaParser.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

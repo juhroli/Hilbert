@@ -66,7 +66,6 @@ void Stat::Stat_incAxiomCount()
 
 string Stat::Stat_ToString()
 {
-	//TODO
 	stringstream stream;
 
 	stream << "Elapsed time: " << Stat_GetElapsedTime() << endl

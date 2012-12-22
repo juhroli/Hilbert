@@ -33,6 +33,7 @@ namespace General
 	string NormalizeAxiomString(string str);
 
 	AlgorithmBase * CreateAlgorithm(AlgorithmType type);
+	string AlgorithmsDescription();
 }
 
 #endif

@@ -4,6 +4,7 @@
 #include <functional>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 using namespace General;
 using std::endl;
@@ -11,7 +12,6 @@ using std::function;
 
 Algorithm0x03::Algorithm0x03()
 	: AlgorithmBase()
-	, m_sigmaLimit(250)
 {
 }
 
@@ -26,6 +26,12 @@ Algorithm0x03::~Algorithm0x03()
 	{
 		delete m_sigma;
 		m_sigma = nullptr;
+	}
+
+	if(m_reader != nullptr)
+	{
+		delete m_reader;
+		m_reader = nullptr;
 	}
 }
 
@@ -69,6 +75,12 @@ void Algorithm0x03::Run()
 
 	while(sigma->Size() <= m_sigmaLimit && !m_target->Equals(m_last))
 	{
+		if(pow(sigma->Size(), 2) == usedFormulas.size())
+		{
+			m_finished = false;
+			break;
+		}
+
 		unsigned rnd1 = unsigned((rand() % sigma->Size()));
 		unsigned rnd2 = unsigned((rand() % sigma->Size()));
 
@@ -120,7 +132,9 @@ void Algorithm0x03::SetTask(IFormulaSet * Sigma, IFormula * F)
 	}
 	m_sigma = new FormulaSetVector();
 
-	m_sigma->Add(*Sigma);
+	if(Sigma != nullptr)
+		m_sigma->Add(*Sigma);
+
 	m_target = F->Clone();
 }
 
@@ -166,7 +180,24 @@ string Algorithm0x03::GetResult()
 	return stream.str();
 }
 
-void Algorithm0x03::SetSigmaLimit(unsigned limit)
+bool Algorithm0x03::ReadFromFile(string file)
 {
-	m_sigmaLimit = limit;
+	m_reader = new FileReader(file, FSET_VEC);
+
+	if( m_reader->ReadFile() )
+	{
+		this->SetTask(m_reader->GetSet(), m_reader->GetTarget());
+		this->SetAxioms(m_reader->GetAxioms());
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
+}
+
+FSetType Algorithm0x03::GetFSetType()
+{
+	return FSET_VEC;
 }

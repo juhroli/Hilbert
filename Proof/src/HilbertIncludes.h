@@ -32,6 +32,11 @@
 */
 #define DELETEFORMULA(x) { if(x != nullptr && (!x->IsAtomic() || x->IsWrapped())) { delete x; } x = nullptr; }
 
+/*
+*	Extended delete with nullptr check.
+*/
+#define DELETE(x) if(x != nullptr) { delete x; x = nullptr; }
+
 #define FALSE "~"
 #define IMPLIES "->"
 

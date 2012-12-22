@@ -18,11 +18,11 @@ public:
 	void Run();
 	void SetTask(IFormulaSet * Sigma, IFormula * F);
 	string GetResult();
-	void SetSigmaLimit(unsigned limit);
+	bool ReadFromFile(string file);
+	FSetType GetFSetType();
 
 private:
 	unsigned m_firstEnd; //position to sigma's end after deduction
-	unsigned m_sigmaLimit; //limit sigma's size
 };
 
 #endif
