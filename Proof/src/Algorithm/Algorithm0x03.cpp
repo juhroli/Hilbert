@@ -105,6 +105,9 @@ void Algorithm0x03::Run()
 		IFormula * first = (*sigma)[rnd1].get();
 		IFormula * second = (*sigma)[rnd2].get();
 
+		if(first->Length() > m_maxLength || second->Length() > m_maxLength)
+			continue;
+
 		if(MPBothWays(first, second, m_sigma))
 			return;
 		

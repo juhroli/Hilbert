@@ -105,7 +105,10 @@ void Algorithm0x00::Run()
 			IFormula * iterS = itS->get();
 
 			if(iterS->Length() > m_maxLength)
+			{
+				itS++;
 				continue;
+			}
 
 			if(MPBothWays(iter, iterS, m_sigma))
 				return;
