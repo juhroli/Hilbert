@@ -40,6 +40,8 @@ void Algorithm0x03::Start()
 	if(m_target == nullptr || m_axioms == nullptr)
 		return;
 
+	Stat_StartTimer();
+
 	this->Run();
 
 	Stat_EndTimer();
@@ -70,7 +72,6 @@ void Algorithm0x03::Run()
 
 	unordered_map<int, bool> usedFormulas;
 
-	Stat_StartTimer();
 	Stat_StartSize(m_sigma->Size());
 
 	while(sigma->Size() <= m_sigmaLimit && !m_target->Equals(m_last))

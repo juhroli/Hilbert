@@ -303,7 +303,7 @@ string AlgorithmBase::ResultString()
 			if(F->IsAxiom())
 				stream<<replaced->ToString()<<"    Axiom: "<<F->ToString()<<" "
 					<<F->GetReplacesString()<<endl<<endl;
-			else if(!F->Equals(m_last) || !F->IsTemp())
+			else
 			{
 				IFormula * first = ReplaceAll(F->GetOrigin().first, F->GetReplaces());
 				IFormula * second = ReplaceAll(F->GetOrigin().second, F->GetReplaces());

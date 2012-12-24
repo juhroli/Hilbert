@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
 				<< "\t2. line: \"formula\" //this is the target formula" << endl
 				<< "\t3. line: \"{ formula_1, ..., formula_n }\" //OR leave this line empty; this conatains the formula set" << endl
 				<< "-alg [algorithm type] [max sigma size] [max formula length]: the last two are optional; 0 will use their default values" << endl
-				<< "-algs: use this argument alone -> lists available algorithm types and descriptions" << endl
+				<< "-algs: lists available algorithm types and descriptions" << endl
 				<< "-sigma [\"{ formula, ... }\"]: set of formulas" << endl
 				<< "-target [\"formula\"]: this is the target formula" << endl
 				<< "-axioms [\"{ formula, ... }\"]: set of formulas" << endl

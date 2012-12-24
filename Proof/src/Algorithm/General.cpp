@@ -10,6 +10,7 @@
 
 /*	Put algorithm headers here.	*/
 #include "Algorithm0x00.h"
+#include "Algorithm0x02.h"
 #include "Algorithm0x03.h"
 /*	===========================	*/
 
@@ -265,6 +266,8 @@ namespace General
 		{
 		case ALG_0x00:
 			return new Algorithm0x00();
+		case ALG_0x02:
+			return new Algorithm0x02();
 		case ALG_0x03:
 			return new Algorithm0x03();
 		}

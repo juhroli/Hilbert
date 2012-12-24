@@ -37,6 +37,8 @@ void Algorithm0x00::Start()
 	if(m_target == nullptr || m_axioms == nullptr)
 		return;
 
+	Stat_StartTimer();
+
 	this->Run();
 
 	Stat_EndTimer();
@@ -67,8 +69,6 @@ void Algorithm0x00::Run()
 	list<spIFormula>::iterator it = sigma->Begin();
 	m_last = new FormulaWrapper(it->get()->Clone());
 
-	//Start the Stat timer
-	Stat_StartTimer();
 	Stat_StartSize(m_sigma->Size());
 
 	while(sigma->Size() <= m_sigmaLimit && it != sigma->End() && !m_target->Equals(it->get()))

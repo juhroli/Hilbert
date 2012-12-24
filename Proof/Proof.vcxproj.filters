@@ -102,6 +102,9 @@
     <ClInclude Include="src\Input\FileReader.h">
       <Filter>Source Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Algorithm\Algorithm0x02.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input\FormulaParser.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="src\Input\FileReader.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Algorithm\Algorithm0x02.cpp">
+      <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
