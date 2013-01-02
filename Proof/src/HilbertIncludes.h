@@ -1,29 +1,6 @@
 ﻿#ifndef HilbertIncludes_h
 #define HilbertIncludes_h
 
-/*
-          ^^         |         ^^
-          ::         |         ::
-   ^^     ::         |         ::     ^^
-   ::     ::         |         ::     ::
-    ::     ::        |        ::     ::
-      ::    ::       |       ::    ::
-        ::    ::   _/~\_   ::    ::
-          ::   :::/     \:::   ::
-            :::::(       ):::::
-                  \ ___ /
-             :::::/`   `\:::::
-           ::    ::\o o/::    ::
-         ::     ::  :":  ::     ::
-       ::      ::   ` `   ::      ::
-      ::      ::           ::      ::
-     ::      ::             ::      ::
-     ^^      ::             ::      ^^
-             ::             ::
-             ^^             ^^
-	This spider protects the code from bugs.
-	Include this file in every other source.
-*/
 #include <memory>
 
 /*

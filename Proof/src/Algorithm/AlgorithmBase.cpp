@@ -42,7 +42,7 @@ void AlgorithmBase::SetSigmaLimit(unsigned limit)
 }
 
 /*
-*	This function does modus ponens, there and back. (The Hobbit function)
+*	This function does modus ponens, there and back.
 *
 *	fset: put the result in this set
 *	x in {a, b}

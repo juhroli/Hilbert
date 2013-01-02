@@ -121,9 +121,16 @@ void Algorithm0x00::Run()
 
 	if(m_last != nullptr && m_last->Equals(m_target))
 		m_finished = true;
-	else if(it == sigma->End())
+	else if(m_target->Equals(it->get()))
 	{
-		m_finished = false;
+		IFormula * iter = it->get();
+
+		if(iter->IsWrapped())
+			m_last = dynamic_cast<FormulaWrapper*>(iter);
+		else
+			m_last = new FormulaWrapper(iter->Clone());
+
+		m_finished = true;
 	}
 }
 

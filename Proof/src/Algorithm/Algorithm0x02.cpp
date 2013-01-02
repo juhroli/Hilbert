@@ -67,6 +67,27 @@ void Algorithm0x02::Run()
 	//Set m_firstEnd to the end after deduction
 	m_firstEnd = sigma->Size() - 1;
 	m_firstEnd = m_firstEnd < 0 ? 0 : m_firstEnd;
+
+	if(m_taskString.empty())
+	{
+		stringstream stream;
+
+		if(sigma->Size() > 0)
+		{	
+			stream << "After applying deduction: " << endl << "{ ";
+
+			for(unsigned i = 0; i <= m_firstEnd; i++)
+			{
+				stream << (*sigma)[i].get()->ToString();
+				stream << ((i != m_firstEnd) ? ", " : "");
+			}
+			stream<<" } ";
+		}
+		stream<<"|- "<<m_target->ToString()<<endl<<endl<<endl;
+
+		m_taskString = stream.str();
+	}
+
 	unsigned i = 0;
 
 	AddAxiomsToSigma();
@@ -194,9 +215,16 @@ void Algorithm0x02::Run()
 
 	if(m_last != nullptr && m_last->Equals(m_target))
 		m_finished = true;
-	else if(i == sigma->Size() - 1)
+	else if(m_target->Equals((*sigma)[i].get()))
 	{
-		m_finished = false;
+		IFormula * iter = (*sigma)[i].get();
+
+		if(iter->IsWrapped())
+			m_last = dynamic_cast<FormulaWrapper*>(iter);
+		else
+			m_last = new FormulaWrapper(iter->Clone());
+
+		m_finished = true;
 	}
 }
 
@@ -228,29 +256,7 @@ string Algorithm0x02::GetResult()
 		return stream.str();
 	}
 
-	if(m_taskString.empty())
-	{
-		FormulaSetVector * sigma = dynamic_cast<FormulaSetVector*>(m_sigma);
-
-		if(sigma->Size() > 0 && m_firstEnd != sigma->Size() - 1)
-		{	
-			stream << "After applying deduction: " << endl << "{ ";
-
-			for(unsigned i = 0; i <= m_firstEnd; i++)
-			{
-				stream << (*sigma)[i].get()->ToString();
-				stream << ((i != m_firstEnd) ? ", " : "");
-			}
-			stream<<" } ";
-		}
-		stream<<"|- "<<m_target->ToString()<<endl<<endl<<endl;
-
-		m_taskString = stream.str();
-	}
-	else
-	{
-		stream<<m_taskString;
-	}
+	stream<<m_taskString;
 
 	stream<<ResultString();
 

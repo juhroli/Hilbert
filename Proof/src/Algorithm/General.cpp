@@ -383,17 +383,6 @@ namespace General
 		rep.clear();
 	}
 
-	/*
-	*	Normalize the input string to only contain
-	*	atomic formulas labeled from a, b, ..., z.
-	*	(use this in FormulaParser)
-	*/
-	string NormalizeAxiomString(string str)
-	{
-		//TODO
-		return "";
-	}
-
 	string AlgorithmsDescription()
 	{
 		//TODO: write desc.
@@ -409,7 +398,7 @@ namespace General
 			<< "Algorithm arg id: " << ALG_0x01 << endl
 			<< "\tdesc.: not implemented yet." << endl
 			<< "Algorithm arg id: " << ALG_0x02 << endl
-			<< "\tdesc.: not implemented yet." << endl
+			<< "\tdesc.: Implemented, but no desc, yet." << endl
 
 			<< "Algorithm arg id: " << ALG_0x03 << endl
 			<< "\tdesc.: this algorithm does deduction on the target," << endl
