@@ -7,6 +7,7 @@
 #include "../Formula/Containers/Sets/IFormulaSet.h"
 #include "../Formula/Containers/FormulaWrapper.h"
 #include "AlgorithmBase.h"
+#include "../Formula/Containers/AFormulaTable.h"
 
 /*	Put algorithm headers here.	*/
 #include "Algorithm0x00.h"
@@ -16,6 +17,7 @@
 
 namespace General
 {
+	using namespace AFormulaTable;
 	/*
 	*	Modus ponens:
 	*	Cut the left part of the impF if possible then return true, res will contain impF's right part
@@ -381,6 +383,49 @@ namespace General
 			DELETEFORMULA(it.second);
 		}
 		rep.clear();
+	}
+
+	/*
+	*	Normalizes the input f formula by removing double negations.	
+	*/
+	void NormalizeFormula(IFormula*& f)
+	{
+		ImplicationFormula * impl = nullptr;
+
+		if(!f->IsAtomic() && !f->IsWrapped())
+			impl = static_cast<ImplicationFormula*>(f);
+		else
+			return;
+
+		if( impl->GetRightSub()->Equals(GetAtomicFormula(FALSE).get()) )
+		{
+			if(!impl->GetLeftSub()->IsAtomic())
+			{
+				ImplicationFormula * leftImpl = static_cast<ImplicationFormula*>(impl->GetLeftSub());
+
+				if( leftImpl->GetRightSub()->Equals(GetAtomicFormula(FALSE).get()) )
+				{
+					IFormula * oldF = f;
+					f = leftImpl->GetLeftSub()->Clone();
+					DELETEFORMULA(oldF);
+				}
+			}
+		}
+
+		impl = dynamic_cast<ImplicationFormula*>(f);
+		
+		if(impl != nullptr)
+		{
+			IFormula * leftNorm = impl->GetLeftSub()->Clone();
+			IFormula * rightNorm = impl->GetRightSub()->Clone();
+
+			NormalizeFormula(leftNorm);
+			NormalizeFormula(rightNorm);
+
+			DELETEFORMULA(f);
+
+			f = new ImplicationFormula(leftNorm, rightNorm);
+		}
 	}
 
 	string AlgorithmsDescription()

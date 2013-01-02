@@ -233,6 +233,14 @@ int main(int argc, char* argv[])
 		delete alg;
 	}
 
+	if( argc > 1 && (atoi(argv[1]) == 11 || atoi(argv[1]) == 0))
+	{
+		IFormula * f = ParseFormula(argv[2]);
+		NormalizeFormula(f);
+		cout << f->ToString() <<endl;
+		DELETEFORMULA(f);
+	}
+
 	
 	DestroyTable();
 

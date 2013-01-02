@@ -121,7 +121,7 @@ void Algorithm0x00::Run()
 
 	if(m_last != nullptr && m_last->Equals(m_target))
 		m_finished = true;
-	else if(m_target->Equals(it->get()))
+	else if(it != sigma->End() && m_target->Equals(it->get()))
 	{
 		IFormula * iter = it->get();
 

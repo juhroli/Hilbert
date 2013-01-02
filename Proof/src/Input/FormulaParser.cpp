@@ -5,10 +5,12 @@
 #include "../Formula/Containers/AFormulaTable.h"
 #include "../Formula/Containers/Sets/FormulaSetList.h"
 #include "../Formula/Containers/Sets/FormulaSetVector.h"
+#include "../Algorithm/General.h"
 
 namespace FormulaParser
 {
 	using namespace AFormulaTable;
+	using General::NormalizeFormula;
 	
 	/*
 	*	This creates an AtomicFormula
@@ -25,6 +27,8 @@ namespace FormulaParser
 		{
 			DELETEFORMULA(ret);
 		}
+
+		NormalizeFormula(ret);
 
 		return ret;
 	}

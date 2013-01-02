@@ -30,6 +30,7 @@ namespace General
 	bool ContainsFormula(IFormula * f, IFormula * g);
 	void NormalizeReplaces(replaces& rep);
 	void ClearReplaces(replaces& rep);
+	void NormalizeFormula(IFormula*& f);
 
 	AlgorithmBase * CreateAlgorithm(AlgorithmType type);
 	string AlgorithmsDescription();

@@ -3,10 +3,12 @@
 #include "Formula/Containers/AFormulaTable.h"
 #include "Formula/Compound/ImplicationFormula.h"
 #include "Formula/Containers/Sets/FormulaSetList.h"
+#include "Algorithm/General.h"
 #include <ctime>
 #include <deque>
 
 using namespace AFormulaTable;
+using General::NormalizeFormula;
 using std::deque;
 using std::endl;
 
@@ -235,6 +237,8 @@ IFormula * FormulaGenerator::DisjunctFormulas(FormulaSetList flist)
 		}
 	}
 
+	NormalizeFormula(ret);
+
 	return ret;
 }
 
@@ -410,6 +414,8 @@ IFormula * FormulaGenerator::ConvertToFormula(formula v, bool disjConn)
 	}
 
 	ret = result[0];
+
+	NormalizeFormula(ret);
 
 	return ret;
 }
