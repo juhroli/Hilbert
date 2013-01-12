@@ -4,7 +4,6 @@
 #include "../Formula/Containers/Sets/FormulaSetList.h"
 
 #include<functional>
-#include <iostream>
 
 using namespace General;
 
@@ -19,6 +18,17 @@ AlgorithmBase::AlgorithmBase()
 	, m_sigmaLimit(250)
 	, m_reader(nullptr)
 {
+}
+
+AlgorithmBase::~AlgorithmBase()
+{
+	if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
+		DELETEFORMULA(m_last);
+
+	DELETEFORMULA(m_target);
+
+	DELETE(m_sigma);
+	DELETE(m_reader);
 }
 
 void AlgorithmBase::SetAxioms(AxiomContainer * container)
@@ -56,6 +66,13 @@ void AlgorithmBase::SetSigmaLimit(unsigned limit)
 bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 {
 	if(a == nullptr || b == nullptr || fset == nullptr)
+		return false;
+
+	/*
+	*	If the two formulas' length equal and
+	*	neither of them is temp then ignore them.
+	*/
+	if(a->Length() == b->Length() && !a->IsTemp() && !b->IsTemp() )
 		return false;
 
 	/*
@@ -111,20 +128,12 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 				xLeft = xImpl->GetLeftSub();
 			}
 
-			ImplicationFormula * yImpl = nullptr;
-			IFormula * yLeft = nullptr;
 			FormulaWrapper * yWrapper = nullptr;
 
 			if(y->IsWrapped())
 			{
 				yWrapper = dynamic_cast<FormulaWrapper*>(y);
 				y = yWrapper->GetThis();
-			}
-
-			if(!b->IsAtomic())
-			{
-				yImpl = static_cast<ImplicationFormula*>(y);
-				yLeft = yImpl->GetLeftSub();
 			}
 			/* ===== End of initialization ===== */
 
@@ -134,8 +143,6 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 
 			if(Unification(xLeft, y, unified, uni))
 			{
-				Stat_incUnificationCount();
-
 				//Do the replaces on x.
 				if(xImpl->IsTemp())
 				{
@@ -291,9 +298,6 @@ string AlgorithmBase::ResultString()
 	{
 		FormulaWrapper * F = dynamic_cast<FormulaWrapper*>(it->get());
 
-		//First, normalize the replaces
-		NormalizeReplaces(F->GetReplaces());
-
 		stream<<i<<". ";
 		if(F->IsFromSigma())
 			stream<<F->ToString()<<"    from Sigma"<<endl<<endl;
@@ -339,8 +343,7 @@ void AlgorithmBase::DoDeduction()
 
 	while(Deduction(deduct, m_sigma, res))
 	{
-		if(deduct != nullptr)
-			delete deduct;
+		DELETEFORMULA(deduct);
 		m_target = res;
 		deduct = m_target;
 		res = nullptr;
@@ -351,7 +354,7 @@ void AlgorithmBase::DoDeduction()
 
 void AlgorithmBase::AddAxiomsToSigma()
 {
-	for(int i = 1; i <= m_axioms->Size(); i++)
+	for(unsigned i = 1; i <= m_axioms->Size(); i++)
 	{
 		m_sigma->Add(m_axioms->GetAxiom(i));
 	}

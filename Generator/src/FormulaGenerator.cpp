@@ -12,8 +12,10 @@ using General::NormalizeFormula;
 using std::deque;
 using std::endl;
 
+#pragma warning (disable : 4018) //Disable signed/unsigned mismatch warning
+
 FormulaGenerator::FormulaGenerator()
-	: m_N(0)
+	: m_N(4)
 	, m_mask(3)
 {
 	srand((unsigned)time(0));
@@ -24,6 +26,9 @@ FormulaGenerator::FormulaGenerator(unsigned n)
 	: m_N(n)
 	, m_mask(3)
 {
+	if(m_N > 26)
+		m_N = 26;
+
 	srand((unsigned)time(0));
 	SetDefaults();
 }
@@ -85,7 +90,7 @@ string FormulaGenerator::Generate()
 		}
 	}
 
-	//Randomly select some formulas for the right side
+	//Randomly select some formulas for the right side; TODO
 	unsigned rightN = rand() % (clauses.size() / 5 + 1) + 1;
 
 	for(unsigned i = 0; i < rightN; i++)

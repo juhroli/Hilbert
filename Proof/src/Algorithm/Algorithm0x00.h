@@ -1,10 +1,8 @@
 #ifndef Algorithm0x00_h
 #define Algorithm0x00_h
 
-#include "../HilbertIncludes.h"
+#include "../HilbertDefines.h"
 #include "AlgorithmBase.h"
-
-class FormulaWrapper;
 
 /*
 *
@@ -20,9 +18,6 @@ public:
 	string GetResult();
 	bool ReadFromFile(string file);
 	FSetType GetFSetType();
-
-private:
-	list<spIFormula>::iterator m_firstEnd; //iterator to sigma's end after deduction
 };
 
 #endif

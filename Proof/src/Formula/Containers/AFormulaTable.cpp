@@ -3,6 +3,8 @@
 
 namespace AFormulaTable
 {
+	using std::endl;
+
 	static unordered_map<long, spAtomicFormula> table;
 	static unordered_map<string, long> charTable;
 
@@ -59,7 +61,12 @@ namespace AFormulaTable
 		spAtomicFormula ret = GetAtomicFormula(symbol);
 
 		if(ret == nullptr)
-			ret = AddAtomicFormula(new AtomicFormula(symbol));
+		{
+			if(symbol == FALSE)
+				ret = AddAtomicFormula(new FalseFormula());
+			else
+				ret = AddAtomicFormula(new AtomicFormula(symbol));
+		}
 
 		return ret;
 	}
@@ -76,16 +83,11 @@ namespace AFormulaTable
 
 	void SetDefaults()
 	{
-		//TODO
 		AddAtomicFormula(new FalseFormula());
-		AddAtomicFormula(new AtomicFormula("F"));
-		AddAtomicFormula(new AtomicFormula("G"));
-		AddAtomicFormula(new AtomicFormula("H"));
 
 		AddAtomicFormula(new TempFormula("a"));
 		AddAtomicFormula(new TempFormula("b"));
 		AddAtomicFormula(new TempFormula("c"));
-		AddAtomicFormula(new TempFormula("d"));
 	}
 
 	void DestroyTable()
@@ -99,7 +101,7 @@ namespace AFormulaTable
 		stringstream stream;
 		for(auto it : table)
 		{
-			stream << it.second->ToString() << "\t" << it.second->HashCode() << "\t" << (it.second->IsTemp()?"Temp":"") << "\r\n";
+			stream << it.second->ToString() << "\t" << it.second->HashCode() << "\t" << (it.second->IsTemp()?"Temp":"") << endl;
 		}
 		stream<<'\0';
 		return stream.str();

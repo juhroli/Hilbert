@@ -1,11 +1,13 @@
 Efficient implementation of Hilbert's system
 
-Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. At the moment there are two algorithms to use.
+Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. There are four algorithms to chose from.
 
 This project is made in Visual Studio 2012.
 
 Linux support is added.
 Tested with gcc 4.6.3
+
+Binaries: https://www.dropbox.com/sh/rbx9hzyhmgo0gbp/XzXTENXlw7
 
 How to compile (with static library):
 

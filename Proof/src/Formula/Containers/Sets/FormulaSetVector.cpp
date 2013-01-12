@@ -2,24 +2,33 @@
 #include "../AFormulaTable.h"
 #include "../FormulaWrapper.h"
 
+#ifndef _MSC_VER
+	#include <algorithm>
+	using std::stable_sort;
+#endif
+
 using namespace AFormulaTable;
 
 FormulaSetVector::~FormulaSetVector()
 {
 	this->Clear();
 }
-
-void FormulaSetVector::Add(IFormula * formula)
+template<typename T>
+void FormulaSetVector::AddFormula(T formula)
 {
 	long hash = formula->HashCode();
 
 	if(m_formulaMap[hash] == nullptr)
 	{
-		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula);
 		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
+			(formula->IsAtomic() && !formula->IsWrapped() ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
 		m_formulas.push_back(m_formulaMap[hash]);
 	}
+}
+
+void FormulaSetVector::Add(IFormula * formula)
+{
+	AddFormula(formula);
 }
 
 void FormulaSetVector::Add(spIFormula formula)
@@ -41,19 +50,6 @@ void FormulaSetVector::Add(IFormulaSet& fset)
 	}
 }
 
-void FormulaSetVector::AddFormula(spIFormula formula)
-{
-	long hash = formula->HashCode();
-
-	if(m_formulaMap[hash] == nullptr)
-	{
-		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula.get());
-		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
-		m_formulas.push_back(m_formulaMap[hash]);
-	}
-}
-
 /*
 *	Sort formulas by their length.
 */
@@ -64,6 +60,12 @@ void FormulaSetVector::SortFormulas()
 		[](spIFormula f) -> unsigned {
 			return f->Length();
 		});
+#else
+	stable_sort(m_formulas.begin(), m_formulas.end(),
+		[&](spIFormula x, spIFormula y) -> bool
+	{
+		return x.get()->Length() < y.get()->Length();
+	});
 #endif
 }
 

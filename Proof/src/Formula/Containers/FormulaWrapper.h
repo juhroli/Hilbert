@@ -1,7 +1,7 @@
 #ifndef FormulaWrapper_h
 #define FormulaWrapper_h
 
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "../IFormula.h"
 #include "../../Algorithm/General.h"
 

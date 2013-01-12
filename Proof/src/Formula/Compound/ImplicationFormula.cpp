@@ -1,4 +1,4 @@
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "ImplicationFormula.h"
 #include "../Atomic/AtomicFormula.h"
 
@@ -7,16 +7,78 @@ ImplicationFormula::ImplicationFormula()
 	, m_right(nullptr)
 	, m_length(0)
 	, m_hash(0)
+	, m_string("")
+	, m_hashString("")
+	, m_temp(None)
 {
 }
 
 ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 	: m_left(left)
 	, m_right(right)
+	, m_length(0)
+	, m_hash(0)
+	, m_string("")
+	, m_hashString("")
+	, m_temp(None)
 {
-	if(m_left != nullptr && m_right != nullptr)
+}
+
+ImplicationFormula::ImplicationFormula(ImplicationFormula& formula)
+{
+	m_left = formula.GetLeftSub();
+	m_right = formula.GetRightSub();
+
+	if(m_left != nullptr && !m_left->IsAtomic())
+		m_left = m_left->Clone();
+	if(m_right != nullptr && !m_right->IsAtomic())
+		m_right = m_right->Clone();
+
+	m_length = formula.m_length;
+	m_hash = formula.m_hash;
+	m_string = formula.m_string;
+	m_hashString = formula.m_hashString;
+	m_temp = formula.m_temp;
+}
+
+ImplicationFormula::~ImplicationFormula()
+{
+	DELETEFORMULA(m_left);
+	DELETEFORMULA(m_right);
+}
+
+bool ImplicationFormula::IsAtomic()
+{
+	return false;
+}
+
+bool ImplicationFormula::IsTemp()
+{
+	if(m_temp == None && !IsNull())
 	{
-		/* ==== Create the string of the formula ==== */
+		m_temp = ( m_left->IsTemp() || m_right->IsTemp() ) ? True : False;
+	}
+
+	return m_temp == True;
+}
+
+bool ImplicationFormula::Eval()
+{
+	return ( !m_left->Eval() || m_right->Eval() );
+}
+
+bool ImplicationFormula::Equals(IFormula * formula)
+{
+	if(formula == nullptr || formula->IsAtomic())
+		return false;
+
+	return this->HashCode() == formula->HashCode();
+}
+
+string ImplicationFormula::ToString()
+{
+	if(m_string.empty() && !IsNull())
+	{
 		stringstream stream;
 		stringstream hashStream; //It is needed, because temp's are stored like this: "_Symbol", so for them the GetSymbol() should be called
 
@@ -50,68 +112,9 @@ ImplicationFormula::ImplicationFormula(IFormula * left, IFormula * right)
 		}
 
 		m_string = stream.str();
-
-		/* ==== End of creating string ==== */
-
-		m_hash = GenerateHashCode(hashStream.str());
-		m_length = m_left->Length() + m_right->Length();
-		m_temp = ( m_left->IsTemp() || m_right->IsTemp() );
+		m_hashString = hashStream.str();
 	}
-	else
-	{
-		m_hash = 0;
-		m_length = 0;
-		m_string = "";
-	}
-}
 
-ImplicationFormula::ImplicationFormula(ImplicationFormula& formula)
-{
-	m_left = formula.GetLeftSub();
-	m_right = formula.GetRightSub();
-
-	if(m_left != nullptr && !m_left->IsAtomic())
-		m_left = m_left->Clone();
-	if(m_right != nullptr && !m_right->IsAtomic())
-		m_right = m_right->Clone();
-
-	m_length = formula.Length();
-	m_hash = formula.HashCode();
-	m_string = formula.ToString();
-	m_temp = formula.IsTemp();
-}
-
-ImplicationFormula::~ImplicationFormula()
-{
-	DELETEFORMULA(m_left);
-	DELETEFORMULA(m_right);
-}
-
-bool ImplicationFormula::IsAtomic()
-{
-	return false;
-}
-
-bool ImplicationFormula::IsTemp()
-{
-	return m_temp;
-}
-
-bool ImplicationFormula::Eval()
-{
-	return ( !m_left->Eval() || m_right->Eval() );
-}
-
-bool ImplicationFormula::Equals(IFormula * formula)
-{
-	if(!formula || formula->IsAtomic())
-		return false;
-
-	return m_hash == formula->HashCode();
-}
-
-string ImplicationFormula::ToString()
-{
 	return this->m_string;
 }
 
@@ -137,11 +140,24 @@ IFormula * ImplicationFormula::Replace(IFormula * t, IFormula * x)
 
 unsigned ImplicationFormula::Length()
 {
+	if(m_length == 0 && !IsNull())
+	{
+		m_length = m_left->Length() + m_right->Length();
+	}
+
 	return m_length;
 }
 
 long ImplicationFormula::HashCode()
 {
+	if(m_hash == 0 && !IsNull())
+	{
+		if(m_hashString.empty())
+			this->ToString();
+
+		m_hash = GenerateHashCode(m_hashString);
+	}
+
 	return m_hash;
 }
 

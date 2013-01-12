@@ -75,20 +75,11 @@
     <ClInclude Include="src\Formula\Containers\Sets\FormulaSetList.h">
       <Filter>Source Files\Formula\Containers\Sets</Filter>
     </ClInclude>
-    <ClInclude Include="src\Formula\Containers\Sets\FormulaSetPriority.h">
-      <Filter>Source Files\Formula\Containers\Sets</Filter>
-    </ClInclude>
     <ClInclude Include="src\Formula\Containers\Sets\FormulaSetVector.h">
-      <Filter>Source Files\Formula\Containers\Sets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Formula\Containers\Sets\IFormulaSet.h">
       <Filter>Source Files\Formula\Containers\Sets</Filter>
     </ClInclude>
     <ClInclude Include="src\Algorithm\AlgorithmBase.h">
       <Filter>Source Files\Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\HilbertIncludes.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Algorithm\Algorithm0x03.h">
       <Filter>Source Files\Algorithm</Filter>
@@ -104,6 +95,18 @@
     </ClInclude>
     <ClInclude Include="src\Algorithm\Algorithm0x02.h">
       <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Algorithm\Algorithm0x01.h">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\Sets\FormulaSetHashed.h">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Formula\Containers\Sets\IFormulaSet.h">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HilbertDefines.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="src\Algorithm\Algorithm0x02.cpp">
       <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Algorithm\Algorithm0x01.cpp">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Formula\Containers\Sets\FormulaSetHashed.cpp">
+      <Filter>Source Files\Formula\Containers\Sets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

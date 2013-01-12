@@ -4,6 +4,7 @@
 
 using General::ContainsFormula;
 using General::ClearReplaces;
+using General::NormalizeReplaces;
 
 FormulaWrapper::FormulaWrapper()
 	: m_this(nullptr)
@@ -69,7 +70,7 @@ FormulaWrapper::FormulaWrapper(FormulaWrapper& formula)
 	AddReplaces(formula.m_replaces);
 	m_fromSigma = formula.IsFromSigma();
 	m_isAxiom = formula.IsAxiom();
-	m_hash = formula.m_hash;
+	m_hash = formula.HashCode();
 }
 
 FormulaWrapper::~FormulaWrapper()
@@ -187,7 +188,7 @@ void FormulaWrapper::AddReplaces(replaces rep)
 		m_replaces.push_back(make_pair(it->first->Clone(), it->second->Clone()));
 		it++;
 	}
-
+	NormalizeReplaces(m_replaces);
 	//Update the hash code, but it's dangerous for storing! TODO: find another way
 	stringstream stream;
 	stream << m_this->ToString() << GetReplacesString();

@@ -1,13 +1,18 @@
 #ifndef Stat_H
 #define Stat_H
 
-#include "../HilbertIncludes.h"
+#include "../HilbertDefines.h"
 
 #include <ctime>
 #include <string>
 
 using std::string;
 
+/*
+*	Statistic class for algorithms.
+*	Stores the elapsed time in seconds and the number of modus ponenses,
+*	new formulas and axiom usages.
+*/
 class Stat
 {
 public:
@@ -26,8 +31,7 @@ private:
 	int m_startSize; //number of formulas in set in the beginning
 	int m_endSize; //number of formulas in set in the end
 	unsigned m_MPCount; //number of modus ponenses
-	unsigned m_unificationCount; //number of unifications executed
-	unsigned m_axiomCount;
+	unsigned m_axiomCount; //number of times axioms were used
 
 protected:
 	void Stat_StartTimer();
@@ -36,7 +40,6 @@ protected:
 	void Stat_EndSize(int n);
 
 	void Stat_incMPCount();
-	void Stat_incUnificationCount();
 	void Stat_incAxiomCount();
 };
 

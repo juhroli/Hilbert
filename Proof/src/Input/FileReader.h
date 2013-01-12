@@ -1,9 +1,12 @@
 #ifndef FileReader_h
 #define FileReader_h
 
-#include "../HilbertIncludes.h"
+#include "../HilbertDefines.h"
 #include "FormulaParser.h"
 
+/*
+*	Class for reading an exercise from file.
+*/
 class FileReader
 {
 public:

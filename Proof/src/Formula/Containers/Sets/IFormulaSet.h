@@ -1,7 +1,7 @@
 #ifndef IFormulaSet_h
 #define IFormulaSet_h
 
-#include "../../../HilbertIncludes.h"
+#include "../../../HilbertDefines.h"
 #include <unordered_map>
 #include "../../IFormula.h"
 
@@ -13,7 +13,8 @@ using namespace std;
 enum FSetType
 {
 	FSET_VEC,
-	FSET_LIST
+	FSET_LIST,
+	FSET_HASHED
 };
 
 /*

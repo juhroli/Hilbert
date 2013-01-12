@@ -1,7 +1,9 @@
-﻿#ifndef HilbertIncludes_h
-#define HilbertIncludes_h
+﻿#ifndef HilbertDefines_h
+#define HilbertDefines_h
 
 #include <memory>
+
+#pragma warning (disable : 4267) //Ignore "conversion from 'size_t' to 'int/unsigned'" warnings (size_t is 64 bits when compiling for 64-bit)
 
 /*
 *	Delete macro for non-atomic formulas. Let the atomic formula table handle the atomic formulas' delete.
@@ -13,6 +15,18 @@
 *	Extended delete with nullptr check.
 */
 #define DELETE(x) if(x != nullptr) { delete x; x = nullptr; }
+
+/*
+*	Using the Cantor pairing function to create one integer from two.
+*	It is a bijection:
+*	f : N x N -> N (N := non-negative integers)
+*	defined by
+*	f(x, y) := ( (x + y) * (x + y + 1) ) / 2 + y
+*
+*	With this we can use an unordered map to identify
+*	which formula pairs were used already then skip them.
+*/
+#define CPAIR(x, y) (((x + y) * (x + y + 1)) / 2 + y)
 
 #define FALSE "~"
 #define IMPLIES "->"

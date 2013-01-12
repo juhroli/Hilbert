@@ -20,6 +20,10 @@ HilbertAxioms::HilbertAxioms()
 
 HilbertAxioms::~HilbertAxioms()
 {
+	for(unsigned i = 0; i < m_axioms.size(); i++)
+	{
+		DELETEFORMULA(m_axioms[i]);
+	}
 	m_axioms.clear();
 }
 

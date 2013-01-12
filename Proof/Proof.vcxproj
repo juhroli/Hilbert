@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Algorithm\Algorithm0x00.h" />
+    <ClInclude Include="src\Algorithm\Algorithm0x01.h" />
     <ClInclude Include="src\Algorithm\Algorithm0x02.h" />
     <ClInclude Include="src\Algorithm\Algorithm0x03.h" />
     <ClInclude Include="src\Algorithm\General.h" />
@@ -35,15 +36,16 @@
     <ClInclude Include="src\Formula\Containers\FormulaWrapper.h" />
     <ClInclude Include="src\Formula\Containers\HilbertAxioms.h" />
     <ClInclude Include="src\Formula\Containers\Sets\FormulaSetList.h" />
-    <ClInclude Include="src\Formula\Containers\Sets\FormulaSetPriority.h" />
+    <ClInclude Include="src\Formula\Containers\Sets\FormulaSetHashed.h" />
     <ClInclude Include="src\Formula\Containers\Sets\FormulaSetVector.h" />
     <ClInclude Include="src\Formula\Containers\Sets\IFormulaSet.h" />
     <ClInclude Include="src\Formula\IFormula.h" />
-    <ClInclude Include="src\HilbertIncludes.h" />
+    <ClInclude Include="src\HilbertDefines.h" />
     <ClInclude Include="src\Input\FileReader.h" />
     <ClInclude Include="src\Input\FormulaParser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Algorithm\Algorithm0x01.cpp" />
     <ClCompile Include="src\Algorithm\Algorithm0x02.cpp" />
     <ClCompile Include="src\Algorithm\Algorithm0x03.cpp" />
     <ClCompile Include="src\Algorithm\AlgorithmBase.cpp" />
@@ -60,6 +62,7 @@
     <ClCompile Include="src\Formula\Containers\FormulaWrapper.cpp" />
     <ClCompile Include="src\Formula\Containers\HilbertAxioms.cpp" />
     <ClCompile Include="src\Formula\Containers\Sets\FormulaSetList.cpp" />
+    <ClCompile Include="src\Formula\Containers\Sets\FormulaSetHashed.cpp" />
     <ClCompile Include="src\Formula\Containers\Sets\FormulaSetVector.cpp" />
     <ClCompile Include="src\Input\FileReader.cpp" />
     <ClCompile Include="src\Input\FormulaParser.cpp" />

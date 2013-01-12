@@ -1,7 +1,7 @@
 #ifndef FormulaSetVector_h
 #define FormulaSetVector_h
 
-#include "../../../HilbertIncludes.h"
+#include "../../../HilbertDefines.h"
 #ifdef _MSC_VER
 	#include <ppl.h>
 	using namespace concurrency;
@@ -9,7 +9,7 @@
 #include <vector>
 #include "IFormulaSet.h"
 
-	using std::vector;
+using std::vector;
 
 class FormulaSetVector : public IFormulaSet
 {
@@ -36,8 +36,8 @@ public:
 private:
 	vector<spIFormula> m_formulas;
 
-protected:
-	void AddFormula(spIFormula formula);
+	template<typename T>
+	void AddFormula(T formula);
 };
 
 #endif

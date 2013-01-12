@@ -1,4 +1,4 @@
-﻿#include "../HilbertIncludes.h"
+﻿#include "../HilbertDefines.h"
 #include "General.h"
 
 #include<functional>
@@ -6,11 +6,12 @@
 #include "../Formula/Compound/ImplicationFormula.h"
 #include "../Formula/Containers/Sets/IFormulaSet.h"
 #include "../Formula/Containers/FormulaWrapper.h"
-#include "AlgorithmBase.h"
 #include "../Formula/Containers/AFormulaTable.h"
+#include "AlgorithmBase.h"
 
 /*	Put algorithm headers here.	*/
 #include "Algorithm0x00.h"
+#include "Algorithm0x01.h"
 #include "Algorithm0x02.h"
 #include "Algorithm0x03.h"
 /*	===========================	*/
@@ -268,6 +269,8 @@ namespace General
 		{
 		case ALG_0x00:
 			return new Algorithm0x00();
+		case ALG_0x01:
+			return new Algorithm0x01();
 		case ALG_0x02:
 			return new Algorithm0x02();
 		case ALG_0x03:
@@ -428,6 +431,9 @@ namespace General
 		}
 	}
 
+	/*
+	*	Returns the algorithms' descriptions.
+	*/
 	string AlgorithmsDescription()
 	{
 		//TODO: write desc.
@@ -441,7 +447,7 @@ namespace General
 			<< "\tthere might be, but the algorithm couldn't find it." << endl
 
 			<< "Algorithm arg id: " << ALG_0x01 << endl
-			<< "\tdesc.: not implemented yet." << endl
+			<< "\tdesc.: Implemented, but no desc, yet." << endl
 			<< "Algorithm arg id: " << ALG_0x02 << endl
 			<< "\tdesc.: Implemented, but no desc, yet." << endl
 

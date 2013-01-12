@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "HilbertIncludes.h"
+#include "HilbertDefines.h"
 #include "Formula/Atomic/AtomicFormula.h"
 #include "Formula/Atomic/TempFormula.h"
 #include "Formula/Compound/ImplicationFormula.h"

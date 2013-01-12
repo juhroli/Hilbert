@@ -12,16 +12,21 @@ Stat::Stat()
 	, m_startSize(0)
 	, m_endSize(0)
 	, m_MPCount(0)
-	, m_unificationCount(0)
 	, m_axiomCount(0)
 {
 }
 
+/*
+*	Sets the starting time.
+*/
 void Stat::Stat_StartTimer()
 {
 	m_startTime = clock();
 }
 
+/*
+*	Sets the ending time and calculates the elapsed time.
+*/
 void Stat::Stat_EndTimer()
 {
 	m_endTime = clock();
@@ -44,6 +49,9 @@ void Stat::Stat_EndSize(int n)
 	m_endSize = n;
 }
 
+/*
+*	Returns the number of new formulas.
+*/
 int Stat::Stat_GetSizeDelta()
 {
 	return m_endSize - m_startSize;
@@ -54,24 +62,21 @@ void Stat::Stat_incMPCount()
 	m_MPCount++;
 }
 
-void Stat::Stat_incUnificationCount()
-{
-	m_unificationCount++;
-}
-
 void Stat::Stat_incAxiomCount()
 {
 	m_axiomCount++;
 }
 
+/*
+*	Returns a string containing info of the statistics.
+*/
 string Stat::Stat_ToString()
 {
 	stringstream stream;
 
-	stream << "Elapsed time: " << Stat_GetElapsedTime() << endl
+	stream << "Elapsed time: " << Stat_GetElapsedTime() << " s" <<endl
 		<< "New formulas created: " << Stat_GetSizeDelta() << endl
 		<< "Number of modus ponenses: " << m_MPCount << endl
-		<< "Number of unifications done: " << m_unificationCount << endl
 		<< "Number of times axioms were used: " << m_axiomCount << endl;
 
 	return stream.str();

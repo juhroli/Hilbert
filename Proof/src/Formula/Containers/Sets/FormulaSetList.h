@@ -1,7 +1,7 @@
 #ifndef FormulaSetList_h
 #define FormulaSetList_h
 
-#include "../../../HilbertIncludes.h"
+#include "../../../HilbertDefines.h"
 #include "IFormulaSet.h"
 #include <list>
 
@@ -33,6 +33,9 @@ public:
 
 private:
 	list<spIFormula> m_formulas;
+
+	template<typename T>
+	void AddFormula(T formula);
 };
 
 #endif

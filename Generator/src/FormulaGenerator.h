@@ -1,7 +1,7 @@
 #ifndef FormulaGenerator_h
 #define FormulaGenerator_h
 
-#include "HilbertIncludes.h"
+#include "HilbertDefines.h"
 #include "Formula/IFormula.h"
 #include <vector>
 

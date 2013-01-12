@@ -1,4 +1,4 @@
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "AtomicFormula.h"
 
 AtomicFormula::AtomicFormula()
@@ -54,7 +54,7 @@ bool AtomicFormula::Eval()
 
 bool AtomicFormula::Equals(IFormula * formula)
 {
-	if(!formula || !formula->IsAtomic())
+	if(formula == nullptr || !formula->IsAtomic())
 		return false;
 	
 	return m_hash == formula->HashCode();

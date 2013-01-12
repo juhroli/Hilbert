@@ -1,7 +1,7 @@
 #ifndef FormulaParser_h
 #define FormulaParser_h
 
-#include "../HilbertIncludes.h"
+#include "../HilbertDefines.h"
 #include "../Formula/IFormula.h"
 #include "../Formula/Containers/Sets/IFormulaSet.h"
 #include "../Formula/Containers/AxiomContainer.h"

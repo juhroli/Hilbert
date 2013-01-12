@@ -14,22 +14,6 @@ Algorithm0x00::Algorithm0x00()
 
 Algorithm0x00::~Algorithm0x00()
 {
-	if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
-		DELETEFORMULA(m_last);
-
-	DELETEFORMULA(m_target);
-
-	if(m_sigma != nullptr)
-	{
-		delete m_sigma;
-		m_sigma = nullptr;
-	}
-
-	if(m_reader != nullptr)
-	{
-		delete m_reader;
-		m_reader = nullptr;
-	}
 }
 
 void Algorithm0x00::Start()
@@ -59,10 +43,19 @@ void Algorithm0x00::Run()
 		return;
 	}
 
-	//Set m_firstEnd to the end after deduction
-	m_firstEnd = sigma->End();
-	if(sigma->Size() > 0)
-		--m_firstEnd;
+	if(m_taskString.empty())
+	{
+		stringstream stream;
+
+		if(sigma->Size() > 0)
+		{	
+			stream << "After applying deduction: " << endl;
+			stream << sigma->ToString();
+		}
+		stream<<" |- "<<m_target->ToString()<<endl<<endl<<endl;
+
+		m_taskString = stream.str();
+	}
 
 	AddAxiomsToSigma();
 	
@@ -128,7 +121,13 @@ void Algorithm0x00::Run()
 		if(iter->IsWrapped())
 			m_last = dynamic_cast<FormulaWrapper*>(iter);
 		else
+		{
+			if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
+			{
+				DELETEFORMULA(m_last);
+			}
 			m_last = new FormulaWrapper(iter->Clone());
+		}
 
 		m_finished = true;
 	}
@@ -136,11 +135,8 @@ void Algorithm0x00::Run()
 
 void Algorithm0x00::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
-	if(m_sigma != nullptr)
-	{
-		delete m_sigma;
-		m_sigma = nullptr;
-	}
+	DELETE(m_sigma);
+
 	m_sigma = new FormulaSetList();
 
 	if(Sigma != nullptr)
@@ -162,32 +158,7 @@ string Algorithm0x00::GetResult()
 		return stream.str();
 	}
 
-	if(m_taskString.empty())
-	{
-		FormulaSetList * sigma = dynamic_cast<FormulaSetList*>(m_sigma);
-
-		if(sigma->Size() > 0 && m_firstEnd != sigma->End())
-		{
-			list<spIFormula>::iterator it = sigma->Begin();
-			list<spIFormula>::iterator end = m_firstEnd;
-			end++;
-	
-			stream << "After applying deduction: " << endl << "{ ";
-
-			do {
-				stream << (it++)->get()->ToString();
-				stream << ((it != end) ? ", " : "");
-			} while(it != end);
-			stream<<" } ";
-		}
-		stream<<"|- "<<m_target->ToString()<<endl<<endl<<endl;
-		
-		m_taskString = stream.str();
-	}
-	else
-	{
-		stream<<m_taskString;
-	}
+	stream<<m_taskString;
 
 	stream<<ResultString();
 

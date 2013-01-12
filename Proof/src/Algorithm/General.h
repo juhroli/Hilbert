@@ -10,6 +10,14 @@ class AlgorithmBase;
 
 using namespace std;
 
+/*
+*	This namespace contains the basic functions on formulas, such as:
+*	modus ponens, deduction, unification, replace all,
+*	does formula contain a sub-formula, replaces normalizer,
+*	formula normalizer, clear replaces.
+*	Algorithms can be created with the CreateAlgorithm function, and
+*	their descriptions can be returned by another function.
+*/
 namespace General
 {
 	enum AlgorithmType

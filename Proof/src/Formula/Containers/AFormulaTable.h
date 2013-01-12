@@ -1,7 +1,7 @@
 #ifndef AFormulaTable_h
 #define AFormulaTable_h
 
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "../Atomic/AtomicFormula.h"
 #include "../Atomic/TempFormula.h"
 #include <unordered_map>

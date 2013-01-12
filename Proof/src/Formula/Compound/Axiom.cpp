@@ -1,4 +1,4 @@
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "Axiom.h"
 
 Axiom::Axiom()
@@ -21,10 +21,11 @@ Axiom::Axiom(Axiom& axiom)
 	if(m_right != nullptr && !m_right->IsAtomic())
 		m_right = m_right->Clone();
 
-	m_length = axiom.Length();
-	m_hash = axiom.HashCode();
-	this->m_string = axiom.ToString();
-	this->m_temp = axiom.IsTemp();
+	m_length = axiom.m_length;
+	m_hash = axiom.m_hash;
+	this->m_string = axiom.m_string;
+	this->m_hashString = axiom.m_hashString;
+	this->m_temp = axiom.m_temp;
 }
 
 IFormula * Axiom::Clone()

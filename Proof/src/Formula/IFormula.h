@@ -1,7 +1,7 @@
 #ifndef IFormula_h
 #define IFormula_h
 
-#include "../HilbertIncludes.h"
+#include "../HilbertDefines.h"
 #include <sstream>
 #include <locale>
 #include <cstring>

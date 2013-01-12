@@ -28,7 +28,7 @@ void AxiomContainer::Add(IFormula * axiom)
 	m_axioms.push_back(input);
 }
 
-int AxiomContainer::Size()
+unsigned AxiomContainer::Size()
 {
 	return m_axioms.size();
 }

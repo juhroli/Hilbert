@@ -5,12 +5,11 @@
 #include "../Formula/Containers/AFormulaTable.h"
 #include "../Formula/Containers/Sets/FormulaSetList.h"
 #include "../Formula/Containers/Sets/FormulaSetVector.h"
-#include "../Algorithm/General.h"
+#include "../Formula/Containers/Sets/FormulaSetHashed.h"
 
 namespace FormulaParser
 {
 	using namespace AFormulaTable;
-	using General::NormalizeFormula;
 	
 	/*
 	*	This creates an AtomicFormula
@@ -27,8 +26,6 @@ namespace FormulaParser
 		{
 			DELETEFORMULA(ret);
 		}
-
-		NormalizeFormula(ret);
 
 		return ret;
 	}
@@ -135,7 +132,7 @@ namespace FormulaParser
 			}
 			stream<<'\0';
 
-			int len = stream.str().length();
+			size_t len = stream.str().length();
 			char * cStr = new char[len];
 
 #ifdef _MSC_VER
@@ -168,6 +165,9 @@ namespace FormulaParser
 			break;
 		case FSET_VEC:
 			ret = new FormulaSetVector();
+			break;
+		case FSET_HASHED:
+			ret = new FormulaSetHashed();
 		}
 		
 		auto it = str.begin();
@@ -178,8 +178,7 @@ namespace FormulaParser
 
 		if( *it != '{' || !ReadFormulaSet(++it, end, false, ret) )
 		{
-			delete ret;
-			ret = nullptr;
+			DELETE(ret);
 		}
 
 		return ret;
@@ -200,8 +199,7 @@ namespace FormulaParser
 
 		if( *it != '{' || !ReadFormulaSet(++it, end, true, ret) )
 		{
-			delete ret;
-			ret = nullptr;
+			DELETE(ret);
 		}
 
 		return ret;
@@ -221,7 +219,7 @@ namespace FormulaParser
 	{
 		IFormula * F = ReadFormula(it, end, temp);
 
-		if(!F || it == end)
+		if(F == nullptr || it == end)
 			return false;
 
 		while(it != end && *it == ' ')

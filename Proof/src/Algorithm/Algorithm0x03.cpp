@@ -1,4 +1,5 @@
 #include "Algorithm0x03.h"
+
 #include "General.h"
 #include "../Formula/Containers/Sets/FormulaSetVector.h"
 #include <functional>
@@ -17,22 +18,6 @@ Algorithm0x03::Algorithm0x03()
 
 Algorithm0x03::~Algorithm0x03()
 {
-	if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
-		DELETEFORMULA(m_last);
-
-	DELETEFORMULA(m_target);
-
-	if(m_sigma != nullptr)
-	{
-		delete m_sigma;
-		m_sigma = nullptr;
-	}
-
-	if(m_reader != nullptr)
-	{
-		delete m_reader;
-		m_reader = nullptr;
-	}
 }
 
 void Algorithm0x03::Start()
@@ -62,9 +47,19 @@ void Algorithm0x03::Run()
 		return;
 	}
 
-	//Set m_firstEnd to the end after deduction
-	m_firstEnd = sigma->Size() - 1;
-	m_firstEnd = m_firstEnd < 0 ? 0 : m_firstEnd;
+	if(m_taskString.empty())
+	{
+		stringstream stream;
+
+		if(sigma->Size() > 0)
+		{	
+			stream << "After applying deduction: " << endl;
+			stream << sigma->ToString();
+		}
+		stream<<" |- "<<m_target->ToString()<<endl<<endl<<endl;
+
+		m_taskString = stream.str();
+	}
 
 	AddAxiomsToSigma();
 
@@ -85,18 +80,7 @@ void Algorithm0x03::Run()
 		unsigned rnd1 = unsigned((rand() % sigma->Size()));
 		unsigned rnd2 = unsigned((rand() % sigma->Size()));
 
-		/*
-		*	Using the Cantor pairing function to create one integer from two.
-		*	Which is a bijection:
-		*	f : N x N -> N (N := non-negative integers)
-		*	defined by
-		*	f(x, y) := ( (x + y) * (x + y + 1) ) / 2 + y
-		*
-		*	With this we can use an unordered map to identify
-		*	which formula pairs were used already then skip them.
-		*/
-
-		unsigned pair = ((rnd1 + rnd2) * (rnd1 + rnd2 + 1)) / 2 + rnd2;
+		unsigned pair = CPAIR(rnd1, rnd2);
 
 		if(usedFormulas[pair] == true)
 			continue;
@@ -129,11 +113,8 @@ void Algorithm0x03::Run()
 
 void Algorithm0x03::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
-	if(m_sigma != nullptr)
-	{
-		delete m_sigma;
-		m_sigma = nullptr;
-	}
+	DELETE(m_sigma);
+
 	m_sigma = new FormulaSetVector();
 
 	if(Sigma != nullptr)
@@ -155,29 +136,7 @@ string Algorithm0x03::GetResult()
 		return stream.str();
 	}
 
-	if(m_taskString.empty())
-	{
-		FormulaSetVector * sigma = dynamic_cast<FormulaSetVector*>(m_sigma);
-
-		if(sigma->Size() > 0 && m_firstEnd != sigma->Size() - 1)
-		{	
-			stream << "After applying deduction: " << endl << "{ ";
-
-			for(unsigned i = 0; i <= m_firstEnd; i++)
-			{
-				stream << (*sigma)[i].get()->ToString();
-				stream << ((i != m_firstEnd) ? ", " : "");
-			}
-			stream<<" } ";
-		}
-		stream<<"|- "<<m_target->ToString()<<endl<<endl<<endl;
-
-		m_taskString = stream.str();
-	}
-	else
-	{
-		stream<<m_taskString;
-	}
+	stream<<m_taskString;
 
 	stream<<ResultString();
 

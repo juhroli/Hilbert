@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "HilbertIncludes.h"
+#include "HilbertDefines.h"
 #include "Formula/Containers/AFormulaTable.h"
 #include "Input/FormulaParser.h"
 #include "Algorithm/General.h"
@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
 	/*
 	*	Arguments:
 	*	-fr [file]: read axioms and task from this file
-	*	//-fw [file]: write results to this file
 	*	-alg [algorithm type] [max sigma size] [max formula length]: the last two are optional
 	*	-algs: use this argument alone -> lists available algorithm types and descriptions
 	*	-sigma ["{ formula, ... }"]: set of formulas

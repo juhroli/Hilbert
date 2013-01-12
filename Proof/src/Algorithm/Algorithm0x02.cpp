@@ -1,4 +1,5 @@
 #include "Algorithm0x02.h"
+
 #include "General.h"
 #include "../Formula/Containers/Sets/FormulaSetVector.h"
 #include <functional>
@@ -19,22 +20,6 @@ Algorithm0x02::Algorithm0x02()
 
 Algorithm0x02::~Algorithm0x02()
 {
-	if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
-		DELETEFORMULA(m_last);
-
-	DELETEFORMULA(m_target);
-
-	if(m_sigma != nullptr)
-	{
-		delete m_sigma;
-		m_sigma = nullptr;
-	}
-
-	if(m_reader != nullptr)
-	{
-		delete m_reader;
-		m_reader = nullptr;
-	}
 }
 
 void Algorithm0x02::Start()
@@ -64,26 +49,16 @@ void Algorithm0x02::Run()
 		return;
 	}
 
-	//Set m_firstEnd to the end after deduction
-	m_firstEnd = sigma->Size() - 1;
-	m_firstEnd = m_firstEnd < 0 ? 0 : m_firstEnd;
-
 	if(m_taskString.empty())
 	{
 		stringstream stream;
 
 		if(sigma->Size() > 0)
 		{	
-			stream << "After applying deduction: " << endl << "{ ";
-
-			for(unsigned i = 0; i <= m_firstEnd; i++)
-			{
-				stream << (*sigma)[i].get()->ToString();
-				stream << ((i != m_firstEnd) ? ", " : "");
-			}
-			stream<<" } ";
+			stream << "After applying deduction: " << endl;
+			stream << sigma->ToString();
 		}
-		stream<<"|- "<<m_target->ToString()<<endl<<endl<<endl;
+		stream<<" |- "<<m_target->ToString()<<endl<<endl<<endl;
 
 		m_taskString = stream.str();
 	}
@@ -96,6 +71,8 @@ void Algorithm0x02::Run()
 	Stat_StartSize(m_sigma->Size());
 
 	sigma->SortFormulas();
+
+	unordered_map< unsigned, unordered_map<unsigned, bool> > usedFormulas;
 
 	for(i = 0; i < sigma->Size() && sigma->Size() <= m_sigmaLimit && !m_target->Equals((*sigma)[i].get()); i++)
 	{
@@ -116,20 +93,21 @@ void Algorithm0x02::Run()
 
 		//The 2nd loop's iterator
 		unsigned j = 0;
-		unsigned end = i + 1;
 
 		/*
 		*	Iterate through the rest of sigma and try to cut both ways.
 		*/
-		while(j < end)
+		while(j <= i)
 		{
 			IFormula * iterS = (*sigma)[j].get();
 
-			if(iterS->Length() > m_maxLength)
+			if(iterS->Length() > m_maxLength || usedFormulas[iter->HashCode()][iterS->HashCode()])
 			{
 				j++;
 				continue;
 			}
+
+			usedFormulas[iter->HashCode()][iterS->HashCode()] = true;
 
 			if(MPBothWays(iter, iterS, m_sigma))
 				return;
@@ -162,7 +140,7 @@ void Algorithm0x02::Run()
 						});
 					});
 #else
-					for(unsigned x = 0; x < i; x++)
+					for(unsigned x = i + 1; x >= 0; x--)
 					{
 						if((*sigma)[x]->Equals(m_last))
 						{
@@ -176,39 +154,7 @@ void Algorithm0x02::Run()
 					j = 0;
 					continue;
 				}
-
-				/*
-				*	The same applies here as above.
-				*/
-				if(!(*sigma)[j]->Equals(iterS))
-				{
-#ifdef _MSC_VER
-					task_group tg;
-					task_group_status status = tg.run_and_wait( [&]
-					{
-						parallel_for(unsigned(i + 1), j, [&](unsigned x)
-						{
-							if((*sigma)[x]->Equals(m_last))
-							{
-								j = x;
-								tg.cancel();
-							}
-						});
-					});
-#else
-					for(unsigned x = i + 1; x < j; x++)
-					{
-						if((*sigma)[x]->Equals(m_last))
-						{
-							j = x;
-							break;
-						}
-					}
-#endif
-					continue;
-				}
 			}
-
 			j++;
 		}
 	}
@@ -222,7 +168,13 @@ void Algorithm0x02::Run()
 		if(iter->IsWrapped())
 			m_last = dynamic_cast<FormulaWrapper*>(iter);
 		else
+		{
+			if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
+			{
+				DELETEFORMULA(m_last);
+			}
 			m_last = new FormulaWrapper(iter->Clone());
+		}
 
 		m_finished = true;
 	}
@@ -230,11 +182,8 @@ void Algorithm0x02::Run()
 
 void Algorithm0x02::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
-	if(m_sigma != nullptr)
-	{
-		delete m_sigma;
-		m_sigma = nullptr;
-	}
+	DELETE(m_sigma);
+
 	m_sigma = new FormulaSetVector();
 
 	if(Sigma != nullptr)

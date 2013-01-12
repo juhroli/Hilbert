@@ -1,7 +1,7 @@
 #ifndef HilbertAxioms_h
 #define HilbertAxioms_h
 
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "AxiomContainer.h"
 
 class HilbertAxioms : public AxiomContainer

@@ -9,30 +9,27 @@ FormulaSetList::~FormulaSetList()
 	this->Clear();
 }
 
-void FormulaSetList::Add(IFormula * formula)
+template<typename T>
+void FormulaSetList::AddFormula(T formula)
 {
 	long hash = formula->HashCode();
 
 	if(m_formulaMap[hash] == nullptr)
 	{
-		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula);
 		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
+			(formula->IsAtomic() && !formula->IsWrapped() ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
 		m_formulas.push_back(m_formulaMap[hash]);
 	}
 }
 
+void FormulaSetList::Add(IFormula * formula)
+{
+	AddFormula(formula);
+}
+
 void FormulaSetList::Add(spIFormula formula)
 {
-	long hash = formula->HashCode();
-
-	if(m_formulaMap[hash] == nullptr)
-	{
-		FormulaWrapper * wrap = dynamic_cast<FormulaWrapper*>(formula.get());
-		m_formulaMap[hash] =
-			(formula->IsAtomic() && wrap == nullptr ? spIFormula(GetAtomicFormula(formula->HashCode())) : spIFormula(formula));
-		m_formulas.push_back(m_formulaMap[hash]);
-	}
+	AddFormula(formula);
 }
 
 void FormulaSetList::Add(IFormulaSet& fset)

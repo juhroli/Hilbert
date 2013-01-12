@@ -1,7 +1,7 @@
 #ifndef AxiomContainer_h
 #define AxiomContainer_h
 
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "../Compound/Axiom.h"
 #include <vector>
 
@@ -15,7 +15,7 @@ public:
 
 	virtual Axiom * GetAxiom(unsigned index);
 	void Add(IFormula * axiom);
-	int Size();
+	unsigned Size();
 
 	virtual string ToString();
 

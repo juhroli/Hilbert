@@ -35,18 +35,8 @@ FileReader::FileReader(string file, FSetType type)
 FileReader::~FileReader()
 {
 	DELETEFORMULA(m_target);
-
-	if(m_set != nullptr)
-	{
-		delete m_set;
-		m_set = nullptr;
-	}
-
-	if(m_axioms != nullptr)
-	{
-		delete m_axioms;
-		m_axioms = nullptr;
-	}
+	DELETE(m_set);
+	DELETE(m_axioms);
 }
 
 /*
@@ -100,8 +90,11 @@ bool FileReader::ReadFile()
 	}
 	else
 	{
+		input.close();
 		return false;
 	}
+
+	input.close();
 
 	return true;
 }

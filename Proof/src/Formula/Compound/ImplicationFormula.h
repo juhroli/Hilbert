@@ -31,7 +31,16 @@ protected:
 	unsigned m_length;
 	long m_hash;
 	string m_string;
-	bool m_temp;
+	string m_hashString;
+
+	enum triState
+	{
+		False,
+		True,
+		None
+	};
+
+	triState m_temp;
 };
 
 #endif

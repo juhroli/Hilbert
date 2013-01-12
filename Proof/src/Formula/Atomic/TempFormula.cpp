@@ -1,4 +1,4 @@
-#include "../../HilbertIncludes.h"
+#include "../../HilbertDefines.h"
 #include "TempFormula.h"
 
 TempFormula::TempFormula()
@@ -39,7 +39,7 @@ bool TempFormula::IsTemp()
 
 bool TempFormula::Equals(IFormula * formula)
 {
-	if(!formula || !formula->IsAtomic() || !formula->IsTemp())
+	if(formula == nullptr || !formula->IsAtomic() || !formula->IsTemp())
 		return false;
 	
 	return m_hash == formula->HashCode();
