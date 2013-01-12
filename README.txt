@@ -1,6 +1,6 @@
 Efficient implementation of Hilbert's system
 
-Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. There are four algorithms to chose from.
+Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. There are four algorithms to choose from.
 
 This project is made in Visual Studio 2012.
 
