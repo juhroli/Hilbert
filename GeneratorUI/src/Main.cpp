@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 {
 	if(argc < 2)
 	{
-		cout << "Error: Argument needed for the maximum number of formulas." << endl;
+		cout << "Error: Argument needed for the maximum number of atomics in a formula." << endl;
 		return 0;
 	}
 
