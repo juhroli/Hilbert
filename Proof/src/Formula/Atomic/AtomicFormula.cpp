@@ -1,5 +1,6 @@
 #include "../../HilbertDefines.h"
 #include "AtomicFormula.h"
+#include <malloc.h>
 
 AtomicFormula::AtomicFormula()
 	: m_symbol(nullptr)
@@ -23,7 +24,15 @@ AtomicFormula::AtomicFormula(char * symbol)
 
 AtomicFormula::AtomicFormula(AtomicFormula& formula)
 {
-	m_symbol = formula.GetSymbol();
+	size_t len = strlen(formula.m_symbol) + 1;
+	m_symbol = new char[len];
+
+#ifdef _MSC_VER
+	strcpy_s(m_symbol, len, formula.m_symbol);
+#else
+	strcpy(m_symbol, formula.m_symbol);
+#endif
+
 	m_value = formula.Eval();
 	m_hash = formula.HashCode();
 }

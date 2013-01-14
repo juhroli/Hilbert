@@ -30,7 +30,7 @@ public:
 	
 private:
 	/*
-	*	A map hashed by the formulas length in the list.
+	*	A map hashed by the formulas length in the vector.
 	*/
 	unordered_map< unsigned, vector<spIFormula> > m_formulas;
 	unsigned m_maxLength;

@@ -1,12 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "HilbertDefines.h"
-#include "Formula/Containers/AFormulaTable.h"
-#include "Input/FormulaParser.h"
-#include "Algorithm/General.h"
-#include "Algorithm/AlgorithmBase.h"
-#include "Formula/Containers/HilbertAxioms.h"
+#include "../../Proof/libheader/ProofLibHeader.h"
 
 using namespace AFormulaTable;
 using namespace FormulaParser;
@@ -175,7 +170,13 @@ int main(int argc, char* argv[])
 				goto error;
 			}
 
-			algorithm->SetTask(sigma, target);
+			if(target != nullptr)
+				algorithm->SetTask(sigma, target);
+			else
+			{
+				errorCode = "Error 6: No target formula.";
+				goto error;
+			}
 		}
 
 		algorithm->Start();

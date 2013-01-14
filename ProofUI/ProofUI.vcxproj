@@ -157,6 +157,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Proof\libheader\ProofLibHeader.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

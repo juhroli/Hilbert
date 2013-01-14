@@ -8,7 +8,9 @@ class ImplicationFormula;
 class IFormulaSet;
 class AlgorithmBase;
 
-using namespace std;
+using std::list;
+using std::pair;
+using std::string;
 
 /*
 *	This namespace contains the basic functions on formulas, such as:

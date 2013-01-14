@@ -31,7 +31,7 @@ namespace AFormulaTable
 
 		auto ret = static_pointer_cast<TempFormula>(GetAtomicFormula(symbol));
 		
-		delete symbol;
+		delete[] symbol;
 
 		return ret;
 	}
