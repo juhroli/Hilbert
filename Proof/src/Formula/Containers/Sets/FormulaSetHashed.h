@@ -1,5 +1,5 @@
-#ifndef FormulaSetPriority_h
-#define FormulaSetPriority_h
+#ifndef FormulaSetHashed_h
+#define FormulaSetHashed_h
 
 #include "../../../HilbertDefines.h"
 #include "IFormulaSet.h"

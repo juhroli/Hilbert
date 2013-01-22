@@ -54,7 +54,7 @@ bool ImplicationFormula::IsAtomic()
 
 bool ImplicationFormula::IsTemp()
 {
-	if(m_temp == None && !IsNull())
+	if(m_temp == None && m_left != nullptr && m_right != nullptr)
 	{
 		m_temp = ( m_left->IsTemp() || m_right->IsTemp() ) ? True : False;
 	}
@@ -77,7 +77,7 @@ bool ImplicationFormula::Equals(IFormula * formula)
 
 string ImplicationFormula::ToString()
 {
-	if(m_string.empty() && !IsNull())
+	if(m_string.empty() && m_left != nullptr && m_right != nullptr)
 	{
 		stringstream stream;
 		stringstream hashStream; //It is needed, because temp's are stored like this: "_Symbol", so for them the GetSymbol() should be called
@@ -123,11 +123,6 @@ IFormula * ImplicationFormula::Clone()
 	return new ImplicationFormula(*this);
 }
 
-bool ImplicationFormula::IsNull()
-{
-	return m_left == nullptr || m_right == nullptr;
-}
-
 IFormula * ImplicationFormula::Replace(IFormula * t, IFormula * x)
 {
 	if(t == nullptr || x == nullptr)
@@ -140,7 +135,7 @@ IFormula * ImplicationFormula::Replace(IFormula * t, IFormula * x)
 
 unsigned ImplicationFormula::Length()
 {
-	if(m_length == 0 && !IsNull())
+	if(m_length == 0 && m_left != nullptr && m_right != nullptr)
 	{
 		m_length = m_left->Length() + m_right->Length();
 	}
@@ -150,7 +145,7 @@ unsigned ImplicationFormula::Length()
 
 long ImplicationFormula::HashCode()
 {
-	if(m_hash == 0 && !IsNull())
+	if(m_hash == 0 && m_left != nullptr && m_right != nullptr)
 	{
 		if(m_hashString.empty())
 			this->ToString();

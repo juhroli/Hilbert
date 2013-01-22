@@ -160,13 +160,7 @@ namespace General
 				return false;
 			}
 
-			//If the result F and G contains null, set ret to false and res to nullptr
-			if(!(ret = !F->IsNull() && !G->IsNull()))
-			{
-				ClearReplaces(uni);
-				DELETEFORMULA(res);
-			}
-			else if(ret = F->Equals(G))
+			if(ret = F->Equals(G))
 			{
 				DELETEFORMULA(res);
 				res = F->Clone(); //If F equals G, the result is the clone of F

@@ -17,7 +17,6 @@ public:
 	bool Equals(IFormula * formula);
 	string ToString();
 	IFormula * Clone();
-	bool IsNull();
 	IFormula * Replace(IFormula * t, IFormula * x);
 	unsigned Length();
 	long HashCode();

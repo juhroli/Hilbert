@@ -116,11 +116,6 @@ IFormula * FormulaWrapper::Clone()
 	return new FormulaWrapper(*this);
 }
 
-bool FormulaWrapper::IsNull()
-{
-	return m_this->IsNull();
-}
-
 IFormula * FormulaWrapper::Replace(IFormula * t, IFormula * x)
 {
 	return m_this->Replace(t, x);

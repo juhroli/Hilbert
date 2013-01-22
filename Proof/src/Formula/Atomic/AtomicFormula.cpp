@@ -79,11 +79,6 @@ IFormula * AtomicFormula::Clone()
 	return this;
 }
 
-bool AtomicFormula::IsNull()
-{
-	return m_symbol == nullptr;
-}
-
 IFormula * AtomicFormula::Replace(IFormula * t, IFormula * x)
 {
 	return this;
