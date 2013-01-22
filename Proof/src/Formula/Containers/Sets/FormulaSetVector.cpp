@@ -114,7 +114,7 @@ string FormulaSetVector::ToString()
 	for(unsigned i = 0; i < end; i++)
 	{
 		stream << (*this)[i].get()->ToString();
-		stream << ((i != end) ? ", " : "");
+		stream << ((i + 1 != end) ? ", " : "");
 	}
 
 	stream<<" }";
