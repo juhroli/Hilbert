@@ -21,12 +21,12 @@ public:
 	virtual void Start() = 0; //starts the algorithm processing
 	virtual void SetTask(IFormulaSet * Sigma, IFormula * F) = 0; //sets the formula set and the target formula
 	virtual string GetResult() = 0; //returns the result string
-	virtual bool ReadFromFile(string file) = 0; //reads the task from a file
 	virtual FSetType GetFSetType() = 0; //returns the FormulaSet type of the member FormulaSet
 
 	virtual void SetAxioms(AxiomContainer * container);
 	virtual bool IsFinished();
 
+	bool ReadFromFile(string file); //reads the task from a file
 	void SetMaxLength(unsigned length); //sets the maximum length of the formulas
 	void SetSigmaLimit(unsigned limit); //sets sigma1s maximum size
 	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset); //does modus ponens

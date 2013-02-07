@@ -62,10 +62,10 @@ void FormulaSetVector::SortFormulas()
 		});
 #else
 	stable_sort(m_formulas.begin(), m_formulas.end(),
-		[&](spIFormula x, spIFormula y) -> bool
-	{
-		return x.get()->Length() < y.get()->Length();
-	});
+		[](spIFormula x, spIFormula y) -> bool
+		{
+			return x.get()->Length() < y.get()->Length();
+		});
 #endif
 }
 

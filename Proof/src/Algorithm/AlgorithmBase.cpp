@@ -41,6 +41,23 @@ bool AlgorithmBase::IsFinished()
 	return m_finished;
 }
 
+bool AlgorithmBase::ReadFromFile(string file)
+{
+	m_reader = new FileReader(file, this->GetFSetType());
+
+	if( m_reader->ReadFile() )
+	{
+		this->SetTask(m_reader->GetSet(), m_reader->GetTarget());
+		this->SetAxioms(m_reader->GetAxioms());
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
+}
+
 void AlgorithmBase::SetMaxLength(unsigned length)
 {
 	m_maxLength = length;

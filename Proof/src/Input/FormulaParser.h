@@ -20,7 +20,8 @@
 *	Where ~ is false and an atom can be a string.
 *	A formula set's grammar looks like this (inculding the formula's grammar):
 *	
-*	FORMULAS -> FORMULA | FORMULAS, FORMULAS | {FORMULAS}
+*	FORMULASET -> {FORMULAS}
+*	FORMULAS -> FORMULA | FORMULAS, FORMULAS
 *
 */
 
@@ -28,14 +29,9 @@ namespace FormulaParser
 {
 	IFormula * ParseFormula(string str);
 	IFormula * ParseTemp(string str);
-	IFormula * ReadFormula(string::iterator& it, string::iterator& end, bool temp);
-	IFormula * ReadSingleFormula(string::iterator& it, string::iterator& end, bool temp);
 
 	IFormulaSet * ParseFormulaSet(string str, FSetType type);
 	AxiomContainer * ParseAxioms(string str);
-
-	template<typename T>
-	bool ReadFormulaSet(string::iterator& it, string::iterator& end, bool temp, T * formulas);
 }
 
 #endif

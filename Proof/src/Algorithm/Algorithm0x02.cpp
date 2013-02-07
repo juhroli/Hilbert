@@ -212,23 +212,6 @@ string Algorithm0x02::GetResult()
 	return stream.str();
 }
 
-bool Algorithm0x02::ReadFromFile(string file)
-{
-	m_reader = new FileReader(file, FSET_VEC);
-
-	if( m_reader->ReadFile() )
-	{
-		this->SetTask(m_reader->GetSet(), m_reader->GetTarget());
-		this->SetAxioms(m_reader->GetAxioms());
-	}
-	else
-	{
-		return false;
-	}
-
-	return true;
-}
-
 FSetType Algorithm0x02::GetFSetType()
 {
 	return FSET_VEC;

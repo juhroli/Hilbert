@@ -16,7 +16,6 @@ public:
 	void Run();
 	void SetTask(IFormulaSet * Sigma, IFormula * F);
 	string GetResult();
-	bool ReadFromFile(string file);
 	FSetType GetFSetType();
 };
 

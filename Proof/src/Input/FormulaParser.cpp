@@ -11,6 +11,12 @@ namespace FormulaParser
 {
 	using namespace AFormulaTable;
 	
+	IFormula * ReadFormula(string::iterator& it, string::iterator& end, bool temp);
+	IFormula * ReadSingleFormula(string::iterator& it, string::iterator& end, bool temp);
+
+	template<typename T>
+	bool ReadFormulaSet(string::iterator& it, string::iterator& end, bool temp, T * formulas);
+
 	/*
 	*	This creates an AtomicFormula
 	*	or ImplicationFormula from a string.
@@ -74,7 +80,7 @@ namespace FormulaParser
 
 			IFormula * right = ReadFormula(++it, end, temp);
 
-			if(!right)	//Something's not right here...
+			if(right == nullptr)
 			{
 				DELETEFORMULA(ret);
 				return nullptr;

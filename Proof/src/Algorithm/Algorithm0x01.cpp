@@ -187,23 +187,6 @@ string Algorithm0x01::GetResult()
 	return stream.str();
 }
 
-bool Algorithm0x01::ReadFromFile(string file)
-{
-	m_reader = new FileReader(file, FSET_HASHED);
-
-	if( m_reader->ReadFile() )
-	{
-		this->SetTask(m_reader->GetSet(), m_reader->GetTarget());
-		this->SetAxioms(m_reader->GetAxioms());
-	}
-	else
-	{
-		return false;
-	}
-
-	return true;
-}
-
 FSetType Algorithm0x01::GetFSetType()
 {
 	return FSET_HASHED;
