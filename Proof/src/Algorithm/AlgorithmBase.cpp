@@ -41,6 +41,39 @@ bool AlgorithmBase::IsFinished()
 	return m_finished;
 }
 
+void AlgorithmBase::Start()
+{
+	if(m_target == nullptr || m_axioms == nullptr)
+		return;
+
+	Stat_StartTimer();
+
+	this->Run();
+
+	Stat_EndTimer();
+	Stat_EndSize(m_sigma->Size());
+}
+
+/*
+*	Writes the result to a string showing the steps of the proof.
+*/
+string AlgorithmBase::GetResult()
+{
+	stringstream stream;
+
+	if(!this->IsFinished())
+	{
+		stream << "No results available.";
+		return stream.str();
+	}
+
+	stream << m_taskString;
+
+	stream << ResultString();
+
+	return stream.str();
+}
+
 bool AlgorithmBase::ReadFromFile(string file)
 {
 	m_reader = new FileReader(file, this->GetFSetType());

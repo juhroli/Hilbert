@@ -17,19 +17,6 @@ Algorithm0x01::~Algorithm0x01()
 {
 }
 
-void Algorithm0x01::Start()
-{
-	if(m_target == nullptr || m_axioms == nullptr)
-		return;
-
-	Stat_StartTimer();
-
-	this->Run();
-
-	Stat_EndTimer();
-	Stat_EndSize(m_sigma->Size());
-}
-
 void Algorithm0x01::Run()
 {
 	if(m_finished)
@@ -61,35 +48,27 @@ void Algorithm0x01::Run()
 
 	AddAxiomsToSigma();
 	
+	// previous size of sigma
 	unsigned prevSize = sigma->Size();
 
 	Stat_StartSize(m_sigma->Size());
 
-	unsigned depth = 0;
-
 	unordered_map<unsigned, bool> usedFormulas;
 
-	unsigned i = 1;
-
-	while(i <= m_maxLength && sigma->Size() < m_sigmaLimit)
+	for(unsigned i = 1; i <= m_maxLength && sigma->Size() < m_sigmaLimit; i++)
 	{
 		auto actList = (*sigma)[i];
-		unsigned j = 1;
 
-		while(j <= i)
+		for(unsigned j = 1; j <= i; j++)
 		{
 			auto actListS = (*sigma)[j];
-			unsigned it = 0;
 
-			while(it < actList.size())
+			for(unsigned it = 0; it < actList.size(); it++)
 			{
 				IFormula * iter = actList[it].get();
 
 				if(iter->Length() > m_maxLength)
-				{
-					it++;
 					continue;
-				}
 
 				if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
 				{
@@ -112,17 +91,14 @@ void Algorithm0x01::Run()
 				if(i == j)
 					itS = it;
 
-				while(itS < actListS.size())
+				for(; itS < actListS.size(); itS++)
 				{
 					IFormula * iterS = actListS[itS].get();
 
 					unsigned pair = CPAIR( CPAIR(i, j), CPAIR(it, itS) );
 
 					if(iterS->Length() > m_maxLength || usedFormulas[pair])
-					{
-						itS++;
 						continue;
-					}
 
 					usedFormulas[pair] = true;
 
@@ -142,13 +118,9 @@ void Algorithm0x01::Run()
 							continue;
 						}
 					}
-					itS++;
 				}
-				it++;
 			}
-			j++;
 		}
-		i++;
 	}
 
 	if(m_last != nullptr && m_last->Equals(m_target))
@@ -165,26 +137,6 @@ void Algorithm0x01::SetTask(IFormulaSet * Sigma, IFormula * F)
 		m_sigma->Add(*Sigma);
 
 	m_target = F->Clone();
-}
-
-/*
-*	Writes the result to a string showing the steps of the proof.
-*/
-string Algorithm0x01::GetResult()
-{
-	stringstream stream;
-
-	if(!m_finished)
-	{
-		stream<<"No results available.";
-		return stream.str();
-	}
-	
-	stream<<m_taskString;
-
-	stream<<ResultString();
-
-	return stream.str();
 }
 
 FSetType Algorithm0x01::GetFSetType()

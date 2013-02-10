@@ -18,14 +18,14 @@ class AlgorithmBase : public Stat
 public:
 	AlgorithmBase();
 	virtual ~AlgorithmBase();
-	virtual void Start() = 0; //starts the algorithm processing
+	
 	virtual void SetTask(IFormulaSet * Sigma, IFormula * F) = 0; //sets the formula set and the target formula
-	virtual string GetResult() = 0; //returns the result string
 	virtual FSetType GetFSetType() = 0; //returns the FormulaSet type of the member FormulaSet
-
 	virtual void SetAxioms(AxiomContainer * container);
 	virtual bool IsFinished();
 
+	void Start(); //starts the algorithm processing
+	string GetResult(); //returns the result string
 	bool ReadFromFile(string file); //reads the task from a file
 	void SetMaxLength(unsigned length); //sets the maximum length of the formulas
 	void SetSigmaLimit(unsigned limit); //sets sigma1s maximum size

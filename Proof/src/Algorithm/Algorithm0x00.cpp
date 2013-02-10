@@ -16,19 +16,6 @@ Algorithm0x00::~Algorithm0x00()
 {
 }
 
-void Algorithm0x00::Start()
-{
-	if(m_target == nullptr || m_axioms == nullptr)
-		return;
-
-	Stat_StartTimer();
-
-	this->Run();
-
-	Stat_EndTimer();
-	Stat_EndSize(m_sigma->Size());
-}
-
 void Algorithm0x00::Run()
 {
 	if(m_finished)
@@ -64,15 +51,12 @@ void Algorithm0x00::Run()
 
 	Stat_StartSize(m_sigma->Size());
 
-	while(sigma->Size() <= m_sigmaLimit && it != sigma->End() && !m_target->Equals(it->get()))
+	for(; sigma->Size() <= m_sigmaLimit && it != sigma->End() && !m_target->Equals(it->get()); it++)
 	{
 		IFormula * iter = it->get();
 
 		if(iter->Length() > m_maxLength)
-		{
-			it++;
 			continue;
-		}
 
 		if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
 		{
@@ -84,8 +68,7 @@ void Algorithm0x00::Run()
 		else
 			m_last = new FormulaWrapper(iter->Clone());
 
-		//The 2nd loop's iterator
-		list<spIFormula>::iterator itS = sigma->Begin();
+		//The 2nd loop's end
 		list<spIFormula>::iterator end = it;
 
 		end++;
@@ -93,23 +76,16 @@ void Algorithm0x00::Run()
 		/*
 		*	Iterate through the rest of sigma and try to cut both ways.
 		*/
-		while(itS != end)
+		for(auto itS = sigma->Begin(); itS != end; itS++)
 		{
 			IFormula * iterS = itS->get();
 
 			if(iterS->Length() > m_maxLength)
-			{
-				itS++;
 				continue;
-			}
 
 			if(MPBothWays(iter, iterS, m_sigma))
 				return;
-
-			itS++;
 		}
-
-		it++;
 	}
 
 	if(m_last != nullptr && m_last->Equals(m_target))
@@ -143,26 +119,6 @@ void Algorithm0x00::SetTask(IFormulaSet * Sigma, IFormula * F)
 		m_sigma->Add(*Sigma);
 
 	m_target = F->Clone();
-}
-
-/*
-*	Writes the result to a string showing the steps of the proof.
-*/
-string Algorithm0x00::GetResult()
-{
-	stringstream stream;
-
-	if(!m_finished)
-	{
-		stream<<"No results available.";
-		return stream.str();
-	}
-
-	stream<<m_taskString;
-
-	stream<<ResultString();
-
-	return stream.str();
 }
 
 FSetType Algorithm0x00::GetFSetType()

@@ -12,10 +12,8 @@ class Algorithm0x03 : public AlgorithmBase
 public:
 	Algorithm0x03();
 	~Algorithm0x03();
-	void Start();
 	void Run();
 	void SetTask(IFormulaSet * Sigma, IFormula * F);
-	string GetResult();
 	FSetType GetFSetType();
 };
 

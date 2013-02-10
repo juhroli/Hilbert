@@ -22,19 +22,6 @@ Algorithm0x02::~Algorithm0x02()
 {
 }
 
-void Algorithm0x02::Start()
-{
-	if(m_target == nullptr || m_axioms == nullptr)
-		return;
-
-	Stat_StartTimer();
-
-	this->Run();
-
-	Stat_EndTimer();
-	Stat_EndSize(m_sigma->Size());
-}
-
 void Algorithm0x02::Run()
 {
 	if(m_finished)
@@ -190,26 +177,6 @@ void Algorithm0x02::SetTask(IFormulaSet * Sigma, IFormula * F)
 		m_sigma->Add(*Sigma);
 
 	m_target = F->Clone();
-}
-
-/*
-*	Writes the result to a string showing the steps of the proof.
-*/
-string Algorithm0x02::GetResult()
-{
-	stringstream stream;
-
-	if(!m_finished)
-	{
-		stream<<"No results available.";
-		return stream.str();
-	}
-
-	stream<<m_taskString;
-
-	stream<<ResultString();
-
-	return stream.str();
 }
 
 FSetType Algorithm0x02::GetFSetType()

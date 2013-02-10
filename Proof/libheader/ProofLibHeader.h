@@ -166,15 +166,15 @@ class AlgorithmBase : public Stat
 public:
 	AlgorithmBase();
 	virtual ~AlgorithmBase();
-	virtual void Start() = 0;
+	
 	virtual void SetTask(IFormulaSet * Sigma, IFormula * F) = 0;
-	virtual string GetResult() = 0;
-	virtual bool ReadFromFile(string file) = 0;
 	virtual FSetType GetFSetType() = 0;
-
 	virtual void SetAxioms(AxiomContainer * container);
 	virtual bool IsFinished();
 
+	void Start();
+	string GetResult();
+	bool ReadFromFile(string file);
 	void SetMaxLength(unsigned length);
 	void SetSigmaLimit(unsigned limit);
 	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset);
