@@ -177,13 +177,11 @@ public:
 	bool ReadFromFile(string file);
 	void SetMaxLength(unsigned length);
 	void SetSigmaLimit(unsigned limit);
-	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset);
 	
 protected:
     AxiomContainer * m_axioms;
     IFormulaSet * m_sigma;
     IFormula * m_target;
-	string m_result;
 	bool m_finished;
 	FormulaWrapper * m_last;
 	unsigned m_maxLength;
@@ -191,6 +189,8 @@ protected:
 	string m_resString;
 	string m_taskString;
 	FileReader * m_reader;
+
+	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset);
 
 	virtual void Run() = 0;
 	virtual string ResultString();

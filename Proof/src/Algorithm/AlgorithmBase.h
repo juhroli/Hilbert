@@ -29,13 +29,11 @@ public:
 	bool ReadFromFile(string file); //reads the task from a file
 	void SetMaxLength(unsigned length); //sets the maximum length of the formulas
 	void SetSigmaLimit(unsigned limit); //sets sigma1s maximum size
-	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset); //does modus ponens
 	
 protected:
     AxiomContainer * m_axioms; //axioms to use for the algorithm
     IFormulaSet * m_sigma; //the set of formulas
     IFormula * m_target; //the target formula
-	string m_result; //the proof
 	bool m_finished; //is the algorithm finished?
 	FormulaWrapper * m_last; //the last formula in the iteration
 	unsigned m_maxLength; //maximum length of the formulas
@@ -43,6 +41,8 @@ protected:
 	string m_resString; //this string contains the proof
 	string m_taskString; //this is the task's string after deduction -> Sigma |- F
 	FileReader * m_reader; //for reading formulas and axioms from a file directly into the members
+
+	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset); //does modus ponens
 
 	virtual void Run() = 0; //runs the algorithm
 	virtual string ResultString(); //generates the result and returns it
