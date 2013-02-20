@@ -67,9 +67,6 @@ void Algorithm0x01::Run()
 			{
 				IFormula * iter = actList[it].get();
 
-				if(iter->Length() > m_maxLength)
-					continue;
-
 				if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
 				{
 					DELETEFORMULA(m_last);
@@ -80,24 +77,16 @@ void Algorithm0x01::Run()
 				else
 					m_last = new FormulaWrapper(iter->Clone());
 
-				if(m_target->Equals(iter))
-				{
-					m_finished = true;
+				if(m_finished = m_target->Equals(iter))
 					return;
-				}
 
-				unsigned itS = 0;
-
-				if(i == j)
-					itS = it;
-
-				for(; itS < actListS.size(); itS++)
+				for(unsigned itS = i == j ? it : 0; itS < actListS.size(); itS++)
 				{
 					IFormula * iterS = actListS[itS].get();
 
 					unsigned pair = CPAIR( CPAIR(i, j), CPAIR(it, itS) );
 
-					if(iterS->Length() > m_maxLength || usedFormulas[pair])
+					if(usedFormulas[pair])
 						continue;
 
 					usedFormulas[pair] = true;
@@ -112,9 +101,8 @@ void Algorithm0x01::Run()
 						if(m_last->Length() <= i)
 						{
 							i = m_last->Length() - 1;
-							j = actListS.size();
+							j = (itS = actListS.size());
 							it = actList.size();
-							itS = actListS.size();
 							continue;
 						}
 					}
@@ -123,8 +111,7 @@ void Algorithm0x01::Run()
 		}
 	}
 
-	if(m_last != nullptr && m_last->Equals(m_target))
-		m_finished = true;
+	m_finished = m_last != nullptr && m_last->Equals(m_target);
 }
 
 void Algorithm0x01::SetTask(IFormulaSet * Sigma, IFormula * F)

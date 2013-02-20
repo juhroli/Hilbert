@@ -94,8 +94,7 @@ void Algorithm0x03::Run()
 			m_last = new FormulaWrapper(first->Clone());
 	}
 
-	if(m_last != nullptr && m_last->Equals(m_target))
-		m_finished = true;
+	m_finished = m_last != nullptr && m_last->Equals(m_target);
 }
 
 void Algorithm0x03::SetTask(IFormulaSet * Sigma, IFormula * F)

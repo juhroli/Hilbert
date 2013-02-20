@@ -59,7 +59,7 @@ void Algorithm0x02::Run()
 
 	sigma->SortFormulas();
 
-	unordered_map< unsigned, unordered_map<unsigned, bool> > usedFormulas;
+	unordered_map< long, unordered_map<long, bool> > usedFormulas;
 
 	for(i = 0; i < sigma->Size() && sigma->Size() <= m_sigmaLimit && !m_target->Equals((*sigma)[i].get()); i++)
 	{
