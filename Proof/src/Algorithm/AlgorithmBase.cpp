@@ -12,11 +12,12 @@ AlgorithmBase::AlgorithmBase()
 	, m_target(nullptr)
 	, m_sigma(nullptr)
 	, m_last(nullptr)
-	, m_resString("")
+	, m_reader(nullptr)
 	, m_finished(false)
 	, m_maxLength(15)
 	, m_sigmaLimit(250)
-	, m_reader(nullptr)
+	, m_resString("")
+	, m_taskString("")
 {
 }
 
