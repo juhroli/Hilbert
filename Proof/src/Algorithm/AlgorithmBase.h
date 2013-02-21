@@ -23,12 +23,12 @@ public:
 	virtual FSetType GetFSetType() = 0; //returns the FormulaSet type of the member FormulaSet
 	virtual void SetAxioms(AxiomContainer * container);
 	virtual bool IsFinished();
+	virtual string GetResult(); //returns the result string
 
 	void Start(); //starts the algorithm processing
-	string GetResult(); //returns the result string
 	bool ReadFromFile(string file); //reads the task from a file
 	void SetMaxLength(unsigned length); //sets the maximum length of the formulas
-	void SetSigmaLimit(unsigned limit); //sets sigma1s maximum size
+	void SetSigmaLimit(unsigned limit); //sets sigma's maximum size
 	
 protected:
     AxiomContainer * m_axioms; //axioms to use for the algorithm

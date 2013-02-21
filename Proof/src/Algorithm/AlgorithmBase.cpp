@@ -213,8 +213,7 @@ bool AlgorithmBase::MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset)
 					addWrap(yWrapper == nullptr ? y : yWrapper, xWrapper == nullptr ? x : xWrapper, res, uni);
 
 					//Axioms count
-					if(!x->IsWrapped() && !x->IsAtomic() && x->IsTemp()
-						|| !y->IsWrapped() && !y->IsAtomic() && y->IsTemp())
+					if(dynamic_cast<Axiom*>(x) != nullptr || dynamic_cast<Axiom*>(y) != nullptr)
 						Stat_incAxiomCount();
 
 					if(m_last->Equals(m_target) || (m_last->IsTemp() && m_last->IsAtomic()))

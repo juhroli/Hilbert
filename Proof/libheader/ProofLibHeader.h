@@ -171,9 +171,9 @@ public:
 	virtual FSetType GetFSetType() = 0;
 	virtual void SetAxioms(AxiomContainer * container);
 	virtual bool IsFinished();
+	virtual string GetResult();
 
 	void Start();
-	string GetResult();
 	bool ReadFromFile(string file);
 	void SetMaxLength(unsigned length);
 	void SetSigmaLimit(unsigned limit);
@@ -209,6 +209,7 @@ namespace General
 	};
 
 	AlgorithmBase * CreateAlgorithm(AlgorithmType type);
+	AlgorithmBase * CreateAlgorithm(AlgorithmType type, unsigned parm);
 	string AlgorithmsDescription();
 }
 

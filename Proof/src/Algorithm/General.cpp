@@ -255,25 +255,6 @@ namespace General
 	}
 
 	/*
-	*	Create an algorithm instance.
-	*/
-	AlgorithmBase * CreateAlgorithm(AlgorithmType type)
-	{
-		switch(type)
-		{
-		case ALG_0x00:
-			return new Algorithm0x00();
-		case ALG_0x01:
-			return new Algorithm0x01();
-		case ALG_0x02:
-			return new Algorithm0x02();
-		case ALG_0x03:
-			return new Algorithm0x03();
-		}
-		return nullptr;
-	}
-
-	/*
 	*	Check if the first formula contains the second one.
 	*/
 	bool ContainsFormula(IFormula * f, IFormula * g)
@@ -426,6 +407,40 @@ namespace General
 	}
 
 	/*
+	*	Create an algorithm instance.
+	*/
+	AlgorithmBase * CreateAlgorithm(AlgorithmType type)
+	{
+		switch(type)
+		{
+		case ALG_0x00:
+			return new Algorithm0x00();
+		case ALG_0x01:
+			return new Algorithm0x01();
+		case ALG_0x02:
+			return new Algorithm0x02();
+		case ALG_0x03:
+			return new Algorithm0x03();
+		}
+		return nullptr;
+	}
+
+	/*
+	*	Create an algorithm instance with an extra parameter.
+	*/
+	AlgorithmBase * CreateAlgorithm(AlgorithmType type, unsigned parm)
+	{
+		switch(type)
+		{
+		case ALG_0x03:
+			return new Algorithm0x03(parm);
+		default:
+			return CreateAlgorithm(type);
+		}
+		return nullptr;
+	}
+
+	/*
 	*	Returns the algorithms' descriptions.
 	*/
 	string AlgorithmsDescription()
@@ -442,6 +457,7 @@ namespace General
 
 			<< "Algorithm arg id: " << ALG_0x01 << endl
 			<< "\tdesc.: Implemented, but no desc, yet." << endl
+
 			<< "Algorithm arg id: " << ALG_0x02 << endl
 			<< "\tdesc.: Implemented, but no desc, yet." << endl
 
@@ -450,6 +466,7 @@ namespace General
 			<< "\tputs the axioms into its set then chooses two formulas" << endl
 			<< "\trandomly from its set and tries to cut the formulas" << endl
 			<< "\tboth ways with each other." << endl
+			<< "\tFor extra arguments the random seed can be given. " << endl
 			<< "\tThe algorithm will stop either if it found a result or not." << endl
 			<< "\tReturning no results does not necessary mean that there is no proof," << endl
 			<< "\tthere might be, but the algorithm couldn't find it." << endl;

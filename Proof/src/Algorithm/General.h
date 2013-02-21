@@ -43,6 +43,7 @@ namespace General
 	void NormalizeFormula(IFormula*& f);
 
 	AlgorithmBase * CreateAlgorithm(AlgorithmType type);
+	AlgorithmBase * CreateAlgorithm(AlgorithmType type, unsigned parm);
 	string AlgorithmsDescription();
 }
 

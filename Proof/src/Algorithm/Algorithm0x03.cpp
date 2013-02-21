@@ -13,6 +13,13 @@ using std::function;
 
 Algorithm0x03::Algorithm0x03()
 	: AlgorithmBase()
+	, m_seed(unsigned(time(0)))
+{
+}
+
+Algorithm0x03::Algorithm0x03(unsigned seed)
+	: AlgorithmBase()
+	, m_seed(seed)
 {
 }
 
@@ -50,13 +57,13 @@ void Algorithm0x03::Run()
 
 	AddAxiomsToSigma();
 
-	srand((unsigned)time(0));
+	srand(m_seed);
 
-	unordered_map<int, bool> usedFormulas;
+	unordered_map<unsigned, bool> usedFormulas;
 
 	Stat_StartSize(m_sigma->Size());
 
-	while(sigma->Size() <= m_sigmaLimit && !m_target->Equals(m_last))
+	while(sigma->Size() <= m_sigmaLimit)
 	{
 		if(pow(sigma->Size(), 2) == usedFormulas.size())
 		{
@@ -77,21 +84,29 @@ void Algorithm0x03::Run()
 		IFormula * first = (*sigma)[rnd1].get();
 		IFormula * second = (*sigma)[rnd2].get();
 
+		if(m_finished = (first->Equals(m_target) || second->Equals(m_target)))
+		{
+			IFormula * target = nullptr;
+
+			if(first->Equals(m_target))
+				target = first;
+			else
+				target = second;
+
+			if(target->IsWrapped())
+				m_last = dynamic_cast<FormulaWrapper*>(target);
+			else
+				m_last = new FormulaWrapper(target->Clone());
+
+			return;
+		}
+
 		if(first->Length() > m_maxLength || second->Length() > m_maxLength)
 			continue;
 
 		if(MPBothWays(first, second, m_sigma))
 			return;
-		
-		if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
-		{
-			DELETEFORMULA(m_last);
-		}
 
-		if(first->IsWrapped())
-			m_last = dynamic_cast<FormulaWrapper*>(first);
-		else
-			m_last = new FormulaWrapper(first->Clone());
 	}
 
 	m_finished = m_last != nullptr && m_last->Equals(m_target);
@@ -112,4 +127,15 @@ void Algorithm0x03::SetTask(IFormulaSet * Sigma, IFormula * F)
 FSetType Algorithm0x03::GetFSetType()
 {
 	return FSET_VEC;
+}
+
+string Algorithm0x03::GetResult()
+{
+	stringstream stream;
+	
+	stream << AlgorithmBase::GetResult() << endl << endl;
+
+	stream << "Used random seed: " << m_seed;
+
+	return stream.str();
 }

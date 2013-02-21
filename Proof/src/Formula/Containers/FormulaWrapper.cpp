@@ -100,10 +100,7 @@ bool FormulaWrapper::Eval()
 
 bool FormulaWrapper::Equals(IFormula * formula)
 {
-	if(!formula)
-		return false;
-
-	return m_hash == formula->HashCode();
+	return m_this->Equals(formula);
 }
 
 string FormulaWrapper::ToString()
