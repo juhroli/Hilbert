@@ -30,12 +30,14 @@ class FormulaGenerator
 public:
 	FormulaGenerator();
 	FormulaGenerator(unsigned n);
+	FormulaGenerator(unsigned n, unsigned seed);
 	~FormulaGenerator();
 
 	string Generate();
 
 private:
 	unsigned m_N; //Number of max variables in a formula
+	unsigned m_seed; //Seed used for random generation
 	formula m_mask; //A mask to use in bit operations
 
 	void GenStartSet(formula v, formulas& set, int n);

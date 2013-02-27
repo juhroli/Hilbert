@@ -77,6 +77,9 @@ string AlgorithmBase::GetResult()
 
 bool AlgorithmBase::ReadFromFile(string file)
 {
+	DELETE(m_reader);
+	m_finished = false;
+
 	m_reader = new FileReader(file, this->GetFSetType());
 
 	if( m_reader->ReadFile() )
@@ -382,7 +385,9 @@ string AlgorithmBase::ResultString()
 			}
 		}
 	}
+
 	fset.Clear();
+
 	return m_resString = stream.str();
 }
 

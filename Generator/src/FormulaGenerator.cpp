@@ -17,19 +17,37 @@ using std::endl;
 FormulaGenerator::FormulaGenerator()
 	: m_N(4)
 	, m_mask(3)
+	, m_seed((unsigned)time(0))
 {
-	srand((unsigned)time(0));
+	srand(m_seed);
 	SetDefaults();
 }
 
 FormulaGenerator::FormulaGenerator(unsigned n)
 	: m_N(n)
 	, m_mask(3)
+	, m_seed((unsigned)time(0))
 {
 	if(m_N > 26)
 		m_N = 26;
+	else if(m_N == 0)
+		m_N = 4;
+	
+	srand(m_seed);
+	SetDefaults();
+}
 
-	srand((unsigned)time(0));
+FormulaGenerator::FormulaGenerator(unsigned n, unsigned seed)
+	: m_N(n)
+	, m_mask(3)
+	, m_seed(seed)
+{
+	if(m_N > 26)
+		m_N = 26;
+	else if(m_N == 0)
+		m_N = 4;
+	
+	srand(m_seed);
 	SetDefaults();
 }
 
@@ -129,6 +147,9 @@ string FormulaGenerator::Generate()
 		stream << endl << fListLeft.ToString();
 
 	DELETEFORMULA(right);
+
+	//Print out the used seed
+	stream << endl << endl << "Used seed: " << m_seed << endl;
 
 	return stream.str();
 }
@@ -321,6 +342,9 @@ IFormula * FormulaGenerator::ConvertToFormula(formula v, bool disjConn)
 					pos = rand() % result.size();
 					posN--;
 				}
+
+				if(pos <= UINT32_MAX && pos >= result.size())
+					pos = result.size() - 1;
 
 				H = result[pos];
 

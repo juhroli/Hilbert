@@ -116,7 +116,11 @@ void Algorithm0x01::Run()
 
 void Algorithm0x01::SetTask(IFormulaSet * Sigma, IFormula * F)
 {
+	if(m_last != nullptr && (m_last->IsFromSigma() || m_last->IsAxiom()))
+		DELETEFORMULA(m_last);
+
 	DELETE(m_sigma);
+	DELETEFORMULA(m_target);
 
 	m_sigma = new FormulaSetHashed();
 
@@ -124,6 +128,8 @@ void Algorithm0x01::SetTask(IFormulaSet * Sigma, IFormula * F)
 		m_sigma->Add(*Sigma);
 
 	m_target = F->Clone();
+
+	m_finished = false;
 }
 
 FSetType Algorithm0x01::GetFSetType()

@@ -139,6 +139,8 @@ public:
 
 	double Stat_GetElapsedTime();
 	int Stat_GetSizeDelta();
+	unsigned Stat_MPCount();
+	unsigned Stat_EndSize();
 
 	string Stat_ToString();
 

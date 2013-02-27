@@ -20,6 +20,7 @@ public:
 	unsigned Length();
 	long HashCode();
 	bool IsWrapped();
+	string GetHashString();
 
 	IFormula * GetLeftSub();
 	IFormula * GetRightSub();

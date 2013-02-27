@@ -57,6 +57,16 @@ int Stat::Stat_GetSizeDelta()
 	return m_endSize - m_startSize;
 }
 
+unsigned Stat::Stat_MPCount()
+{
+	return m_MPCount;
+}
+
+unsigned Stat::Stat_EndSize()
+{
+	return m_endSize;
+}
+
 void Stat::Stat_incMPCount()
 {
 	m_MPCount++;

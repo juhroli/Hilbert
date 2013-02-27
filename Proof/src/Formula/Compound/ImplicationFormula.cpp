@@ -87,7 +87,7 @@ string ImplicationFormula::ToString()
 			stringstream local;
 			local << "(" << m_left->ToString() << ")";
 			stream << local.str();
-			hashStream << local.str();
+			hashStream << "(" << static_cast<ImplicationFormula*>(m_left)->GetHashString() << ")";
 		}
 		else
 		{
@@ -103,7 +103,7 @@ string ImplicationFormula::ToString()
 			stringstream local;
 			local << "(" << m_right->ToString() << ")";
 			stream << local.str();
-			hashStream << local.str();
+			hashStream << "(" << static_cast<ImplicationFormula*>(m_right)->GetHashString() << ")";
 		}
 		else
 		{
@@ -159,6 +159,14 @@ long ImplicationFormula::HashCode()
 bool ImplicationFormula::IsWrapped()
 {
 	return false;
+}
+
+/*
+*	Returns the string used for hashing.
+*/
+string ImplicationFormula::GetHashString()
+{
+	return m_hashString;
 }
 
 IFormula * ImplicationFormula::GetLeftSub()
