@@ -100,7 +100,7 @@ bool FormulaWrapper::Eval()
 
 bool FormulaWrapper::Equals(IFormula * formula)
 {
-	return m_this->Equals(formula);
+	return formula->Equals(m_this);
 }
 
 string FormulaWrapper::ToString()

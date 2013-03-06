@@ -127,7 +127,7 @@ void Algorithm0x02::Run()
 						});
 					});
 #else
-					for(unsigned x = i + 1; x >= 0; x--)
+					for(int x = i + 1; x >= 0; x--)
 					{
 						if((*sigma)[x]->Equals(m_last))
 						{
