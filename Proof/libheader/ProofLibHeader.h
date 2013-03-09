@@ -179,6 +179,7 @@ public:
 	bool ReadFromFile(string file);
 	void SetMaxLength(unsigned length);
 	void SetSigmaLimit(unsigned limit);
+	void SetLatex(bool use);
 	
 protected:
     AxiomContainer * m_axioms;
@@ -191,6 +192,7 @@ protected:
 	string m_resString;
 	string m_taskString;
 	FileReader * m_reader;
+	bool m_useLatex;
 
 	bool MPBothWays(IFormula * a, IFormula * b, IFormulaSet*& fset);
 

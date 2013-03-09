@@ -18,6 +18,7 @@ AlgorithmBase::AlgorithmBase()
 	, m_sigmaLimit(250)
 	, m_resString("")
 	, m_taskString("")
+	, m_useLatex(false)
 {
 }
 
@@ -68,9 +69,75 @@ string AlgorithmBase::GetResult()
 		return stream.str();
 	}
 
-	stream << m_taskString;
+	stream << "After applying deduction: " << endl;
+	
+	if(m_useLatex)
+	{
+		auto it = m_taskString.begin();
+
+		stream << endl << "$";
+
+		while(it != m_taskString.end())
+		{
+			if(*it == '{')
+			{
+				stream << " \\{ ";
+			}
+			else if(*it == '}')
+			{
+				stream << " \\} ";
+			}
+			else
+			{
+				stream << *it;
+			}
+
+			it++;
+		}
+
+		stream << "$";
+	}
+	else
+		stream << m_taskString;
+
+	stream << endl << endl << endl;
 
 	stream << ResultString();
+
+	//Replacing ~ to \downarrow, -> to \to, |- to \vdash
+
+	if(m_useLatex)
+	{
+		string str = stream.str();
+		stringstream conv;
+		auto it = str.begin();
+
+		while(it != str.end())
+		{
+			if(*it == *FALSE)
+			{
+				conv << " \\downarrow ";
+			}
+			else if(*it == '-')
+			{
+				if(*(++it) == '>')
+					conv << " \\to ";
+			}
+			else if(*it == '|')
+			{
+				if(*(++it) == '-')
+					conv << " \\vdash ";
+			}
+			else
+			{
+				conv << *it;
+			}
+
+			it++;
+		}
+
+		return conv.str();
+	}
 
 	return stream.str();
 }
@@ -103,6 +170,11 @@ void AlgorithmBase::SetMaxLength(unsigned length)
 void AlgorithmBase::SetSigmaLimit(unsigned limit)
 {
 	m_sigmaLimit = limit;
+}
+
+void AlgorithmBase::SetLatex(bool use)
+{
+	m_useLatex = use;
 }
 
 /*
@@ -346,27 +418,34 @@ string AlgorithmBase::ResultString()
 	
 	int i = 1;
 
+	if(m_useLatex)
+		stream << "\\begin{enumerate}" << endl;
+
 	//Write the steps into the stream
 	for(auto it = fset.Begin(); it != fset.End(); it++, i++)
 	{
 		FormulaWrapper * F = dynamic_cast<FormulaWrapper*>(it->get());
 
-		stream<<i<<". ";
+		if(m_useLatex)
+			stream << "\\item $";
+		else
+			stream << i << ". ";
+
 		if(F->IsFromSigma())
-			stream<<F->ToString()<<"    from Sigma"<<endl<<endl;
+			stream << F->ToString() << (m_useLatex ? ", \\; \\in \\Sigma.": ",    from Sigma.");
 		else
 		{
 			IFormula * replaced = ReplaceAll(F, F->GetReplaces());
 			if(F->IsAxiom())
-				stream<<replaced->ToString()<<"    Axiom: "<<F->ToString()<<" "
-					<<F->GetReplacesString()<<endl<<endl;
+				stream << replaced->ToString() << (m_useLatex ? ", \\; Axiom: \\; " : ",    Axiom: ") << F->ToString() << " "
+					<< F->GetReplacesString() << ".";
 			else
 			{
 				IFormula * first = ReplaceAll(F->GetOrigin().first, F->GetReplaces());
 				IFormula * second = ReplaceAll(F->GetOrigin().second, F->GetReplaces());
-				stream<<replaced->ToString()<<"    : Cut "
-					<<second->ToString()
-					<<" with "<<first->ToString()<<endl<<endl;
+				stream << replaced->ToString() << (m_useLatex ? ", \\; Cut \\; " : ",    Cut ")
+					<< second->ToString()
+					<< (m_useLatex ? " \\; with \\; " : " with ") << first->ToString() << ".";
 
 				if(first != F->GetOrigin().first)
 				{
@@ -384,7 +463,15 @@ string AlgorithmBase::ResultString()
 				DELETEFORMULA(replaced);
 			}
 		}
+
+		if(m_useLatex)
+			stream << "$";
+
+		stream << endl << endl;
 	}
+
+	if(m_useLatex)
+		stream << "\\end{enumerate}" << endl;
 
 	fset.Clear();
 

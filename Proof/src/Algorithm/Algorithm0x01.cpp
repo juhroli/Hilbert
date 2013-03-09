@@ -37,11 +37,10 @@ void Algorithm0x01::Run()
 
 		if(sigma->Size() > 0)
 		{
-			stream << "After applying deduction: " << endl;
 			stream << sigma->ToString();
 		}
 
-		stream << "|- " << m_target->ToString() <<endl<<endl<<endl;
+		stream << "|- " << m_target->ToString();
 		
 		m_taskString = stream.str();
 	}

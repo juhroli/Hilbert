@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
 	*	-target ["formula"]: this is the target formula
 	*	-axioms ["{ formula, ... }"]: set of formulas
 	*	-stat: show statistics
+	*	-ltx: the output will be in LaTeX source format
 	*	-help: obvious
 	*/
 	
@@ -50,6 +51,7 @@ int main(int argc, char* argv[])
 	bool fromFile = false;
 	bool help = false;
 	bool showStat = false;
+	bool useLatex = false;
 
 	try
 	{
@@ -121,6 +123,13 @@ int main(int argc, char* argv[])
 				continue;
 			}
 
+			//LaTeX
+			if(strcmp(argv[i], "-ltx") == 0)
+			{
+				useLatex = true;
+				continue;
+			}
+
 			//Help
 			if(strcmp(argv[i], "-help") == 0)
 			{
@@ -139,6 +148,7 @@ int main(int argc, char* argv[])
 					<< "-target [\"formula\"]: this is the target formula" << endl
 					<< "-axioms [\"{ formula, ... }\"]: set of formulas" << endl
 					<< "-stat: show statistics" << endl
+					<< "-ltx: the output will be in LaTeX source format" << endl
 					<< "-help: obvious" << endl;
 				break;
 			}
@@ -157,6 +167,9 @@ int main(int argc, char* argv[])
 
 			if(algFail)
 				throw "Error 1: Failed to create algorithm instance.";
+
+			if(useLatex)
+				algorithm->SetLatex(true);
 
 			if(maxSigmaSize > 0)
 				algorithm->SetSigmaLimit(maxSigmaSize);
