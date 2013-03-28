@@ -181,6 +181,10 @@ int main(int argc, char* argv[])
 			{
 				if( !(algorithm->ReadFromFile(file)) )
 					throw "Error 4: Failed to read from file.";
+
+				//If axioms were set in the argument then use those.
+				if(axioms != nullptr)
+					algorithm->SetAxioms(axioms);
 			}
 			else
 			{
