@@ -94,30 +94,6 @@
     <Report>
       <Path>Reports\UnorderedMap-szorva.vsp</Path>
     </Report>
-    <Report>
-      <Path>Reports\ProofTest121111.vsp</Path>
-    </Report>
-    <Report>
-      <Path>Reports\ProofTest121111(1).vsp</Path>
-    </Report>
-    <Report>
-      <Path>Reports\ProofTest121111(2).vsp</Path>
-    </Report>
-    <Report>
-      <Path>Reports\ProofTest121111(3).vsp</Path>
-    </Report>
-    <Report>
-      <Path>Reports\ProofTest121111(4).vsp</Path>
-    </Report>
-    <Report>
-      <Path>Reports\ProofTest121112.vsp</Path>
-    </Report>
-    <Report>
-      <Path>Reports\ProofTest121112(1).vsp</Path>
-    </Report>
-    <Report>
-      <Path>Reports\ProofTest121113.vsp</Path>
-    </Report>
   </Reports>
   <Launches>
     <ProjBinary>

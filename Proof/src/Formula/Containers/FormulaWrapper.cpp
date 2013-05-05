@@ -113,9 +113,9 @@ IFormula * FormulaWrapper::Clone()
 	return new FormulaWrapper(*this);
 }
 
-IFormula * FormulaWrapper::Replace(IFormula * t, IFormula * x)
+IFormula * FormulaWrapper::Replace(IFormula * x, IFormula * t)
 {
-	return m_this->Replace(t, x);
+	return m_this->Replace(x, t);
 }
 
 unsigned FormulaWrapper::Length()

@@ -79,7 +79,7 @@ IFormula * AtomicFormula::Clone()
 	return this;
 }
 
-IFormula * AtomicFormula::Replace(IFormula * t, IFormula * x)
+IFormula * AtomicFormula::Replace(IFormula * x, IFormula * t)
 {
 	return this;
 }

@@ -6,14 +6,12 @@ namespace AFormulaTable
 	using std::endl;
 
 	static unordered_map<long, spAtomicFormula> table;
-	static unordered_map<string, long> charTable;
 
 	spAtomicFormula GetAtomicFormula(char * symbol)
 	{
-		unordered_map<string, long>::iterator it = charTable.find(symbol);
-		if(it == charTable.end())
-			return nullptr;
-		return table[ it->second ];
+		long hash = GenerateHashCode(symbol);
+
+		return table[hash];
 	}
 
 	spTempFormula GetTempFormula(char * symbol)
@@ -28,9 +26,9 @@ namespace AFormulaTable
 #else
 		strcpy(symbol, stream.str().c_str());
 #endif
-
-		auto ret = static_pointer_cast<TempFormula>(GetAtomicFormula(symbol));
 		
+		auto ret = static_pointer_cast<TempFormula>(GetAtomicFormula(symbol));
+
 		delete[] symbol;
 
 		return ret;
@@ -50,7 +48,6 @@ namespace AFormulaTable
 			long hash = formula->HashCode();
 			ret = spAtomicFormula(formula);
 			table[ hash ] = ret;
-			charTable[ ret->GetSymbol() ] = hash;
 		}
 
 		return ret;
@@ -92,7 +89,6 @@ namespace AFormulaTable
 
 	void DestroyTable()
 	{
-		charTable.clear();
 		table.clear();
 	}
 

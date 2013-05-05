@@ -67,13 +67,13 @@ IFormula * TempFormula::Clone()
 /*
 *	If x is atomic then return x (there won't be another instance of it) else clone x (it must have been a compound formula)
 */
-IFormula * TempFormula::Replace(IFormula * t, IFormula * x)
+IFormula * TempFormula::Replace(IFormula * x, IFormula * t)
 {
 	if(t == nullptr || x == nullptr)
 		return this;
 
-	if(this->Equals( t ))
-		return x->IsAtomic() ? x : x->Clone();
+	if(this->Equals( x ))
+		return t->IsAtomic() ? t : t->Clone();
 
 	return this;
 }

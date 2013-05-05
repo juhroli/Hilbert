@@ -123,13 +123,13 @@ IFormula * ImplicationFormula::Clone()
 	return new ImplicationFormula(*this);
 }
 
-IFormula * ImplicationFormula::Replace(IFormula * t, IFormula * x)
+IFormula * ImplicationFormula::Replace(IFormula * x, IFormula * t)
 {
 	if(t == nullptr || x == nullptr)
 		return this->Clone();
 
-	if(this->IsTemp() && t->IsTemp() && t->IsAtomic())
-		return new ImplicationFormula(this->GetLeftSub()->Replace(t, x), this->GetRightSub()->Replace(t, x));
+	if(this->IsTemp() && x->IsTemp() && x->IsAtomic())
+		return new ImplicationFormula(this->GetLeftSub()->Replace(x, t), this->GetRightSub()->Replace(x, t));
 	return this->Clone();
 }
 
