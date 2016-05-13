@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Hilbert by juhroli</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Hilbert</h1>
+        <h2>A library that generates a proof of an input Σ |- F in Hilbert&#39;s system.</h2>
+        <a href="https://github.com/juhroli/Hilbert" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>Efficient implementation of Hilbert's system</p>
+
+<p>Simply the main goal is to create a library that can give the steps of the proof of a given Sigma |- F task. For this we can use different algorithms. There are four algorithms to choose from.</p>
+
+<p>This project is made in Visual Studio 2012.</p>
+
+<p>Linux support is added.
+Tested with gcc 4.6.3</p>
+
+<p>Binaries: <a href="https://www.dropbox.com/sh/rbx9hzyhmgo0gbp/XzXTENXlw7">https://www.dropbox.com/sh/rbx9hzyhmgo0gbp/XzXTENXlw7</a></p>
+
+<p>How to compile (with static library):</p>
+
+<pre><code>Use the makefile in Proof/src
+
+OR
+
+First cd to Proof/src then use this command to create the objects:
+g++ -std=c++0x -c Formula/Atomic/*.cpp Formula/Compound/*.cpp Formula/Containers/*.cpp Formula/Containers/Sets/*.cpp Input/*.cpp Algorithm/*.cpp
+
+Then to create the library:
+ar rcs libproof.a *.o
+
+
+Linking is simple, for example:
+g++ -std=c++0x Main.cpp -L. -lproof -o ProofUI
+But the library's headers should be availabe for the code, which means they should be in the same directory.
+</code></pre>
+
+<p>Some examples of proofs made by the lib using the axioms:
+1. (a -&gt; (b -&gt; c)) -&gt; ((a -&gt; b) -&gt; (a -&gt; c))
+2. a -&gt; (b -&gt; a)
+3. ((a -&gt; ~) -&gt; ~) -&gt; a</p>
+
+<p>The task:
+|- ((P-&gt;~)-&gt;P)-&gt;P</p>
+
+<p>After applying deduction: 
+{ (P-&gt;~)-&gt;P } |- P</p>
+
+<p>The proof is:
+1. (P-&gt;~)-&gt;P    from Sigma</p>
+
+<ol>
+<li><p>(P-&gt;~)-&gt;(P-&gt;(P-&gt;~))    Axiom: a-&gt;(b-&gt;a) [a/P-&gt;~] [b/P] </p></li>
+<li><p>((P-&gt;~)-&gt;(P-&gt;(P-&gt;~)))-&gt;(((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;(P-&gt;~)))    Axiom: (a-&gt;(b-&gt;c))-&gt;((a-&gt;b)-&gt;(a-&gt;c)) [a/P-&gt;~] [c/P-&gt;~] [b/P] </p></li>
+<li><p>((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;(P-&gt;~))    : Cut ((P-&gt;~)-&gt;(P-&gt;(P-&gt;~)))-&gt;(((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;(P-&gt;~))) with (P-&gt;~)-&gt;(P-&gt;(P-&gt;~))</p></li>
+<li><p>(P-&gt;~)-&gt;(P-&gt;~)    : Cut ((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;(P-&gt;~)) with (P-&gt;~)-&gt;P</p></li>
+<li><p>((P-&gt;~)-&gt;(P-&gt;~))-&gt;(((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;~))    Axiom: (a-&gt;(b-&gt;c))-&gt;((a-&gt;b)-&gt;(a-&gt;c)) [a/P-&gt;~] [b/P] [c/~] </p></li>
+<li><p>((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;~)    : Cut ((P-&gt;~)-&gt;(P-&gt;~))-&gt;(((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;~)) with (P-&gt;~)-&gt;(P-&gt;~)</p></li>
+<li><p>(P-&gt;~)-&gt;~    : Cut ((P-&gt;~)-&gt;P)-&gt;((P-&gt;~)-&gt;~) with (P-&gt;~)-&gt;P</p></li>
+<li><p>((P-&gt;~)-&gt;~)-&gt;P    Axiom: ((a-&gt;~)-&gt;~)-&gt;a [a/P] </p></li>
+<li><p>P    : Cut ((P-&gt;~)-&gt;~)-&gt;P with (P-&gt;~)-&gt;~</p></li>
+</ol>
+
+<p>The task:
+|- ~-&gt;F</p>
+
+<p>After applying deduction: 
+{ ~ } |- F</p>
+
+<p>The proof is:
+1. ~    from Sigma</p>
+
+<ol>
+<li><p>~-&gt;((F-&gt;~)-&gt;~)    Axiom: a-&gt;(b-&gt;a) [a/~] [b/F-&gt;~] </p></li>
+<li><p>(F-&gt;~)-&gt;~    : Cut ~-&gt;((F-&gt;~)-&gt;~) with ~</p></li>
+<li><p>((F-&gt;~)-&gt;~)-&gt;F    Axiom: ((a-&gt;~)-&gt;~)-&gt;a [a/F] </p></li>
+<li><p>F    : Cut ((F-&gt;~)-&gt;~)-&gt;F with (F-&gt;~)-&gt;~</p></li>
+</ol>
+
+<p>The task:
+|- ((P-&gt;(Q-&gt;R))-&gt;(P-&gt;Q))-&gt;((P-&gt;(Q-&gt;R))-&gt;(P-&gt;R))</p>
+
+<p>After applying deduction: 
+{ (P-&gt;(Q-&gt;R))-&gt;(P-&gt;Q), P-&gt;(Q-&gt;R), P } |- R</p>
+
+<p>The proof is:
+1. P    from Sigma</p>
+
+<ol>
+<li><p>P-&gt;(Q-&gt;R)    from Sigma</p></li>
+<li><p>(P-&gt;(Q-&gt;R))-&gt;(P-&gt;Q)    from Sigma</p></li>
+<li><p>P-&gt;Q    : Cut (P-&gt;(Q-&gt;R))-&gt;(P-&gt;Q) with P-&gt;(Q-&gt;R)</p></li>
+<li><p>Q    : Cut P-&gt;Q with P</p></li>
+<li><p>Q-&gt;R    : Cut P-&gt;(Q-&gt;R) with P</p></li>
+<li><p>R    : Cut Q-&gt;R with Q</p></li>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/juhroli/Hilbert/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/juhroli/Hilbert/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/juhroli/Hilbert"></a> is maintained by <a href="https://github.com/juhroli">juhroli</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
